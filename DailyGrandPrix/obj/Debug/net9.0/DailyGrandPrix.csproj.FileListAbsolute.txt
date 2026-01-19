@@ -1,0 +1,14 @@
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\bin\Debug\net9.0\DailyGrandPrix.exe
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\bin\Debug\net9.0\DailyGrandPrix.deps.json
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\bin\Debug\net9.0\DailyGrandPrix.runtimeconfig.json
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\bin\Debug\net9.0\DailyGrandPrix.dll
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\bin\Debug\net9.0\DailyGrandPrix.pdb
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.AssemblyInfoInputs.cache
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.AssemblyInfo.cs
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.dll
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\refint\DailyGrandPrix.dll
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.pdb
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.genruntimeconfig.cache
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\ref\DailyGrandPrix.dll

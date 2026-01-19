@@ -1,0 +1,32 @@
+using System;
+
+class Program
+{
+    public static void Main(string[] args)
+    {
+        while (true)
+        {
+            Console.Write("Tyre drag: ");
+            double tyredrag = double.Parse(Console.ReadLine());
+            Console.Write("Tyre life: ");
+            double tyrelife = double.Parse(Console.ReadLine());
+            Console.Write("Fuel level: ");
+            double fuellevel = double.Parse(Console.ReadLine());
+            Console.Write("Pushing? (y/n) ");
+            char IsPushing = char.Parse(Console.ReadLine());
+
+            Console.WriteLine("Steps = " + CalculateStep(tyredrag, tyrelife, fuellevel, IsPushing == 'y' || IsPushing == 'Y'));
+            Console.WriteLine("---");
+        }
+    }
+
+    public static int CalculateStep(double tyredrag, double tyrelife, double fuellevel, bool IsPushing)
+    {
+        double CompFactor = 1 - (0.1 * (tyredrag - 1));
+        double LifeFactor = tyrelife / 100;
+        double FuelFactor = 1 - (fuellevel / 100);
+
+        if (!IsPushing) return (int)Math.Floor((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5);
+        return (int)Math.Floor((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25);
+    }
+}

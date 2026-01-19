@@ -1,0 +1,9 @@
+This is the code for a series held on Reddit (/r/DailyGames) called DailyGrandPrix.
+
+If you want to use this, two things:
+
+1 - Why?
+
+2 - Change the path for the "database" (a folder of .txt files). The path is stored in DailyGrandPrix > Services.cs, line 14
+
+Thanks for reading me :3
