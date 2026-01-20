@@ -24,6 +24,7 @@ namespace DailyGrandPrix
                 Console.WriteLine("(8) Check race stats");
                 Console.WriteLine("(9) Award points");
                 Console.WriteLine("(10) Generate usernames for pings");
+                Console.WriteLine("(11) Generate log");
                 Console.WriteLine();
 
                 Console.Write("Choose: ");
@@ -78,7 +79,12 @@ namespace DailyGrandPrix
                     {
                         Console.WriteLine(d.Username);
                         Console.WriteLine();
-                    }   
+                    }
+                    Console.ReadLine();
+                }
+                else if (choice == 11)
+                {
+                    Services.GenerateLog(Drivers);
                 }
             }
         }

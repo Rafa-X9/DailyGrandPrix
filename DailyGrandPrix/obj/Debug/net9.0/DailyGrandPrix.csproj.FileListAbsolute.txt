@@ -12,3 +12,4 @@ C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\
 C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.pdb
 C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.genruntimeconfig.cache
 C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\ref\DailyGrandPrix.dll
+C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\DailyGrandPrix\obj\Debug\net9.0\DailyGrandPrix.sourcelink.json

@@ -75,6 +75,7 @@ namespace DailyGrandPrix
                 sw.WriteLine($"{d.Tyres},{d.TyreWear},{d.TyreChanges},{d.Fuel}");
                 sw.WriteLine($"{d.StepsDriven},{d.MovesMade}");
                 sw.WriteLine($"{d.Points},{d.Wins},{d.Podiums}");
+                sw.WriteLine($"{d.LastAction},{d.LastSteps}");
                 sw.Close();
             }
         }
@@ -164,6 +165,8 @@ namespace DailyGrandPrix
                 d.Fuel = int.Parse(Console.ReadLine());
                 d.StepsDriven = 0;
                 d.MovesMade = 0;
+                d.LastSteps = 0;
+                d.LastAction = Actions.None;
 
                 if (StartSeason)
                 {
@@ -220,6 +223,67 @@ namespace DailyGrandPrix
                 }
                
             }
+        }
+    
+        public static void GenerateLog(List<Driver> Drivers)
+        {
+            string path = Path + @"\Log\RaceLog.txt";
+            StreamWriter sw = new StreamWriter(path, false);
+
+            SortByPosition(Drivers);
+            foreach (Driver d in Drivers)
+            {
+                sw.WriteLine($"**{d.Name}** (/{d.Username})");
+                sw.WriteLine();
+
+                if (!(d.StepsDriven < 0) && !(d.Fuel < 0))
+                {
+                    if (d.LastAction == Actions.Conserve)
+                    {
+                        sw.WriteLine($"{d.Name} conserved");
+                        sw.WriteLine();
+                        sw.WriteLine($"Steps: {d.StepsDriven - d.LastSteps} + " +
+                            $"{d.LastSteps} = {d.StepsDriven}");
+                        sw.WriteLine();
+                    }
+                    else if (d.LastAction == Actions.Push)
+                    {
+                        sw.WriteLine($"{d.Name} pushed");
+                        sw.WriteLine();
+                        sw.WriteLine($"Steps: {d.StepsDriven - d.LastSteps} + " +
+                            $"{d.LastSteps} = {d.StepsDriven}");
+                        sw.WriteLine();
+                    }
+                    else if (d.LastAction == Actions.Pit)
+                    {
+                        sw.WriteLine($"Went to the pits and changed to new {d.Tyres}");
+                        sw.WriteLine();
+                    }
+                    sw.WriteLine($"Tyres: {d.Tyres} ({d.TyreWear}/100)");
+                    sw.WriteLine();
+                    sw.WriteLine($"Fuel: {d.Fuel}/100");
+                    sw.WriteLine();
+                    sw.WriteLine($"Laps driven: {d.LapsDriven}");
+                    sw.WriteLine();
+                    sw.WriteLine($"Steps into this lap: {d.StepsInLap}");
+                    sw.WriteLine();
+                }
+                else
+                {
+                    sw.WriteLine($"{d.Name} has retired from the race");
+                    sw.WriteLine();
+                }
+                sw.WriteLine("---");
+                sw.WriteLine();
+            }
+
+            sw.WriteLine("^(This message and all of calculations " +
+                "of this series are" +
+                " made automatically. If you have questions or concerns, reply to this " +
+                "message. This will summon my creator. You can find my source code on " +
+                "[GitHub](https://github.com/Rafa-X9/DailyGrandPrix).)");
+
+            sw.Close();
         }
     }
 }

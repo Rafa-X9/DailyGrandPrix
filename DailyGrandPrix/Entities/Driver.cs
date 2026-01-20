@@ -41,6 +41,9 @@ namespace DailyGrandPrix.Entities
         public int Wins { get; set; }
         public int Podiums { get; set; }
 
+        //last action info
+        public Actions LastAction { get; set; }
+        public int LastSteps { get; set; }
 
         public Driver(string name, string username, int number, Teams team)
         {
@@ -78,13 +81,17 @@ namespace DailyGrandPrix.Entities
                 Points = int.Parse(line[0]);
                 Wins = int.Parse(line[1]);
                 Podiums = int.Parse(line[2]);
+
+                line = sr.ReadLine().Split(',');
+                LastAction = Enum.Parse<Actions>(line[0]);
+                LastSteps = int.Parse(line[1]);
             }
         }
-
 
         public void MakeStep(bool IsPushing)
         {
             int steps = Services.CalculateSteps((int)Tyres, TyreWear, Fuel, IsPushing);
+            LastSteps = steps;
 
             if (!IsPushing)
             {
@@ -101,6 +108,7 @@ namespace DailyGrandPrix.Entities
                         break;
                 }
                 Fuel -= 5;
+                LastAction = Actions.Conserve;
             }
             else
             {
@@ -117,6 +125,7 @@ namespace DailyGrandPrix.Entities
                         break;
                 }
                 Fuel -= 10;
+                LastAction = Actions.Push;
             }
 
             if (TyreWear < 0 && LapsDriven < Services.RaceLaps)
@@ -141,6 +150,8 @@ namespace DailyGrandPrix.Entities
             TyreChanges++;
             TyreWear = 100;
             MovesMade++;
+            LastSteps = 0;
+            LastAction = Actions.Pit;
         }
 
         public override string ToString()

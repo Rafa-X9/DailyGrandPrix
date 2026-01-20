@@ -1,0 +1,31 @@
+**Terrs** (/u/Terrs)
+
+Terrs pushed
+
+Steps: 31 + 27 = 58
+
+Tyres: Mediums (52/100)
+
+Fuel: 70/100
+
+Laps driven: 1
+
+Steps into this lap: 24
+
+---
+
+**Rafa** (/u/Rafa)
+
+Went to the pits and changed to new Softs
+
+Tyres: Softs (100/100)
+
+Fuel: 70/100
+
+Laps driven: 0
+
+Steps into this lap: 23
+
+---
+
+^(This message and all of calculations of this series are made automatically. If you have questions or concerns, reply to this message. This will summon my creator. You can find my source code on [GitHub](https://github.com/Rafa-X9/DailyGrandPrix).)
