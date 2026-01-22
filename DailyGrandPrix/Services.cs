@@ -157,7 +157,7 @@ namespace DailyGrandPrix
         {
             foreach (Driver d in Drivers)
             {
-                Console.Write($"Insert {d.Name}'s compound: ");
+                Console.Write($"Insert {d.Name}'s ({d.Username}) compound: ");
                 d.Tyres = Enum.Parse<Tyres>(Console.ReadLine());
                 d.TyreWear = 100;
                 d.TyreChanges = 0;
@@ -186,7 +186,7 @@ namespace DailyGrandPrix
                 for (int i = 0; i < Drivers.Count; i++)
                 {
                     if (Drivers[i].LapsDriven >= 0 && Drivers[i].LapsDriven < RaceLaps)
-                        Console.WriteLine($"{i} - {Drivers[i].Name} - {Drivers[i].MovesMade} moves made");
+                        Console.WriteLine($"{i} - {Drivers[i].Name} ({Drivers[i].Username}) - {Drivers[i].MovesMade} moves made");
                 }
                 Console.WriteLine();
                 Console.Write("Choose driver, type -1 to quit: ");
@@ -231,12 +231,13 @@ namespace DailyGrandPrix
             StreamWriter sw = new StreamWriter(path, false);
 
             SortByPosition(Drivers);
-            foreach (Driver d in Drivers)
+            for (int i = 0; i < Drivers.Count; i++)
             {
-                sw.WriteLine($"**{d.Name}** (/{d.Username})");
+                Driver d = Drivers[i];
+                sw.WriteLine($"**{d.Name}** (/{d.Username}), {d.Team}");
                 sw.WriteLine();
 
-                if (!(d.StepsDriven < 0) && !(d.Fuel < 0))
+                if (!(d.StepsDriven < 0) && !(d.Fuel < 0) && (d.LapsDriven < RaceLaps))
                 {
                     if (d.LastAction == Actions.Conserve)
                     {
@@ -263,15 +264,44 @@ namespace DailyGrandPrix
                     sw.WriteLine();
                     sw.WriteLine($"Fuel: {d.Fuel}/100");
                     sw.WriteLine();
-                    sw.WriteLine($"Laps driven: {d.LapsDriven}");
+                    sw.WriteLine($"Laps driven: {d.LapsDriven}/{RaceLaps}");
                     sw.WriteLine();
                     sw.WriteLine($"Steps into this lap: {d.StepsInLap}");
                     sw.WriteLine();
                 }
                 else
                 {
-                    sw.WriteLine($"{d.Name} has retired from the race");
-                    sw.WriteLine();
+                    if (d.LapsDriven >= RaceLaps)
+                    {
+                        if (i == 0)
+                        {
+                            sw.WriteLine($"We have our winner! {d.Name} finishes first " +
+                                $"and wins the DailyGrandPrix!");
+                            sw.WriteLine();
+                        }
+                        else if (i == 1)
+                        {
+                            sw.WriteLine($"Right after {Drivers[0].Name} comes {d.Name} " +
+                                $"finishing in second place in the DailyGrandPrix!");
+                            sw.WriteLine();
+                        }
+                        else if (i == 2)
+                        {
+                            sw.WriteLine($"{d.Name} finishes in third place and " +
+                                $"completes the podium of the DailyGrandPrix!");
+                            sw.WriteLine();
+                        }
+                        else
+                        {
+                            sw.WriteLine($"{d.Name} finishes in {i}th place of the " +
+                                $"DailyGrandPrix!");
+                        }
+                    }
+                    else
+                    {
+                        sw.WriteLine($"{d.Name} has retired from the race");
+                        sw.WriteLine();
+                    }
                 }
                 sw.WriteLine("---");
                 sw.WriteLine();

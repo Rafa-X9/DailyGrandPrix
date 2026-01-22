@@ -1,3 +1,7 @@
+//this is code to easily calculate the steps
+//you can copy this and run it somewhere to calculate the amount of
+//steps given the tyre compound, its life, and the amount of fuel
+
 using System;
 
 class Program

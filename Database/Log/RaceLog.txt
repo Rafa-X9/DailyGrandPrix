@@ -1,30 +1,144 @@
-**Terrs** (/u/Terrs)
+**Not A Car** (/u/TheRedditor8789), Haas
 
-Terrs pushed
+Not A Car pushed
 
-Steps: 31 + 27 = 58
+Steps: 28 + 27 = 55
 
-Tyres: Mediums (52/100)
+Tyres: Hards (72/100)
 
 Fuel: 70/100
 
-Laps driven: 1
+Laps driven: 1/8
 
-Steps into this lap: 24
+Steps into this lap: 21
 
 ---
 
-**Rafa** (/u/Rafa)
+**Director** (/u/TemporaryDirector442), McLaren
 
-Went to the pits and changed to new Softs
+Director pushed
 
-Tyres: Softs (100/100)
+Steps: 24 + 29 = 53
+
+Tyres: Mediums (64/100)
+
+Fuel: 75/100
+
+Laps driven: 1/8
+
+Steps into this lap: 19
+
+---
+
+**Megarafan** (/u/Megarafan2025), Ferrari
+
+Megarafan pushed
+
+Steps: 24 + 29 = 53
+
+Tyres: Mediums (64/100)
+
+Fuel: 75/100
+
+Laps driven: 1/8
+
+Steps into this lap: 19
+
+---
+
+**Fish** (/u/FishToThePowerOf5), Williams
+
+Fish pushed
+
+Steps: 22 + 28 = 50
+
+Tyres: Hards (79/100)
 
 Fuel: 70/100
 
-Laps driven: 0
+Laps driven: 1/8
 
-Steps into this lap: 23
+Steps into this lap: 16
+
+---
+
+**James Bond** (/u/DonutDaniel5), AstonMartin
+
+James Bond conserved
+
+Steps: 30 + 20 = 50
+
+Tyres: Mediums (64/100)
+
+Fuel: 80/100
+
+Laps driven: 1/8
+
+Steps into this lap: 16
+
+---
+
+**dckX** (/u/NoNoWahoo), Audi
+
+dckX conserved
+
+Steps: 25 + 23 = 48
+
+Tyres: Mediums (76/100)
+
+Fuel: 70/100
+
+Laps driven: 1/8
+
+Steps into this lap: 14
+
+---
+
+**Gilbert** (/u/Striking_Abroad_6003), Mercedes
+
+Gilbert conserved
+
+Steps: 23 + 22 = 45
+
+Tyres: Mediums (76/100)
+
+Fuel: 85/100
+
+Laps driven: 1/8
+
+Steps into this lap: 11
+
+---
+
+**Timothy-11** (/u/Terrs34), Cadillac
+
+Timothy-11 conserved
+
+Steps: 22 + 22 = 44
+
+Tyres: Hards (86/100)
+
+Fuel: 74/100
+
+Laps driven: 1/8
+
+Steps into this lap: 10
+
+---
+
+**Max Verstappen** (/u/Aartvb), RedBull
+
+Max Verstappen conserved
+
+Steps: 21 + 20 = 41
+
+Tyres: Hards (86/100)
+
+Fuel: 90/100
+
+Laps driven: 1/8
+
+Steps into this lap: 7
 
 ---
 

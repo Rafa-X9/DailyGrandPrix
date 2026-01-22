@@ -25,6 +25,7 @@ namespace DailyGrandPrix
                 Console.WriteLine("(9) Award points");
                 Console.WriteLine("(10) Generate usernames for pings");
                 Console.WriteLine("(11) Generate log");
+                Console.WriteLine("(12) Delete drivers from RAM");
                 Console.WriteLine();
 
                 Console.Write("Choose: ");
@@ -85,6 +86,10 @@ namespace DailyGrandPrix
                 else if (choice == 11)
                 {
                     Services.GenerateLog(Drivers);
+                }
+                else if (choice == 12)
+                {
+                    Drivers.Clear();
                 }
             }
         }
