@@ -3,3 +3,4 @@ tyre compound : enum, tyre wear : int, nº tyre changes : int, amount of fuel : 
 steps driven : int, moves made : int (race distance info)
 championship points : int, wins : int, podiums : int (season info)
 last action : enum, last steps : int (last action info)
+last steps: List<int> (steps history info)

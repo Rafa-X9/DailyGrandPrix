@@ -41,9 +41,10 @@ namespace DailyGrandPrix.Entities
         public int Wins { get; set; }
         public int Podiums { get; set; }
 
-        //last action info
+        //last actions info
         public Actions LastAction { get; set; }
         public int LastSteps { get; set; }
+        public List<int> StepsHistory { get; set; } = new List<int>();
 
         public Driver(string name, string username, int number, Teams team)
         {
@@ -85,6 +86,9 @@ namespace DailyGrandPrix.Entities
                 line = sr.ReadLine().Split(',');
                 LastAction = Enum.Parse<Actions>(line[0]);
                 LastSteps = int.Parse(line[1]);
+
+                line = sr.ReadLine().Split(',');
+                foreach (string s in line) StepsHistory.Add(int.Parse(s));
             }
         }
 
@@ -92,6 +96,7 @@ namespace DailyGrandPrix.Entities
         {
             int steps = Services.CalculateSteps((int)Tyres, TyreWear, Fuel, IsPushing);
             LastSteps = steps;
+            StepsHistory.Add(steps);
 
             if (!IsPushing)
             {

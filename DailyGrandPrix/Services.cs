@@ -76,6 +76,7 @@ namespace DailyGrandPrix
                 sw.WriteLine($"{d.StepsDriven},{d.MovesMade}");
                 sw.WriteLine($"{d.Points},{d.Wins},{d.Podiums}");
                 sw.WriteLine($"{d.LastAction},{d.LastSteps}");
+                foreach (int s in d.StepsHistory) sw.Write(s + ","); sw.WriteLine();
                 sw.Close();
             }
         }
@@ -234,10 +235,12 @@ namespace DailyGrandPrix
             for (int i = 0; i < Drivers.Count; i++)
             {
                 Driver d = Drivers[i];
-                sw.WriteLine($"**{d.Name}** (/{d.Username}), {d.Team}");
+                if (d.StepsDriven >= 0 && d.Fuel >= 0)
+                    sw.WriteLine($"**P{i + 1} - {d.Name}** (/{d.Username}), {d.Team}");
+                else sw.WriteLine($"**{d.Name}** (/{d.Username}), {d.Team}");
                 sw.WriteLine();
 
-                if (!(d.StepsDriven < 0) && !(d.Fuel < 0) && (d.LapsDriven < RaceLaps))
+                if (d.StepsDriven >= 0 && d.Fuel >= 0 && d.LapsDriven < RaceLaps)
                 {
                     if (d.LastAction == Actions.Conserve)
                     {
@@ -267,6 +270,9 @@ namespace DailyGrandPrix
                     sw.WriteLine($"Laps driven: {d.LapsDriven}/{RaceLaps}");
                     sw.WriteLine();
                     sw.WriteLine($"Steps into this lap: {d.StepsInLap}");
+                    sw.WriteLine();
+                    sw.Write("Steps history: ");
+                    foreach (int s in d.StepsHistory) sw.Write(s + " ");
                     sw.WriteLine();
                 }
                 else
