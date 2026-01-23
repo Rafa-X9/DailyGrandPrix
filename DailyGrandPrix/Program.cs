@@ -91,6 +91,10 @@ namespace DailyGrandPrix
                 {
                     Drivers.Clear();
                 }
+                else
+                {
+                    return;
+                }
             }
         }
     }

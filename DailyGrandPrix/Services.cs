@@ -274,6 +274,7 @@ namespace DailyGrandPrix
                     sw.Write("Steps history: ");
                     foreach (int s in d.StepsHistory) sw.Write(s + " ");
                     sw.WriteLine();
+                    sw.WriteLine();
                 }
                 else
                 {
@@ -313,7 +314,7 @@ namespace DailyGrandPrix
                 sw.WriteLine();
             }
 
-            sw.WriteLine("^(This message and all of calculations " +
+            sw.WriteLine("^(This message and all calculations " +
                 "of this series are" +
                 " made automatically. If you have questions or concerns, reply to this " +
                 "message. This will summon my creator. You can find my source code on " +

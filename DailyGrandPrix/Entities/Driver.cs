@@ -25,12 +25,16 @@ namespace DailyGrandPrix.Entities
         //race info
         public int StepsDriven { get; set; }
         public int MovesMade { get; set; }
-        public int LapsDriven { get
+        public int LapsDriven
+        {
+            get
             {
-                return (int) Math.Floor((double)StepsDriven / Services.StepsPerLap);
+                return (int)Math.Floor((double)StepsDriven / Services.StepsPerLap);
             }
         }
-        public int StepsInLap { get
+        public int StepsInLap
+        {
+            get
             {
                 return StepsDriven - (LapsDriven * Services.StepsPerLap);
             }
@@ -88,7 +92,10 @@ namespace DailyGrandPrix.Entities
                 LastSteps = int.Parse(line[1]);
 
                 line = sr.ReadLine().Split(',');
-                foreach (string s in line) StepsHistory.Add(int.Parse(s));
+                foreach (string s in line)
+                {
+                    if (s.Length > 0) StepsHistory.Add(int.Parse(s));
+                }
             }
         }
 
