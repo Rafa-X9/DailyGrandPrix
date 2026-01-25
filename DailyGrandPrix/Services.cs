@@ -1,11 +1,5 @@
 ﻿using DailyGrandPrix.Entities;
 using DailyGrandPrix.Enums;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DailyGrandPrix
 {
@@ -260,7 +254,7 @@ namespace DailyGrandPrix
                     }
                     else if (d.LastAction == Actions.Pit)
                     {
-                        sw.WriteLine($"Went to the pits and changed to new {d.Tyres}");
+                        sw.WriteLine($"{d.Name} went to the pits and changed to new {d.Tyres}");
                         sw.WriteLine();
                     }
                     sw.WriteLine($"Tyres: {d.Tyres} ({d.TyreWear}/100)");

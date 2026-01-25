@@ -1,0 +1,6 @@
+Megarafan,u/Megarafan2025,82,Ferrari
+Mediums,16,0,55
+103,5
+0,0,0
+Conserve,12
+24,29,24,14,12,

@@ -1,0 +1,161 @@
+**P1 - Not A Car** (/u/TheRedditor8789), Haas
+
+Not A Car pushed
+
+Steps: 120 + 16 = 136
+
+Tyres: Hards (16/100)
+
+Fuel: 30/100
+
+Laps driven: 4/8
+
+Steps into this lap: 0
+
+Steps history: 28 27 24 22 19 16 
+
+---
+
+**P2 - Fish** (/u/FishToThePowerOf5), Williams
+
+Fish pushed
+
+Steps: 113 + 21 = 134
+
+Tyres: Hards (37/100)
+
+Fuel: 40/100
+
+Laps driven: 3/8
+
+Steps into this lap: 32
+
+Steps history: 22 28 20 19 24 21 
+
+---
+
+**P3 - Timothy-11** (/u/Terrs34), Cadillac
+
+Timothy-11 conserved
+
+Steps: 114 + 16 = 130
+
+Tyres: Hards (44/100)
+
+Fuel: 44/100
+
+Laps driven: 3/8
+
+Steps into this lap: 28
+
+Steps history: 22 22 27 19 24 16 
+
+---
+
+**P4 - Max Verstappen** (/u/Aartvb), RedBull
+
+Max Verstappen conserved
+
+Steps: 112 + 14 = 126
+
+Tyres: Hards (37/100)
+
+Fuel: 55/100
+
+Laps driven: 3/8
+
+Steps into this lap: 24
+
+Steps history: 21 20 26 24 21 14 
+
+---
+
+**P5 - dckX** (/u/NoNoWahoo), Audi
+
+dckX conserved
+
+Steps: 105 + 15 = 120
+
+Tyres: Mediums (28/100)
+
+Fuel: 50/100
+
+Laps driven: 3/8
+
+Steps into this lap: 18
+
+Steps history: 25 23 21 20 17 15 
+
+---
+
+**P6 - Gilbert** (/u/Striking_Abroad_6003), Mercedes
+
+Gilbert pushed
+
+Steps: 104 + 15 = 119
+
+Tyres: Mediums (4/100)
+
+Fuel: 55/100
+
+Laps driven: 3/8
+
+Steps into this lap: 17
+
+Steps history: 23 22 20 18 21 15 
+
+---
+
+**P7 - Director** (/u/TemporaryDirector442), McLaren
+
+Director went to the pits and changed to new Hards
+
+Tyres: Hards (100/100)
+
+Fuel: 55/100
+
+Laps driven: 3/8
+
+Steps into this lap: 2
+
+Steps history: 24 29 18 21 12 0 
+
+---
+
+**P8 - Megarafan** (/u/Megarafan2025), Ferrari
+
+Megarafan conserved
+
+Steps: 91 + 12 = 103
+
+Tyres: Mediums (16/100)
+
+Fuel: 55/100
+
+Laps driven: 3/8
+
+Steps into this lap: 1
+
+Steps history: 24 29 24 14 12 
+
+---
+
+**P9 - James Bond** (/u/DonutDaniel5), AstonMartin
+
+James Bond conserved
+
+Steps: 92 + 9 = 101
+
+Tyres: Mediums (4/100)
+
+Fuel: 55/100
+
+Laps driven: 2/8
+
+Steps into this lap: 33
+
+Steps history: 30 20 24 18 9 
+
+---
+
+^(This message and all calculations of this series are made automatically. If you have questions or concerns, reply to this message. This will summon my creator. You can find my source code on [GitHub](https://github.com/Rafa-X9/DailyGrandPrix).)

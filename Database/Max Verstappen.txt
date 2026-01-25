@@ -1,0 +1,6 @@
+Max Verstappen,u/Aartvb,3,RedBull
+Hards,37,0,55
+126,6
+0,0,0
+Conserve,14
+21,20,26,24,21,14,

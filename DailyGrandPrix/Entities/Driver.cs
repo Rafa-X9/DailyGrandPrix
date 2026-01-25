@@ -164,6 +164,7 @@ namespace DailyGrandPrix.Entities
             MovesMade++;
             LastSteps = 0;
             LastAction = Actions.Pit;
+            StepsHistory.Add(0);
         }
 
         public override string ToString()

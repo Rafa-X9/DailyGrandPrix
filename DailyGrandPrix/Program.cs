@@ -1,6 +1,4 @@
 ﻿using DailyGrandPrix.Entities;
-using DailyGrandPrix.Enums;
-using System;
 
 namespace DailyGrandPrix
 {
