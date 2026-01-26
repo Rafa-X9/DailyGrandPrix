@@ -1,6 +1,0 @@
-dckX,u/NoNoWahoo,42,Audi
-Mediums,28,0,50
-120,6
-0,0,0
-Conserve,15
-25,23,21,20,17,15,

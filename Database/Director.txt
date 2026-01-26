@@ -1,6 +1,0 @@
-Director,u/TemporaryDirector442,67,McLaren
-Hards,100,1,55
-104,6
-0,0,0
-Pit,0
-24,29,18,21,12,0,

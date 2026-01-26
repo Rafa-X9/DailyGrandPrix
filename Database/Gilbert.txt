@@ -1,6 +1,0 @@
-Gilbert,u/Striking_Abroad_6003,13,Mercedes
-Mediums,4,0,55
-119,6
-0,0,0
-Push,15
-23,22,20,18,21,15,

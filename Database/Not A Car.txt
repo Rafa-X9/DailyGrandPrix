@@ -1,6 +1,0 @@
-Not A Car,u/TheRedditor8789,79,Haas
-Hards,16,0,30
-136,6
-0,0,0
-Push,16
-28,27,24,22,19,16,

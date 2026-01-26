@@ -1,5 +1,6 @@
 ﻿using DailyGrandPrix.Entities;
 using DailyGrandPrix.Enums;
+using DailyGrandPrix.Exceptions;
 
 namespace DailyGrandPrix
 {
@@ -7,7 +8,7 @@ namespace DailyGrandPrix
     {
         public static string Path = @"C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\Database";
         public static int StepsPerLap = 34;
-        public static int RaceLaps = 8;
+        public static int RaceLaps = 1;
 
         public static void CreateDriver(List<Driver> DriverList)
         {
@@ -141,7 +142,7 @@ namespace DailyGrandPrix
             int[] points = { 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 };
             for (int i = 0; i < Drivers.Count && i < points.Length; i++)
             {
-                if (Drivers[i].LapsDriven < 0) break;
+                if (Drivers[i].TyreWear < 0 || Drivers[i].Fuel < 0) break;
                 Drivers[i].Points += points[i];
                 if (i == 0) Drivers[i].Wins++;
                 if (i < 3) Drivers[i].Podiums++;
@@ -212,14 +213,17 @@ namespace DailyGrandPrix
                         Console.WriteLine("Not recognized, move aborted");
                     }
                 }
-                catch (ApplicationException ex)
+                catch (Puncture)
                 {
-                    Console.WriteLine(ex.Message);
+                    driver.TyreWear = -1;
                 }
-               
+                catch (OutOfFuel)
+                {
+                    driver.Fuel = -1;
+                }
             }
         }
-    
+
         public static void GenerateLog(List<Driver> Drivers)
         {
             string path = Path + @"\Log\RaceLog.txt";
@@ -229,12 +233,12 @@ namespace DailyGrandPrix
             for (int i = 0; i < Drivers.Count; i++)
             {
                 Driver d = Drivers[i];
-                if (d.StepsDriven >= 0 && d.Fuel >= 0)
+                if (d.Fuel >= 0 && d.TyreWear >= 0)
                     sw.WriteLine($"**P{i + 1} - {d.Name}** (/{d.Username}), {d.Team}");
-                else sw.WriteLine($"**{d.Name}** (/{d.Username}), {d.Team}");
+                else sw.WriteLine($"**DNF - {d.Name}** (/{d.Username}), {d.Team}");
                 sw.WriteLine();
 
-                if (d.StepsDriven >= 0 && d.Fuel >= 0 && d.LapsDriven < RaceLaps)
+                if (d.StepsDriven >= 0 && d.Fuel >= 0 && d.LapsDriven < RaceLaps && d.TyreWear > 0)
                 {
                     if (d.LastAction == Actions.Conserve)
                     {
@@ -294,13 +298,16 @@ namespace DailyGrandPrix
                         }
                         else
                         {
-                            sw.WriteLine($"{d.Name} finishes in {i}th place of the " +
+                            sw.WriteLine($"{d.Name} finishes in {i + 1}th place of the " +
                                 $"DailyGrandPrix!");
+                            sw.WriteLine();
                         }
                     }
                     else
                     {
-                        sw.WriteLine($"{d.Name} has retired from the race");
+                        sw.Write($"{d.Name} has retired from the race");
+                        if (d.TyreWear < 0) sw.WriteLine(" due to a puncture.");
+                        else if (d.Fuel < 0) sw.WriteLine(" due to running out of fuel.");
                         sw.WriteLine();
                     }
                 }
