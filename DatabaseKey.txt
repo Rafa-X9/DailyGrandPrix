@@ -8,3 +8,6 @@ races (*)
 
 ===RACE KEY INDEX===
 id,start,end,champ_id,racestate,track_id
+
+===TRACK INDEX===
+id,name,stepsperlap

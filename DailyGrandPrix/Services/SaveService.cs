@@ -7,7 +7,7 @@ namespace DailyGrandPrix.Services
     {
         public static string DatabasePath = @"C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\Database";
         public static string ChampionshipPath = DatabasePath + @"\Championships";
-        public static string RacePath = ChampionshipPath + @"\Races";
+        //public static string RacePath = ChampionshipPath + @"\Races";
         public static string DriversPath = DatabasePath + @"\Drivers";
         public static string TracksPath = DatabasePath + @"\Tracks";
         public List<Championship> Championships { get; set; } = new();
@@ -19,13 +19,13 @@ namespace DailyGrandPrix.Services
         {
             DirectoryInfo database = new DirectoryInfo(DatabasePath);
             DirectoryInfo championship = new DirectoryInfo(ChampionshipPath);
-            DirectoryInfo race = new DirectoryInfo(RacePath);
+            //DirectoryInfo race = new DirectoryInfo(RacePath);
             DirectoryInfo drivers = new DirectoryInfo(DriversPath);
             DirectoryInfo tracks = new DirectoryInfo(TracksPath);
 
             if (!database.Exists) database.Create();
             if (!championship.Exists) championship.Create();
-            if (!race.Exists) race.Create();
+            //if (!race.Exists) race.Create();
             if (!drivers.Exists) drivers.Create();
             if (!tracks.Exists) tracks.Create();
         }
@@ -76,6 +76,32 @@ namespace DailyGrandPrix.Services
             {
                 StreamWriter sw = new(TracksPath + $@"\{t.Name}.txt", false);
                 sw.WriteLine($"{t.Id},{t.Name},{t.StepsPerLap}");
+                sw.Close();
+            }
+        }
+    
+        public void ImportChampionships()
+        {
+            foreach (string folder in Directory.GetDirectories(ChampionshipPath))
+            {
+                StreamReader sr = new(folder + @"\about.txt");
+                string[] line = sr.ReadLine().Split(',');
+                int id = int.Parse(line[0]);
+                int year = int.Parse(line[1]);
+                string name = line[2];
+                Championships.Add(new(id, year, name));
+                sr.Close();
+            }
+        }
+
+        public void SaveChampionships()
+        {
+            foreach (Championship c in Championships)
+            {
+                DirectoryInfo di = new(ChampionshipPath + $@"\{c.Name}");
+                if (!di.Exists) di.Create();
+                StreamWriter sw = new(ChampionshipPath + $@"\{c.Name}\about.txt", false);
+                sw.WriteLine($"{c.Id},{c.Year},{c.Name}");
                 sw.Close();
             }
         }

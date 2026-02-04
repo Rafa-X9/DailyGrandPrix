@@ -6,5 +6,12 @@
         public int Year { get; private set; }
         public string Name { get; private set; } = string.Empty;
         public List<Race> Races { get; private set; } = new List<Race>();
+
+        public Championship(int id, int year, string name)
+        {
+            Id = id;
+            Year = year;
+            Name = name;
+        }
     }
 }
