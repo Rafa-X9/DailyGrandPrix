@@ -1,6 +1,10 @@
-name : string, username : string, number : int, team : enum (personal info)
-tyre compound : enum, tyre wear : int, nº tyre changes : int, amount of fuel : int (car info)
-steps driven : int, moves made : int (race distance info)
-championship points : int, wins : int, podiums : int (season info)
-last action : enum, last steps : int (last action info)
-last steps: List<int> (steps history info)
+===DRIVER KEY===
+id,name,username,number,team
+driver_races (*)
+
+===CHAMPIONSHIP KEY===
+id,year,name
+races (*)
+
+===RACE KEY INDEX===
+id,start,end,champ_id,racestate,track_id
