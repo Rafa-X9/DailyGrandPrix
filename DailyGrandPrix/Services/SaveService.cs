@@ -55,7 +55,7 @@ namespace DailyGrandPrix.Services
                 sw.Close();
             }
         }
-    
+
         public void ImportTracks()
         {
             foreach (string file in Directory.GetFiles(TracksPath))
@@ -69,7 +69,7 @@ namespace DailyGrandPrix.Services
                 sr.Close();
             }
         }
-    
+
         public void SaveTracks()
         {
             foreach (Track t in Tracks)
@@ -79,7 +79,7 @@ namespace DailyGrandPrix.Services
                 sw.Close();
             }
         }
-    
+
         public void ImportChampionships()
         {
             foreach (string folder in Directory.GetDirectories(ChampionshipPath))
@@ -103,6 +103,49 @@ namespace DailyGrandPrix.Services
                 StreamWriter sw = new(ChampionshipPath + $@"\{c.Name}\about.txt", false);
                 sw.WriteLine($"{c.Id},{c.Year},{c.Name}");
                 sw.Close();
+            }
+        }
+
+        public void ImportRaces()
+        {
+            foreach (Championship champ in Championships)
+            {
+                foreach (string race in Directory.GetFiles(ChampionshipPath + $@"\{champ.Name}"))
+                {
+                    if (race == (ChampionshipPath + $@"\{champ.Name}\about.txt")) continue;
+                    string path = race;
+                    StreamReader sr = new(path);
+                    string[] line = sr.ReadLine().Split(',');
+                    int id = int.Parse(line[0]);
+                    DateOnly start = DateOnly.FromDateTime(DateTime.ParseExact(line[1], "dd/MM/yyyy", null));
+                    DateOnly? end;
+                    if (line[2] == "null") end = null;
+                    else end = DateOnly.FromDateTime(DateTime.ParseExact(line[2], "dd/MM/yyyy", null));
+                    int champId = int.Parse(line[3]);
+                    RaceState state = Enum.Parse<RaceState>(line[4]);
+                    int trackId = int.Parse(line[5]);
+                    Track track = Tracks.Where(t => t.Id == trackId).First();
+                    champ.Races.Add(new(id, start, end, champ, state, track));
+                    sr.Close();
+                }
+            }
+        }
+
+        public void SaveRaces()
+        {
+            foreach (Championship champ in Championships)
+            {
+                foreach (Race race in champ.Races)
+                {
+                    string path = ChampionshipPath + $@"\{champ.Name}\{race.Track.Name}-Race.txt";
+                    StreamWriter sw = new(path, false);
+                    string end;
+                    if (race.End is not null) end = race.End.ToString();
+                    else end = "null";
+                    sw.WriteLine($"{race.Id},{race.Start},{end}," +
+                        $"{race.Championship.Id},{race.RaceState},{race.Track.Id}");
+                    sw.Close();
+                }
             }
         }
     }

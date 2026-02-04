@@ -11,18 +11,16 @@ namespace DailyGrandPrix
             CreateService createSerivce = new(saveService);
 
             saveService.ImportChampionships();
-
+            saveService.ImportTracks();
+            saveService.ImportRaces();
             foreach (Championship champ in saveService.Championships)
             {
-                Console.WriteLine(champ.Name + " in " + champ.Year);
+                Console.WriteLine(champ.Name.ToUpper());
+                foreach (Race race in champ.Races)
+                {
+                    Console.WriteLine("Race: " + race.Track.Name + ", started " + race.Start);
+                }
             }
-
-            /*
-                ===TO-DO LIST===
-                1. Create methods to create, save, and import races
-                2. Create methods to edit a driver's personal information
-                3. Make race's processing shenanigans
-            */
         }
     }
 }

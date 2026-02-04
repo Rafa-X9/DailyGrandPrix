@@ -113,5 +113,47 @@ namespace DailyGrandPrix.Services
                 Console.WriteLine(ex.Message);
             }
         }
+    
+        public void CreateRace()
+        {
+            try
+            {
+                Console.WriteLine("Choose a championship to add the race to:");
+                foreach (Championship c in Saves.Championships)
+                {
+                    Console.WriteLine(c.Id + " - " + c.Name);
+                }
+                Console.Write("> ");
+                int num = int.Parse(Console.ReadLine());
+                Championship champ = Saves.Championships.Where(c => c.Id == num).First();
+                string path = SaveService.ChampionshipPath + $@"\{champ.Name}";
+                string[] races = Directory.GetFiles(path);
+                int id = races.Length;
+
+                Console.WriteLine("Choose the track:");
+                foreach (Track t in Saves.Tracks)
+                {
+                    Console.WriteLine(t.Id + " - " + t.Name + " - " + t.StepsPerLap + " steps a lap");
+                }
+                Console.Write("> ");
+                num = int.Parse(Console.ReadLine());
+                Track track = Saves.Tracks.Where(t => t.Id == num).First();
+
+                champ.Races.Add(new(id, champ, track));
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Format error! " + ex.Message);
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("Error! There is nothing that matches the number input.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("UNEXPECTED ERROR");
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }
