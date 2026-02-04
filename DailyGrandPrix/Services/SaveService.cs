@@ -55,5 +55,29 @@ namespace DailyGrandPrix.Services
                 sw.Close();
             }
         }
+    
+        public void ImportTracks()
+        {
+            foreach (string file in Directory.GetFiles(TracksPath))
+            {
+                StreamReader sr = new(file);
+                string[] line = sr.ReadLine().Split(',');
+                int id = int.Parse(line[0]);
+                string name = line[1];
+                int stepsPerLap = int.Parse(line[2]);
+                Tracks.Add(new Track(id, name, stepsPerLap));
+                sr.Close();
+            }
+        }
+    
+        public void SaveTracks()
+        {
+            foreach (Track t in Tracks)
+            {
+                StreamWriter sw = new(TracksPath + $@"\{t.Name}.txt", false);
+                sw.WriteLine($"{t.Id},{t.Name},{t.StepsPerLap}");
+                sw.Close();
+            }
+        }
     }
 }
