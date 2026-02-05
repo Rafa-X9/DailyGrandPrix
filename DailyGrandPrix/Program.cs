@@ -20,12 +20,23 @@ namespace DailyGrandPrix
                 Console.Clear();
                 Console.WriteLine("DAILY GRAND PRIX");
                 Console.WriteLine();
+
                 Console.WriteLine("==MANAGING DRIVERS==");
                 Console.WriteLine("(1) Create driver");
                 Console.WriteLine("(2) See all drivers");
                 Console.WriteLine("(3) Edit driver");
                 Console.WriteLine("(4) Save drivers in database");
                 Console.WriteLine("(5) Delete driver");
+                Console.WriteLine();
+
+                Console.WriteLine("==MANAGING TRACKS==");
+                Console.WriteLine("(6) Create track");
+                Console.WriteLine("(7) See all tracks");
+                Console.WriteLine("(8) Edit track");
+                Console.WriteLine("(9) Save tracks in database");
+                Console.WriteLine("(10) Delete track");
+                Console.WriteLine();
+
                 Console.WriteLine("(100) Close program");
                 try
                 {
@@ -189,6 +200,143 @@ namespace DailyGrandPrix
                     }
 
                     choice = 5;
+                }
+
+                //create track
+                else if (choice == 6)
+                {
+                    createSerivce.CreateTrack();
+                }
+
+                //see tracks
+                else if (choice == 7)
+                {
+                    Console.Clear();
+                    foreach (Track t in saveService.Tracks)
+                    {
+                        Console.WriteLine(t);
+                    }
+                    Console.WriteLine("Press enter to continue.");
+                    Console.ReadLine();
+                }
+
+                //edit track
+                else if (choice == 8)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Choose a track:");
+                    foreach (Track t in saveService.Tracks)
+                    {
+                        Console.WriteLine($"{t.Id} - {t.Name} - {t.StepsPerLap} steps a lap.");
+                    }
+                    try
+                    {
+                        Console.Write("> ");
+                        choice = int.Parse(Console.ReadLine());
+                        Track track = saveService.Tracks.Where(t => t.Id == choice).First();
+                        Console.Clear();
+                        Console.WriteLine("(1) Change name: " + track.Name);
+                        Console.WriteLine("(2) Change steps per lap: " + track.StepsPerLap);
+                        Console.Write("> ");
+                        choice = int.Parse(Console.ReadLine());
+                        if (choice == 1)
+                        {
+                            Console.Write("New name: ");
+                            track.Name = Console.ReadLine();
+                        }
+                        else if (choice == 2)
+                        {
+                            Console.Write("New steps per lap: ");
+                            track.StepsPerLap = int.Parse(Console.ReadLine());
+                        }
+                        else throw new InvalidOperationException();
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Track editing aborted.");
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                        continue;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("Nothing found under that number!");
+                        Console.WriteLine("Track editing aborted.");
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                    }
+
+                    choice = 8;
+                }
+
+                //save tracks
+                else if (choice == 9)
+                {
+                    saveService.SaveTracks();
+                    saveService.DeleteUntrackedTracks();
+                }
+
+                //delete track
+                else if (choice == 10)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Type the Id of the track to delete:");
+                    foreach (Track t in saveService.Tracks)
+                    {
+                        Console.WriteLine($"{t.Id} - {t.Name} - {t.StepsPerLap} steps a lap");
+                    }
+                    Console.Write("> ");
+                    try
+                    {
+                        choice = int.Parse(Console.ReadLine());
+                        Track track = saveService.Tracks.Where(tr => tr.Id == choice).First();
+                        Console.Write("Type 'delete' to confirm: ");
+                        string confirm = Console.ReadLine();
+                        if (confirm != "delete")
+                        {
+                            throw new NotConfirmedException("Deletion not confirmed.");
+                        }
+                        saveService.DeleteTrack(track);
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Deletion aborted.");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("No track found with that number!");
+                        Console.WriteLine("Deletion aborted.");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (NotConfirmedException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Deletion aborted.");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Deletion aborted.");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+
+                    choice = 10;
                 }
 
                 //close program

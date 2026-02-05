@@ -3,7 +3,7 @@ using DailyGrandPrix.Enums;
 
 namespace DailyGrandPrix.Services
 {
-    internal class CreateService
+    internal sealed class CreateService
     {
         public SaveService Saves { get; set; }
 

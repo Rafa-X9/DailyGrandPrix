@@ -29,7 +29,7 @@ namespace DailyGrandPrix.Services
             if (!drivers.Exists) drivers.Create();
             if (!tracks.Exists) tracks.Create();
         }
-        
+
         public void ImportAll()
         {
             ImportDrivers();
@@ -108,6 +108,37 @@ namespace DailyGrandPrix.Services
                 sw.WriteLine($"{t.Id},{t.Name},{t.StepsPerLap}");
                 sw.Close();
             }
+        }
+
+        public void DeleteUntrackedTracks()
+        {
+            foreach (string file in Directory.GetFiles(TracksPath))
+            {
+                bool isTracked = false;
+                foreach (Track t in Tracks)
+                {
+                    if (file == (TracksPath + @"\" + t.Name + ".txt")) isTracked = true;
+                }
+                if (isTracked) continue;
+                File.Delete(file);
+            }
+        }
+
+        public void DeleteTrack(Track track)
+        {
+            foreach (Championship champ in Championships)
+            {
+                Race? toDelete = null;
+                foreach (Race race in champ.Races)
+                {
+                    if (race.Track == track)
+                    {
+                        toDelete = race;
+                    }
+                }
+                if (toDelete != null) champ.Races.Remove(toDelete);
+            }
+            Tracks.Remove(track);
         }
 
         public void ImportChampionships()

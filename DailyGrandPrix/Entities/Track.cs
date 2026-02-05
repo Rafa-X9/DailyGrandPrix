@@ -17,5 +17,11 @@
             Name = name;
             StepsPerLap = stepsPerLap;
         }
+
+        public override string ToString()
+        {
+            return $"{Name.ToUpper()}" +
+                $"\nSteps per lap: {StepsPerLap}\n";
+        }
     }
 }
