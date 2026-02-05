@@ -28,5 +28,14 @@ namespace DailyGrandPrix.Entities
         {
             Races = races;
         }
+
+        public override string ToString()
+        {
+            return $"{Name.ToUpper()}" +
+                $"\nId = {Id}" +
+                $"\nUsername = {Username}" +
+                $"\nNumber = {Number}" +
+                $"\nTeam = {Team}\n";
+        }
     }
 }

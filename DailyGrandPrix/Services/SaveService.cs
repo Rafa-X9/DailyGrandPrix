@@ -29,6 +29,22 @@ namespace DailyGrandPrix.Services
             if (!drivers.Exists) drivers.Create();
             if (!tracks.Exists) tracks.Create();
         }
+        
+        public void ImportAll()
+        {
+            ImportDrivers();
+            ImportTracks();
+            ImportChampionships();
+            ImportRaces();
+        }
+
+        public void SaveAll()
+        {
+            SaveDrivers();
+            SaveTracks();
+            SaveChampionships();
+            SaveRaces();
+        }
 
         public void ImportDrivers()
         {
@@ -53,6 +69,20 @@ namespace DailyGrandPrix.Services
                 StreamWriter sw = new(DriversPath + @"\" + d.Name + ".txt", false);
                 sw.WriteLine($"{d.Id},{d.Name},{d.Username},{d.Number},{d.Team}");
                 sw.Close();
+            }
+        }
+
+        public void DeleteUntrackedDrivers()
+        {
+            foreach (string file in Directory.GetFiles(DriversPath))
+            {
+                bool isTracked = false;
+                foreach (Driver d in Drivers)
+                {
+                    if (file == (DriversPath + @"\" + d.Name + ".txt")) isTracked = true;
+                }
+                if (isTracked) continue;
+                File.Delete(file);
             }
         }
 

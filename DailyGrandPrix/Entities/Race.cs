@@ -32,5 +32,17 @@ namespace DailyGrandPrix.Entities
             RaceState = raceState;
             Track = track;
         }
+    
+        public void AddDriver(Driver driver)
+        {
+            if (RaceState != RaceState.AddingDrivers)
+            {
+                throw new ArgumentException("This race already started!");
+            }
+
+            DriverRace dr = new();
+            Drivers.Add(dr);
+            driver.Races.Add(dr);
+        }
     }
 }

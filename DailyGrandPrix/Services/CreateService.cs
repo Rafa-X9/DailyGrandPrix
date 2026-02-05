@@ -37,15 +37,21 @@ namespace DailyGrandPrix.Services
             catch (FormatException ex)
             {
                 Console.WriteLine("Format error! " + ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine("Argument error! " + ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("UNEXPECTED ERROR");
                 Console.WriteLine(ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
         }
 
@@ -70,15 +76,21 @@ namespace DailyGrandPrix.Services
             catch (FormatException ex)
             {
                 Console.WriteLine("Format error! " + ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine("Argument error! " + ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("UNEXPECTED ERROR");
                 Console.WriteLine(ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
         }
     
@@ -102,15 +114,21 @@ namespace DailyGrandPrix.Services
             catch (FormatException ex)
             {
                 Console.WriteLine("Format error! " + ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine("Argument error! " + ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("UNEXPECTED ERROR");
                 Console.WriteLine(ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
         }
     
@@ -144,15 +162,21 @@ namespace DailyGrandPrix.Services
             catch (FormatException ex)
             {
                 Console.WriteLine("Format error! " + ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
             catch (InvalidOperationException)
             {
                 Console.WriteLine("Error! There is nothing that matches the number input.");
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("UNEXPECTED ERROR");
                 Console.WriteLine(ex.Message);
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
         }
     }
