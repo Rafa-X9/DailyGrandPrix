@@ -18,9 +18,7 @@ namespace DailyGrandPrix
             while (choice != 100)
             {
                 Console.Clear();
-                Console.WriteLine("DAILY GRAND PRIX");
-                Console.WriteLine();
-
+                
                 Console.WriteLine("==MANAGING DRIVERS==");
                 Console.WriteLine("(1) Create driver");
                 Console.WriteLine("(2) See all drivers");
@@ -37,7 +35,16 @@ namespace DailyGrandPrix
                 Console.WriteLine("(10) Delete track");
                 Console.WriteLine();
 
+                Console.WriteLine("==MANAGING CHAMPIONSHIPS==");
+                Console.WriteLine("(11) Create championship");
+                Console.WriteLine("(12) See all championships");
+                Console.WriteLine("(13) Edit championship");
+                Console.WriteLine("(14) Save championships in database");
+                Console.WriteLine("(15) Delete championship");
+                Console.WriteLine();
+
                 Console.WriteLine("(100) Close program");
+                Console.WriteLine();
                 try
                 {
                     Console.Write("> ");
@@ -205,6 +212,7 @@ namespace DailyGrandPrix
                 //create track
                 else if (choice == 6)
                 {
+                    Console.Clear();
                     createSerivce.CreateTrack();
                 }
 
@@ -337,6 +345,130 @@ namespace DailyGrandPrix
                     }
 
                     choice = 10;
+                }
+
+                //create championship
+                else if (choice == 11)
+                {
+                    Console.Clear();
+                    createSerivce.CreateChampionship();
+                }
+
+                //see all championships
+                else if (choice == 12)
+                {
+                    Console.Clear();
+                    foreach (Championship champ in saveService.Championships)
+                    {
+                        Console.WriteLine(champ);
+                    }
+                    Console.WriteLine("Press enter to continue.");
+                    Console.ReadLine();
+                }
+
+                //edit championship
+                else if (choice == 13)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Type the Id of the championship to edit:");
+                    foreach (Championship champ in saveService.Championships)
+                    {
+                        Console.WriteLine($"{champ.Id} - {champ.Name} - {champ.Races.Count} races");
+                    }
+                    Console.Write("> ");
+                    try
+                    {
+                        choice = int.Parse(Console.ReadLine());
+                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Console.Write("New name: ");
+                        champ.Name = Console.ReadLine();
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Championship editing aborted.");
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                        continue;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("Nothing found under that number!");
+                        Console.WriteLine("Championship editing aborted.");
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                    }
+
+                    choice = 13;
+                }
+
+                //save championships
+                else if (choice == 14)
+                {
+                    saveService.SaveChampionships();
+                    saveService.DeleteUntrackedChampionships();
+                }
+
+                //delete championship
+                else if (choice == 15)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Type the Id of the championship to delete:");
+                    foreach (Championship c in saveService.Championships)
+                    {
+                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
+                    }
+                    Console.Write("> ");
+                    try
+                    {
+                        choice = int.Parse(Console.ReadLine());
+                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Console.Write("Type 'delete' to confirm: ");
+                        string confirm = Console.ReadLine();
+                        if (confirm != "delete")
+                        {
+                            throw new NotConfirmedException("Deletion not confirmed.");
+                        }
+                        saveService.Championships.Remove(champ);
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Deletion aborted.");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("No track found with that number!");
+                        Console.WriteLine("Deletion aborted.");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (NotConfirmedException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Deletion aborted.");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Deletion aborted.");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+
+                    choice = 15;
                 }
 
                 //close program

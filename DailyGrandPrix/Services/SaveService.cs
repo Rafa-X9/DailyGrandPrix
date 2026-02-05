@@ -11,7 +11,7 @@ namespace DailyGrandPrix.Services
         public static string DriversPath = DatabasePath + @"\Drivers";
         public static string TracksPath = DatabasePath + @"\Tracks";
         public List<Championship> Championships { get; set; } = new();
-        public List<Race> Races { get; set; } = new();
+        //public List<Race> Races { get; set; } = new();
         public List<Driver> Drivers { get; set; } = new();
         public List<Track> Tracks { get; set; } = new();
 
@@ -164,6 +164,23 @@ namespace DailyGrandPrix.Services
                 StreamWriter sw = new(ChampionshipPath + $@"\{c.Name}\about.txt", false);
                 sw.WriteLine($"{c.Id},{c.Year},{c.Name}");
                 sw.Close();
+            }
+        }
+
+        public void DeleteUntrackedChampionships()
+        {
+            foreach (string folder in Directory.GetDirectories(ChampionshipPath))
+            {
+                bool isTracked = false;
+                foreach (Championship champ in Championships)
+                {
+                    if (folder == (ChampionshipPath + $@"\{champ.Name}"))
+                    {
+                        isTracked = true;
+                    }
+                }
+                if (isTracked) continue;
+                Directory.Delete(folder, true);
             }
         }
 
