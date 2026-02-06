@@ -4,7 +4,8 @@ namespace DailyGrandPrix.Entities
 {
     internal class DriverRace
     {
-        public Tyres TyreCompound { get; set; }
+        public Driver Driver { get; set; }
+        public Tyres TyreCompound { get; set; } = Tyres.None;
         public int TyreWear { get; set; }
         public int TyreChanges { get; set; }
         public int FuelAmount { get; set; }
@@ -12,7 +13,10 @@ namespace DailyGrandPrix.Entities
         public Actions LastAction { get; set; } = Actions.None;
         public List<int> StepsHistory { get; set; } = new();
 
-        public DriverRace() { }
+        public DriverRace(Driver driver)
+        {
+            Driver = driver;
+        }
 
         public DriverRace(Tyres tyreCompound, int fuelAmount)
         {
@@ -33,7 +37,7 @@ namespace DailyGrandPrix.Entities
             LastAction = lastAction;
             StepsHistory = stepsHistory;
         }
-    
+
         public void MakeMove()
         {
             throw new NotImplementedException();

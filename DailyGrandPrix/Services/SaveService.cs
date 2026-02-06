@@ -203,7 +203,27 @@ namespace DailyGrandPrix.Services
                     RaceState state = Enum.Parse<RaceState>(line[4]);
                     int trackId = int.Parse(line[5]);
                     Track track = Tracks.Where(t => t.Id == trackId).First();
-                    champ.Races.Add(new(id, start, end, champ, state, track));
+                    Race r = new(id, start, end, champ, state, track);
+                    champ.Races.Add(r);
+
+                    while (!sr.EndOfStream)
+                    {
+                        line = sr.ReadLine().Split(',');
+                        int driverId = int.Parse(line[0]);
+                        DriverRace dr = new(Drivers.Where(d => d.Id == driverId).First());
+                        dr.TyreCompound = Enum.Parse<Tyres>(line[1]);
+                        dr.TyreWear = int.Parse(line[2]);
+                        dr.TyreChanges = int.Parse(line[3]);
+                        dr.FuelAmount = int.Parse(line[4]);
+                        dr.MovesMade = int.Parse(line[5]);
+                        dr.LastAction = Enum.Parse<Actions>(line[6]);
+                        for (int i = 7; i < line.Length; i++)
+                        {
+                            dr.StepsHistory.Add(i);
+                        }
+                        r.Drivers.Add(dr);
+                    }
+
                     sr.Close();
                 }
             }
@@ -222,6 +242,16 @@ namespace DailyGrandPrix.Services
                     else end = "null";
                     sw.WriteLine($"{race.Id},{race.Start},{end}," +
                         $"{race.Championship.Id},{race.RaceState},{race.Track.Id}");
+
+                    foreach (DriverRace d in race.Drivers)
+                    {
+                        sw.Write($"{d.Driver.Id},{d.TyreCompound}," +
+                            $"{d.TyreWear},{d.TyreChanges}," +
+                            $"{d.FuelAmount},{d.MovesMade},{d.LastAction}");
+                        foreach (int step in d.StepsHistory) sw.Write($",{step}");
+                        sw.WriteLine();
+                    }
+
                     sw.Close();
                 }
             }

@@ -1,4 +1,6 @@
 ﻿using DailyGrandPrix.Enums;
+using DailyGrandPrix.Exceptions;
+using DailyGrandPrix.Services;
 
 namespace DailyGrandPrix.Entities
 {
@@ -9,7 +11,7 @@ namespace DailyGrandPrix.Entities
         public DateOnly? End { get; private set; }
         public List<DriverRace> Drivers { get; private set; } = new();
         public Championship Championship { get; private set; }
-        public RaceState RaceState { get; private set; }
+        public RaceState RaceState { get; set; }
         public Track Track { get; private set; } = new();
 
         public Race(int id, Championship championship, Track track)
@@ -32,7 +34,7 @@ namespace DailyGrandPrix.Entities
             RaceState = raceState;
             Track = track;
         }
-    
+
         public void AddDriver(Driver driver)
         {
             if (RaceState != RaceState.AddingDrivers)
@@ -40,9 +42,19 @@ namespace DailyGrandPrix.Entities
                 throw new ArgumentException("This race already started!");
             }
 
-            DriverRace dr = new();
+            DriverRace? d = Drivers.Where(dri => dri.Driver == driver).FirstOrDefault();
+            if (d != null) throw new DriverAlreadyInException("This driver is already in this race!");
+
+            DriverRace dr = new(driver);
             Drivers.Add(dr);
             driver.Races.Add(dr);
+        }
+
+        public override string ToString()
+        {
+            return $"Race in {Track.Name} for the {Championship.Name} championship." +
+                $"\nHas {Drivers.Count} drivers." +
+                $"\nState: {RaceState}.\n";
         }
     }
 }

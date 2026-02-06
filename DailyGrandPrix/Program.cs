@@ -41,6 +41,9 @@ namespace DailyGrandPrix
                 Console.WriteLine("(13) Edit championship");
                 Console.WriteLine("(14) Save championships in database");
                 Console.WriteLine("(15) Delete championship");
+                Console.WriteLine("(16) Create race");
+                Console.WriteLine("(17) See races");
+                Console.WriteLine("(18) Process race");
                 Console.WriteLine();
 
                 Console.WriteLine("(100) Close program");
@@ -414,6 +417,7 @@ namespace DailyGrandPrix
                 {
                     saveService.SaveChampionships();
                     saveService.DeleteUntrackedChampionships();
+                    saveService.SaveRaces();
                 }
 
                 //delete championship
@@ -469,6 +473,112 @@ namespace DailyGrandPrix
                     }
 
                     choice = 15;
+                }
+
+                //create race
+                else if (choice == 16)
+                {
+                    Console.Clear();
+                    createSerivce.CreateRace();
+                }
+
+                //see races
+                else if (choice == 17)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Type the Id of the championship:");
+                    foreach (Championship c in saveService.Championships)
+                    {
+                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
+                    }
+                    Console.Write("> ");
+                    try
+                    {
+                        choice = int.Parse(Console.ReadLine());
+                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Console.Clear();
+                        foreach (Race r in champ.Races)
+                        {
+                            Console.WriteLine(r);
+                        }
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("No track found with that number!");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (NotConfirmedException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+
+                    choice = 17;
+                }
+
+                //process race
+                else if (choice == 18)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Type the Id of the championship:");
+                    foreach (Championship c in saveService.Championships)
+                    {
+                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
+                    }
+                    Console.Write("> ");
+                    try
+                    {
+                        choice = int.Parse(Console.ReadLine());
+                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Console.Clear();
+                        Console.WriteLine("Type the Id of the race to process:");
+                        foreach (Race r in champ.Races)
+                        {
+                            Console.WriteLine(r.Id + " - " + r.RaceState);
+                        }
+                        choice = int.Parse(Console.ReadLine());
+                        Race race = champ.Races.Where(ra => ra.Id == choice).First();
+                        RaceProcessService rps = new(saveService, race);
+                        rps.ProcessRace();
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("No track found with that number!");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+
+                    choice = 18;
                 }
 
                 //close program
