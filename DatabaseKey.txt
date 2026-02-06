@@ -7,8 +7,8 @@ id,year,name
 races (*)
 
 ===RACE KEY===
-id,start,end,champ_id,racestate,track_id
-(*) driver_id,tyreComp,tyreWear,tyreChanges,fuel,movesMade,lastAction,stepsHistory(*)
+id,start,end,champ_id,racestate,track_id,movesInto
+(*) driver_id,finalPos,tyreComp,tyreWear,tyreChanges,fuel,movesMade,lastAction,stepsHistory(*)
 
 ===TRACK INDEX===
 id,name,stepsperlap

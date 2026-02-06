@@ -203,7 +203,8 @@ namespace DailyGrandPrix.Services
                     RaceState state = Enum.Parse<RaceState>(line[4]);
                     int trackId = int.Parse(line[5]);
                     Track track = Tracks.Where(t => t.Id == trackId).First();
-                    Race r = new(id, start, end, champ, state, track);
+                    int movesInto = int.Parse(line[6]);
+                    Race r = new(id, start, end, champ, state, track, movesInto);
                     champ.Races.Add(r);
 
                     while (!sr.EndOfStream)
@@ -211,13 +212,17 @@ namespace DailyGrandPrix.Services
                         line = sr.ReadLine().Split(',');
                         int driverId = int.Parse(line[0]);
                         DriverRace dr = new(Drivers.Where(d => d.Id == driverId).First());
-                        dr.TyreCompound = Enum.Parse<Tyres>(line[1]);
-                        dr.TyreWear = int.Parse(line[2]);
-                        dr.TyreChanges = int.Parse(line[3]);
-                        dr.FuelAmount = int.Parse(line[4]);
-                        dr.MovesMade = int.Parse(line[5]);
-                        dr.LastAction = Enum.Parse<Actions>(line[6]);
-                        for (int i = 7; i < line.Length; i++)
+                        string finalPos = line[1];
+                        if (finalPos != "null") dr.FinalPosition = int.Parse(finalPos);
+                        else dr.FinalPosition = null;
+                        dr.HasRetired = bool.Parse(line[2]);
+                        dr.TyreCompound = Enum.Parse<Tyres>(line[3]);
+                        dr.TyreWear = int.Parse(line[4]);
+                        dr.TyreChanges = int.Parse(line[5]);
+                        dr.FuelAmount = int.Parse(line[6]);
+                        dr.MovesMade = int.Parse(line[7]);
+                        dr.LastAction = Enum.Parse<Actions>(line[8]);
+                        for (int i = 9; i < line.Length; i++)
                         {
                             dr.StepsHistory.Add(i);
                         }
@@ -241,12 +246,17 @@ namespace DailyGrandPrix.Services
                     if (race.End is not null) end = race.End.ToString();
                     else end = "null";
                     sw.WriteLine($"{race.Id},{race.Start},{end}," +
-                        $"{race.Championship.Id},{race.RaceState},{race.Track.Id}");
+                        $"{race.Championship.Id},{race.RaceState}," +
+                        $"{race.Track.Id},{race.MovesInto}");
 
                     foreach (DriverRace d in race.Drivers)
                     {
-                        sw.Write($"{d.Driver.Id},{d.TyreCompound}," +
-                            $"{d.TyreWear},{d.TyreChanges}," +
+                        string finalPos;
+                        if (d.FinalPosition is not null) finalPos = d.FinalPosition.ToString();
+                        else finalPos = "null";
+
+                        sw.Write($"{d.Driver.Id},{finalPos},{d.HasRetired}," +
+                            $"{d.TyreCompound},{d.TyreWear},{d.TyreChanges}," +
                             $"{d.FuelAmount},{d.MovesMade},{d.LastAction}");
                         foreach (int step in d.StepsHistory) sw.Write($",{step}");
                         sw.WriteLine();

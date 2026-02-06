@@ -66,6 +66,121 @@ namespace DailyGrandPrix.Services
                     }
                 }
             }
+
+            else if (Race.RaceState == RaceState.Started)
+            {
+                int choice = -1;
+                while (choice != Race.Drivers.Count + 1)
+                {
+                    Console.Clear();
+                    Console.WriteLine("This race has started.");
+                    Console.WriteLine($"All drivers have made {Race.MovesInto} or {Race.MovesInto + 1} moves.");
+                    Race.Drivers.Sort();
+                    Console.WriteLine("Choose a driver to make a move:");
+                    for (int i = 0; i < Race.Drivers.Count; i++)
+                    {
+                        if (!Race.Drivers[i].HasRetired)
+                        {
+                            Console.WriteLine($"P{i + 1} - {Race.Drivers[i].Driver.Name}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"DNF - {Race.Drivers[i].Driver.Name}");
+                        }
+                    }
+                    Console.WriteLine((Race.Drivers.Count + 1) + " - Quit");
+                    try
+                    {
+                        Console.Write("> ");
+                        choice = int.Parse(Console.ReadLine());
+                        if (choice == Race.Drivers.Count + 1) continue;
+                        if (Race.Drivers[choice - 1].MovesMade > Race.MovesInto)
+                        {
+                            throw new AlreadyMadeMoveException("This driver already made their move!");
+                        }
+                        DriverRace dr = Race.Drivers[choice - 1];
+                        Console.WriteLine("Choose move for " + dr.Driver.Name + ":");
+                        Console.WriteLine("(1) Conserve");
+                        Console.WriteLine("(2) Push");
+                        Console.WriteLine("(3) Pitstop for softs");
+                        Console.WriteLine("(4) Pitstop for mediums");
+                        Console.WriteLine("(5) Pitstop for hards");
+                        Console.Write("> ");
+                        choice = int.Parse(Console.ReadLine());
+                        switch (choice)
+                        {
+                            case 1:
+                                dr.MakeMove(Actions.Conserve);
+                                break;
+                            case 2:
+                                dr.MakeMove(Actions.Push);
+                                break;
+                            case 3:
+                                dr.ChangeTyres(Tyres.Softs);
+                                break;
+                            case 4:
+                                dr.ChangeTyres(Tyres.Mediums);
+                                break;
+                            case 5:
+                                dr.ChangeTyres(Tyres.Hards);
+                                break;
+                            default:
+                                throw new ArgumentException();
+                        }
+
+                        bool everyoneMoved = true;
+                        foreach (DriverRace d in Race.Drivers)
+                        {
+                            if (d.MovesMade == Race.MovesInto
+                                && d.HasRetired == false
+                                && d.FinalPosition == null)
+                            {
+                                everyoneMoved = false;
+                            }
+                        }
+                        if (everyoneMoved) Race.MovesInto++;
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("Nothing found with that number!");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine("Nothing found with that number!");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (AlreadyMadeMoveException ex)
+                    {
+                        Console.WriteLine("Error!");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (DriverHasRetiredException ex)
+                    {
+                        Console.WriteLine("Error!");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                }
+            }
         }
 
         private void AddDrivers()

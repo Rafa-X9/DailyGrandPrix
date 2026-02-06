@@ -1,8 +1,9 @@
 ﻿using DailyGrandPrix.Enums;
+using DailyGrandPrix.Exceptions;
 
 namespace DailyGrandPrix.Entities
 {
-    internal class DriverRace
+    internal class DriverRace : IComparable
     {
         public Driver Driver { get; set; }
         public Tyres TyreCompound { get; set; } = Tyres.None;
@@ -12,6 +13,17 @@ namespace DailyGrandPrix.Entities
         public int MovesMade { get; set; }
         public Actions LastAction { get; set; } = Actions.None;
         public List<int> StepsHistory { get; set; } = new();
+        public int StepsDriven
+        {
+            get
+            {
+                int sum = 0;
+                StepsHistory.ForEach(x => sum += x);
+                return sum;
+            }
+        }
+        public int? FinalPosition { get; set; } = null;
+        public bool HasRetired { get; set; } = false;
 
         public DriverRace(Driver driver)
         {
@@ -38,14 +50,133 @@ namespace DailyGrandPrix.Entities
             StepsHistory = stepsHistory;
         }
 
-        public void MakeMove()
+        public void MakeMove(Actions action)
         {
-            throw new NotImplementedException();
+            if (HasRetired)
+            {
+                throw new DriverHasRetiredException("This driver has retired!");
+            }
+
+            MovesMade++;
+
+            int wear = 0;
+            switch (TyreCompound)
+            {
+                case Tyres.Softs:
+                    wear = 20;
+                    break;
+                case Tyres.Mediums:
+                    wear = 12;
+                    break;
+                case Tyres.Hards:
+                    wear = 7;
+                    break;
+            }
+
+            if (TyreWear - (wear * 2) < 0 && action == Actions.Push)
+            {
+                action = Actions.Conserve;
+            }
+
+            int steps = CalculateStep(action == Actions.Push);
+            StepsHistory.Add(steps);
+
+            if (action == Actions.Push)
+            {
+                TyreWear -= wear * 2;
+                FuelAmount -= 10;
+                LastAction = Actions.Push;
+            }
+            else
+            {
+                TyreWear -= wear;
+                FuelAmount -= 5;
+                LastAction = Actions.Conserve;
+            }
+
+            if (TyreWear < 0) TyreWear = 0;
+            if (FuelAmount < 0) HasRetired = true;
+
+            Console.WriteLine("Move made.");
+            Console.WriteLine("Steps moved: " + steps);
+            Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
+            Console.WriteLine("Fuel: " + FuelAmount + "/100");
+            Console.WriteLine("Press enter to continue");
+            Console.ReadLine();
         }
 
-        public void ChangeTyres()
+        public void ChangeTyres(Tyres newTyres)
         {
-            throw new NotImplementedException();
+            if (HasRetired)
+            {
+                throw new DriverHasRetiredException("This driver has retired!");
+            }
+
+            MovesMade++;
+            TyreChanges++;
+            TyreCompound = newTyres;
+            TyreWear = 100;
+            StepsHistory.Add(0);
+            LastAction = Actions.Pit;
+            Console.WriteLine("Move made.");
+            Console.WriteLine("Changed to " + newTyres);
+            Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
+            Console.WriteLine("Fuel: " + FuelAmount + "/100");
+            Console.WriteLine("Press enter to continue");
+            Console.ReadLine();
+        }
+
+        public int CalculateStep(bool IsPushing)
+        {
+            double CompFactor = (double) 1 - (0.1 * ((int)TyreCompound - 1));
+            double LifeFactor = (double) TyreWear / 100;
+            double FuelFactor = (double) 1 - (FuelAmount / 100);
+
+            if (!IsPushing) return (int)Math.Floor((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5);
+            return (int)Math.Floor((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25);
+        }
+
+        public int CompareTo(object? obj)
+        {
+            if (obj is not DriverRace)
+            {
+                throw new ArgumentException("Tried comparing DriverRace to other type");
+            }
+            if (obj is null)
+            {
+                throw new ArgumentException("Tried comparing DriverRace to null type");
+            }
+
+            DriverRace other = obj as DriverRace;
+
+            if (HasRetired || other.HasRetired)
+            {
+                if (HasRetired) return 1;
+                else return -1;
+            }
+            else
+            {
+                if (FinalPosition == null && other.FinalPosition == null)
+                {
+                    return other.StepsDriven.CompareTo(StepsDriven);
+                }
+                else
+                {
+                    if (FinalPosition != null)
+                    {
+                        return 1;
+                    }
+                    else if (other.FinalPosition != null)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        if (other.FinalPosition < FinalPosition) return -1;
+                        else return 1;
+                    }
+                }
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ namespace DailyGrandPrix.Entities
         public Championship Championship { get; private set; }
         public RaceState RaceState { get; set; }
         public Track Track { get; private set; } = new();
+        public int MovesInto { get; set; } = 0;
 
         public Race(int id, Championship championship, Track track)
         {
@@ -25,7 +26,8 @@ namespace DailyGrandPrix.Entities
         }
 
         public Race(int id, DateOnly start, DateOnly? end,
-            Championship championship, RaceState raceState, Track track)
+            Championship championship, RaceState raceState,
+            Track track, int movesInto)
         {
             Id = id;
             Start = start;
@@ -33,6 +35,7 @@ namespace DailyGrandPrix.Entities
             Championship = championship;
             RaceState = raceState;
             Track = track;
+            MovesInto = movesInto;
         }
 
         public void AddDriver(Driver driver)
