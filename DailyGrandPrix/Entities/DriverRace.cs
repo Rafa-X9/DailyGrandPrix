@@ -24,6 +24,7 @@ namespace DailyGrandPrix.Entities
         }
         public int? FinalPosition { get; set; } = null;
         public bool HasRetired { get; set; } = false;
+        public Race? Race { get; set; } = null;
 
         public DriverRace(Driver driver)
         {
@@ -128,12 +129,20 @@ namespace DailyGrandPrix.Entities
 
         public int CalculateStep(bool IsPushing)
         {
-            double CompFactor = (double) 1 - (0.1 * ((int)TyreCompound - 1));
-            double LifeFactor = (double) TyreWear / 100;
-            double FuelFactor = (double) 1 - (FuelAmount / 100);
+            double CompFactor = (double)1 - (0.1 * ((int)TyreCompound - 1));
+            double LifeFactor = (double)TyreWear / 100;
+            double FuelFactor = (double)1 - (FuelAmount / 100);
 
             if (!IsPushing) return (int)Math.Floor((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5);
             return (int)Math.Floor((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25);
+        }
+
+        public void CheckFinish(Race race, int position)
+        {
+            if (StepsDriven >= race.Track.StepsPerLap * race.Track.RaceLaps)
+            {
+                FinalPosition = position;
+            }
         }
 
         public int CompareTo(object? obj)
@@ -162,18 +171,41 @@ namespace DailyGrandPrix.Entities
                 }
                 else
                 {
-                    if (FinalPosition != null)
-                    {
-                        return 1;
-                    }
-                    else if (other.FinalPosition != null)
+                    if (FinalPosition != null && other.FinalPosition == null)
                     {
                         return -1;
                     }
+                    else if (other.FinalPosition != null && FinalPosition == null)
+                    {
+                        return 1;
+                    }
                     else
                     {
-                        if (other.FinalPosition < FinalPosition) return -1;
-                        else return 1;
+                        if (MovesMade != other.MovesMade)
+                        {
+                            if (FinalPosition < other.FinalPosition) return -1;
+                            else return 1;
+                        }
+                        else
+                        {
+                            int NeededThis = (Race.Track.StepsPerLap * Race.Track.RaceLaps) 
+                                - (StepsDriven - StepsHistory.Last());
+
+                            int NeededOther = (Race.Track.StepsPerLap * Race.Track.RaceLaps)
+                                - (other.StepsDriven - other.StepsHistory.Last());
+
+                            double factorThis = (double)NeededThis / StepsHistory.Last();
+                            double factorOther = (double)NeededOther / other.StepsHistory.Last();
+
+                            if (factorThis < factorOther)
+                            {
+                                return -1;
+                            }
+                            else
+                            {
+                                return 1;
+                            }
+                        }
                     }
                 }
             }

@@ -75,7 +75,6 @@ namespace DailyGrandPrix.Services
                     Console.Clear();
                     Console.WriteLine("This race has started.");
                     Console.WriteLine($"All drivers have made {Race.MovesInto} or {Race.MovesInto + 1} moves.");
-                    Race.Drivers.Sort();
                     Console.WriteLine("Choose a driver to make a move:");
                     for (int i = 0; i < Race.Drivers.Count; i++)
                     {
@@ -97,6 +96,10 @@ namespace DailyGrandPrix.Services
                         if (Race.Drivers[choice - 1].MovesMade > Race.MovesInto)
                         {
                             throw new AlreadyMadeMoveException("This driver already made their move!");
+                        }
+                        if (Race.Drivers[choice - 1].StepsDriven >= Race.Track.StepsPerLap * Race.Track.RaceLaps)
+                        {
+                            throw new DriverAlreadyFinishedException("This driver already finished the race!");
                         }
                         DriverRace dr = Race.Drivers[choice - 1];
                         Console.WriteLine("Choose move for " + dr.Driver.Name + ":");
@@ -127,6 +130,14 @@ namespace DailyGrandPrix.Services
                             default:
                                 throw new ArgumentException();
                         }
+
+                        for (int i = 0; i < Race.Drivers.Count; i++)
+                        {
+                            Race.Drivers[i].CheckFinish(Race, i);
+                        }
+
+                        Race.Drivers.ForEach(dr => dr.Race = Race);
+                        Race.Drivers.Sort();
 
                         bool everyoneMoved = true;
                         foreach (DriverRace d in Race.Drivers)
@@ -166,6 +177,13 @@ namespace DailyGrandPrix.Services
                         Console.ReadLine();
                     }
                     catch (DriverHasRetiredException ex)
+                    {
+                        Console.WriteLine("Error!");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (DriverAlreadyFinishedException ex)
                     {
                         Console.WriteLine("Error!");
                         Console.WriteLine(ex.Message);

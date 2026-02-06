@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DailyGrandPrix")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+432736327dfc089352d8ee39fa187c68935d66a1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06faa31f208a617d8df151a41ebb1d41003c52da")]
 [assembly: System.Reflection.AssemblyProductAttribute("DailyGrandPrix")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DailyGrandPrix")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
