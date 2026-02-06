@@ -102,6 +102,7 @@ namespace DailyGrandPrix.Services
                             throw new DriverAlreadyFinishedException("This driver already finished the race!");
                         }
                         DriverRace dr = Race.Drivers[choice - 1];
+                        Race.Drivers.ForEach(dr => dr.Race = Race);
                         Console.WriteLine("Choose move for " + dr.Driver.Name + ":");
                         Console.WriteLine("(1) Conserve");
                         Console.WriteLine("(2) Push");

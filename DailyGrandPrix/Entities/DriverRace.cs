@@ -58,8 +58,6 @@ namespace DailyGrandPrix.Entities
                 throw new DriverHasRetiredException("This driver has retired!");
             }
 
-            MovesMade++;
-
             int wear = 0;
             switch (TyreCompound)
             {
@@ -79,7 +77,39 @@ namespace DailyGrandPrix.Entities
                 action = Actions.Conserve;
             }
 
-            int steps = CalculateStep(action == Actions.Push);
+            List<int> gaps = new();
+            foreach (DriverRace dr in Race.Drivers)
+            {
+                if (dr.Driver.Id == Driver.Id) continue;
+
+                if (dr.MovesMade > MovesMade)
+                {
+                    if ((dr.StepsDriven - dr.StepsHistory.Last()) - StepsDriven > 0)
+                    {
+                        gaps.Add((dr.StepsDriven - dr.StepsHistory.Last()) - StepsDriven);
+                    }
+                }
+                else if (dr.MovesMade == MovesMade)
+                {
+                    if (dr.StepsDriven - StepsDriven > 0)
+                    {
+                        gaps.Add(dr.StepsDriven - StepsDriven);
+                    }
+                }
+            }
+
+            int slipstream;
+            if (gaps.Count > 0)
+            {
+                gaps.Sort();
+                slipstream = gaps[0];
+            }
+            else
+            {
+                slipstream = 0;
+            }
+
+            int steps = CalculateStep(action == Actions.Push, slipstream);
             StepsHistory.Add(steps);
 
             if (action == Actions.Push)
@@ -98,6 +128,7 @@ namespace DailyGrandPrix.Entities
             if (TyreWear < 0) TyreWear = 0;
             if (FuelAmount < 0) HasRetired = true;
 
+            MovesMade++;
             Console.WriteLine("Move made.");
             Console.WriteLine("Steps moved: " + steps);
             Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
@@ -127,14 +158,15 @@ namespace DailyGrandPrix.Entities
             Console.ReadLine();
         }
 
-        public int CalculateStep(bool IsPushing)
+        public int CalculateStep(bool IsPushing, int GapAhead)
         {
             double CompFactor = (double)1 - (0.1 * ((int)TyreCompound - 1));
             double LifeFactor = (double)TyreWear / 100;
             double FuelFactor = (double)1 - (FuelAmount / 100);
+            double Slipstream = Math.Max(0, ((double)GapAhead / 20));
 
-            if (!IsPushing) return (int)Math.Floor((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5);
-            return (int)Math.Floor((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25);
+            if (!IsPushing) return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5) * (1 + (0.15 * Slipstream)));
+            return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.1 * Slipstream)));
         }
 
         public void CheckFinish(Race race, int position)
@@ -188,7 +220,7 @@ namespace DailyGrandPrix.Entities
                         }
                         else
                         {
-                            int NeededThis = (Race.Track.StepsPerLap * Race.Track.RaceLaps) 
+                            int NeededThis = (Race.Track.StepsPerLap * Race.Track.RaceLaps)
                                 - (StepsDriven - StepsHistory.Last());
 
                             int NeededOther = (Race.Track.StepsPerLap * Race.Track.RaceLaps)
