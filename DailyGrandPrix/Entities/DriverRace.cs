@@ -184,9 +184,13 @@ namespace DailyGrandPrix.Entities
             double FuelFactor = (double)1 - (FuelAmount / 100);
             double Slipstream = Math.Max(0, ((double)GapAhead / 20));
 
-            if (!IsPushing) return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5) * (1 + (0.15 * Slipstream)));
-            else if (DriverClass != DriverClass.GeorgeRussel) return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
-            else return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
+            int BaseSteps;
+
+            if (!IsPushing) BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5) * (1 + (0.15 * Slipstream)));
+            else if (DriverClass != DriverClass.GeorgeRussel) BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
+            else BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.5) * (1 + (0.15 * Slipstream)));
+
+            return BaseSteps;
         }
 
         public void CheckFinish(Race race, int position)

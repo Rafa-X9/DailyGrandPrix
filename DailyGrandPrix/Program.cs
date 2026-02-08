@@ -2,6 +2,7 @@
 using DailyGrandPrix.Enums;
 using DailyGrandPrix.Services;
 using DailyGrandPrix.Exceptions;
+using OfficeOpenXml;
 
 namespace DailyGrandPrix
 {
@@ -9,6 +10,7 @@ namespace DailyGrandPrix
     {
         public static void Main(string[] args)
         {
+            ExcelPackage.License.SetNonCommercialPersonal("Rafael Floriano");
             SaveService saveService = new();
             CreateService createSerivce = new(saveService);
 

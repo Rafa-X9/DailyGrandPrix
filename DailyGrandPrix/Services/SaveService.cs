@@ -1,5 +1,8 @@
 ﻿using DailyGrandPrix.Entities;
 using DailyGrandPrix.Enums;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace DailyGrandPrix.Services
 {
@@ -191,6 +194,7 @@ namespace DailyGrandPrix.Services
                 foreach (string race in Directory.GetFiles(ChampionshipPath + $@"\{champ.Name}"))
                 {
                     if (race == (ChampionshipPath + $@"\{champ.Name}\about.txt")) continue;
+                    if (race.EndsWith(".xlsx")) continue;
                     string path = race;
                     StreamReader sr = new(path);
                     string[] line = sr.ReadLine().Split(',');
@@ -225,7 +229,7 @@ namespace DailyGrandPrix.Services
                         dr.DriverClass = Enum.Parse<DriverClass>(line[9]);
                         for (int i = 10; i < line.Length; i++)
                         {
-                            dr.StepsHistory.Add(i);
+                            dr.StepsHistory.Add(int.Parse(line[i]));
                         }
                         r.Drivers.Add(dr);
                     }
@@ -265,7 +269,96 @@ namespace DailyGrandPrix.Services
                     }
 
                     sw.Close();
+                    GenerateRaceLog(race);
                 }
+            }
+        }
+
+        public void GenerateRaceLog(Race race)
+        {
+            try
+            {
+                FileInfo path = new($@"{ChampionshipPath}\{race.Championship.Name}\{race.Track.Name}-Race.xlsx");
+                if (path.Exists) path.Delete();
+
+                using var package = new ExcelPackage(path);
+                var worksheet = package.Workbook.Worksheets.Add("Race log");
+
+                // Headers
+                worksheet.Cells[1, 1].Value = "Position";
+                worksheet.Cells[1, 2].Value = "Driver";
+                worksheet.Cells[1, 3].Value = "Laps";
+                worksheet.Cells[1, 4].Value = "Steps into this lap";
+                worksheet.Cells[1, 5].Value = "Fuel amount";
+                worksheet.Cells[1, 6].Value = "Tyres";
+                worksheet.Cells[1, 7].Value = "Tyre wear";
+                worksheet.Cells[1, 8].Value = "Steps driven";
+
+                // Header styling: blue background, white bold text
+                var headerRange = worksheet.Cells[1, 1, 1, 8];
+                headerRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                headerRange.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 112, 192)); // Excel-like blue
+                headerRange.Style.Font.Color.SetColor(Color.White);
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                // Populate rows: one DriverRace per row
+                int row = 2;
+                for (int i = 0; i < race.Drivers.Count; i++)
+                {
+                    DriverRace dr = race.Drivers[i];
+                    if (dr.StepsDriven < dr.Race.Track.RaceLaps * dr.Race.Track.StepsPerLap)
+                    {
+                        if (!dr.HasRetired) worksheet.Cells[row, 1].Value = "P" + (i + 1);
+                        else worksheet.Cells[row, 1].Value = "DNF";
+                    }
+                    else worksheet.Cells[row, 1].Value = "Finished P" + (i + 1);
+                    worksheet.Cells[row, 2].Value = dr.Driver.Name;
+                    int lapsIn = (int)Math.Floor((double)dr.StepsDriven / dr.Race.Track.StepsPerLap);
+                    worksheet.Cells[row, 3].Value = lapsIn;
+                    worksheet.Cells[row, 4].Value = dr.StepsDriven - (lapsIn * dr.Race.Track.StepsPerLap);
+                    worksheet.Cells[row, 5].Value = dr.FuelAmount + "/100";
+                    worksheet.Cells[row, 6].Value = dr.TyreCompound;
+                    worksheet.Cells[row, 7].Value = dr.TyreWear + "/100";
+
+                    string steps = "";
+                    foreach (int num in dr.StepsHistory)
+                    {
+                        steps += num.ToString() + " - ";
+                    }
+                    worksheet.Cells[row, 8].Value = steps.Substring(0, steps.Length - 3);
+                    // make steps history wrap if long
+                    //worksheet.Cells[row, 7].Style.WrapText = true;
+
+                    worksheet.Cells[row, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 7].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    row++;
+                }
+
+                int lastRow = Math.Max(1, row - 1);
+                var filledRange = worksheet.Cells[1, 1, lastRow, 8];
+
+                // Apply strong (thick) border to all filled cells
+                filledRange.Style.Border.Top.Style = ExcelBorderStyle.Thick;
+                filledRange.Style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+                filledRange.Style.Border.Left.Style = ExcelBorderStyle.Thick;
+                filledRange.Style.Border.Right.Style = ExcelBorderStyle.Thick;
+
+                // Autofit columns
+                worksheet.Cells[1, 1, lastRow, 8].AutoFitColumns();
+
+                package.Save();
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("This file is open! Close it.");
+                Console.WriteLine("Press enter to continue.");
+                Console.ReadLine();
             }
         }
     }

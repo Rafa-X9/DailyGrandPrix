@@ -13,6 +13,10 @@ namespace DailyGrandPrix.Services
         {
             SaveService = saveService;
             Race = race;
+            foreach (DriverRace dr in race.Drivers)
+            {
+                dr.Race = race;
+            }
         }
 
         public void ProcessRace()
@@ -174,7 +178,10 @@ namespace DailyGrandPrix.Services
                                 everyoneMoved = false;
                             }
                         }
-                        if (everyoneMoved) Race.MovesInto++;
+                        if (everyoneMoved)
+                        {
+                            Race.MovesInto++;
+                        }
 
                         bool raceFinished = true;
                         foreach (DriverRace d in Race.Drivers)
