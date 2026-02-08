@@ -24,6 +24,7 @@ namespace DailyGrandPrix.Entities
         }
         public int? FinalPosition { get; set; } = null;
         public bool HasRetired { get; set; } = false;
+        public DriverClass DriverClass { get; set; }
         public Race? Race { get; set; } = null;
 
         public DriverRace(Driver driver)
@@ -42,13 +43,15 @@ namespace DailyGrandPrix.Entities
 
         public DriverRace(Tyres tyreCompound, int tyreWear,
             int tyreChanges, int fuelAmount, int movesMade,
-            Actions lastAction, List<int> stepsHistory) : this(tyreCompound, tyreWear)
+            Actions lastAction, List<int> stepsHistory, DriverClass driverClass)
+            : this(tyreCompound, tyreWear)
         {
             TyreChanges = tyreChanges;
             FuelAmount = fuelAmount;
             MovesMade = movesMade;
             LastAction = lastAction;
             StepsHistory = stepsHistory;
+            DriverClass = driverClass;
         }
 
         public void MakeMove(Actions action)
@@ -120,8 +123,24 @@ namespace DailyGrandPrix.Entities
             }
             else
             {
+                if (DriverClass == DriverClass.OscarPiastri)
+                {
+                    switch (TyreCompound)
+                    {
+                        case Tyres.Softs:
+                            wear = 14;
+                            break;
+                        case Tyres.Mediums:
+                            wear = 10;
+                            break;
+                        case Tyres.Hards:
+                            wear = 5;
+                            break;
+                    }
+                }
                 TyreWear -= wear;
-                FuelAmount -= 5;
+                if (DriverClass == DriverClass.SebastianVettel) FuelAmount -= 3;
+                else FuelAmount -= 5;
                 LastAction = Actions.Conserve;
             }
 
@@ -166,7 +185,8 @@ namespace DailyGrandPrix.Entities
             double Slipstream = Math.Max(0, ((double)GapAhead / 20));
 
             if (!IsPushing) return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5) * (1 + (0.15 * Slipstream)));
-            return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.1 * Slipstream)));
+            else if (DriverClass != DriverClass.GeorgeRussel) return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
+            else return (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
         }
 
         public void CheckFinish(Race race, int position)

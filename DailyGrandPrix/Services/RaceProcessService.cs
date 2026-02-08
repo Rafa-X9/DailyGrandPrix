@@ -267,6 +267,7 @@ namespace DailyGrandPrix.Services
                         Console.WriteLine("Has set up for the race.");
                         Console.WriteLine("Tyres: " + dr.TyreCompound);
                         Console.WriteLine("Fuel amount: " + dr.FuelAmount);
+                        Console.WriteLine("Class: " + dr.DriverClass);
                     }
                     Console.WriteLine();
                 }
@@ -283,6 +284,8 @@ namespace DailyGrandPrix.Services
                     dr.TyreCompound = Enum.Parse<Tyres>(Console.ReadLine());
                     Console.Write($"How much fuel will {dr.Driver.Name} use? ");
                     dr.FuelAmount = int.Parse(Console.ReadLine());
+                    Console.Write($"What is {dr.Driver.Name}'s class? ");
+                    dr.DriverClass = Enum.Parse<DriverClass>(Console.ReadLine());
                     dr.TyreWear = 100;
                     dr.TyreChanges = 0;
                     dr.MovesMade = 0;

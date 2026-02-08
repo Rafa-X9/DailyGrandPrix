@@ -222,7 +222,8 @@ namespace DailyGrandPrix.Services
                         dr.FuelAmount = int.Parse(line[6]);
                         dr.MovesMade = int.Parse(line[7]);
                         dr.LastAction = Enum.Parse<Actions>(line[8]);
-                        for (int i = 9; i < line.Length; i++)
+                        dr.DriverClass = Enum.Parse<DriverClass>(line[9]);
+                        for (int i = 10; i < line.Length; i++)
                         {
                             dr.StepsHistory.Add(i);
                         }
@@ -257,7 +258,8 @@ namespace DailyGrandPrix.Services
 
                         sw.Write($"{d.Driver.Id},{finalPos},{d.HasRetired}," +
                             $"{d.TyreCompound},{d.TyreWear},{d.TyreChanges}," +
-                            $"{d.FuelAmount},{d.MovesMade},{d.LastAction}");
+                            $"{d.FuelAmount},{d.MovesMade},{d.LastAction}," +
+                            $"{d.DriverClass}");
                         foreach (int step in d.StepsHistory) sw.Write($",{step}");
                         sw.WriteLine();
                     }
