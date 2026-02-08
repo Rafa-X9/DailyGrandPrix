@@ -70,7 +70,7 @@ namespace DailyGrandPrix.Services
             else if (Race.RaceState == RaceState.Started)
             {
                 int choice = -1;
-                while (choice != Race.Drivers.Count + 1)
+                while (choice != Race.Drivers.Count + 1 && Race.RaceState == RaceState.Started)
                 {
                     Console.Clear();
                     Console.WriteLine("This race has started.");
@@ -80,7 +80,23 @@ namespace DailyGrandPrix.Services
                     {
                         if (!Race.Drivers[i].HasRetired)
                         {
-                            Console.WriteLine($"P{i + 1} - {Race.Drivers[i].Driver.Name}");
+                            Console.Write($"P{i + 1} - {Race.Drivers[i].Driver.Name} - ");
+                            if (Race.Drivers[i].StepsDriven < Race.Track.StepsPerLap * Race.Track.RaceLaps)
+                            {
+                                if (Race.Drivers[i].MovesMade > Race.MovesInto)
+                                {
+                                    Console.Write("Has made move");
+                                }
+                                else
+                                {
+                                    Console.Write("Has not made move");
+                                }
+                            }
+                            else
+                            {
+                                Console.Write("Has finished the race");
+                            }
+                            Console.WriteLine();
                         }
                         else
                         {
@@ -140,17 +156,35 @@ namespace DailyGrandPrix.Services
                         Race.Drivers.ForEach(dr => dr.Race = Race);
                         Race.Drivers.Sort();
 
+                        for (int i = 0; i < Race.Drivers.Count; i++)
+                        {
+                            if (Race.Drivers[i].FinalPosition != null)
+                            {
+                                Race.Drivers[i].FinalPosition = i + 1;
+                            }
+                        }
+
                         bool everyoneMoved = true;
                         foreach (DriverRace d in Race.Drivers)
                         {
                             if (d.MovesMade == Race.MovesInto
                                 && d.HasRetired == false
-                                && d.FinalPosition == null)
+                                && d.StepsDriven < Race.Track.StepsPerLap * Race.Track.RaceLaps)
                             {
                                 everyoneMoved = false;
                             }
                         }
                         if (everyoneMoved) Race.MovesInto++;
+
+                        bool raceFinished = true;
+                        foreach (DriverRace d in Race.Drivers)
+                        {
+                            if (d.StepsDriven < Race.Track.RaceLaps * Race.Track.StepsPerLap)
+                            {
+                                raceFinished = false;
+                            }
+                        }
+                        if (raceFinished) Race.RaceState = RaceState.Finished;
                     }
                     catch (FormatException ex)
                     {
@@ -199,6 +233,21 @@ namespace DailyGrandPrix.Services
                         Console.ReadLine();
                     }
                 }
+            }
+
+            else if (Race.RaceState == RaceState.Finished)
+            {
+                Console.WriteLine("This race has finished.");
+                Console.WriteLine();
+                foreach (DriverRace d in Race.Drivers)
+                {
+                    Console.WriteLine($"P{d.FinalPosition} - {d.Driver.Name}" +
+                        $" - Finished in {d.MovesMade} moves");
+                }
+                Console.WriteLine();
+
+                Console.WriteLine("Press enter to quit.");
+                Console.ReadLine();
             }
         }
 
