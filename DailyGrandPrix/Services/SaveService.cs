@@ -195,6 +195,7 @@ namespace DailyGrandPrix.Services
                 {
                     if (race == (ChampionshipPath + $@"\{champ.Name}\about.txt")) continue;
                     if (race.EndsWith(".xlsx")) continue;
+                    if (race.EndsWith("log.txt")) continue;
                     string path = race;
                     StreamReader sr = new(path);
                     string[] line = sr.ReadLine().Split(',');
@@ -269,16 +270,17 @@ namespace DailyGrandPrix.Services
                     }
 
                     sw.Close();
-                    GenerateRaceLog(race);
+                    GenerateTxtRaceLog(race);
+                    GenerateExcelRaceLog(race);
                 }
             }
         }
 
-        public void GenerateRaceLog(Race race)
+        private void GenerateExcelRaceLog(Race race)
         {
             try
             {
-                FileInfo path = new($@"{ChampionshipPath}\{race.Championship.Name}\{race.Track.Name}-Race.xlsx");
+                FileInfo path = new($@"{ChampionshipPath}\{race.Championship.Name}\{race.Track.Name}-Race-log.xlsx");
                 if (path.Exists) path.Delete();
 
                 using var package = new ExcelPackage(path);
@@ -345,6 +347,12 @@ namespace DailyGrandPrix.Services
 
                 int lastRow = Math.Max(1, row - 1);
                 var filledRange = worksheet.Cells[1, 1, lastRow, 8];
+                worksheet.Cells[row, 1].Value = "This log was generated automatically. " +
+                    "Reply to this message if you have questions or concerns.";
+                worksheet.Cells[row + 1, 1].Value = "You can find my source code in " +
+                    "https://github.com/Rafa-X9/DailyGrandPrix";
+                worksheet.Cells[row, 1, row, 8].Merge = true;
+                worksheet.Cells[row + 1, 1, row + 1, 8].Merge = true;
 
                 // Apply strong (thick) border to all filled cells
                 filledRange.Style.Border.Top.Style = ExcelBorderStyle.Thick;
@@ -363,6 +371,91 @@ namespace DailyGrandPrix.Services
                 Console.WriteLine("Press enter to continue.");
                 Console.ReadLine();
             }
+        }
+
+        private void GenerateTxtRaceLog(Race race)
+        {
+            StreamWriter sw = new($@"{ChampionshipPath}\{race.Championship.Name}\{race.Track.Name}-Race-log.txt");
+
+            for (int i = 0; i < race.Drivers.Count; i++)
+            {
+                DriverRace d = race.Drivers[i];
+                if (!d.HasRetired && d.StepsDriven < d.Race.Track.StepsPerLap * d.Race.Track.RaceLaps)
+                {
+                    sw.WriteLine($"**P{i + 1} - {d.Driver.Name} ({d.Driver.Username})**");
+                    sw.WriteLine();
+                    if (d.LastAction != Actions.None)
+                    {
+                        sw.Write($"{d.Driver.Name} ");
+                        switch (d.LastAction)
+                        {
+                            case Actions.Conserve:
+                                sw.WriteLine("conserved");
+                                break;
+                            case Actions.Push:
+                                sw.WriteLine("pushed");
+                                break;
+                            case Actions.Pit:
+                                sw.WriteLine("made a pitstop for new " + d.TyreCompound);
+                                break;
+                        }
+                        sw.WriteLine();
+                    }
+                    int laps = (int)Math.Floor((double)d.StepsDriven / d.Race.Track.StepsPerLap);
+                    sw.WriteLine("Laps driven: " + laps);
+                    sw.WriteLine();
+                    sw.WriteLine("Steps into this lap: " + (d.StepsDriven - (laps * d.Race.Track.StepsPerLap)));
+                    sw.WriteLine();
+                    sw.WriteLine($"Fuel: {d.FuelAmount}/100");
+                    sw.WriteLine();
+                    sw.WriteLine($"Tyres: {d.TyreCompound}, {d.TyreWear}/100");
+                    sw.WriteLine();
+                    if (d.StepsHistory.Count > 0)
+                    {
+                        sw.Write("Steps history: ");
+                        d.StepsHistory.ForEach(s => sw.Write(s + " "));
+                        sw.WriteLine();
+                    }
+                    sw.WriteLine();
+                }
+                else if (d.HasRetired)
+                {
+                    sw.WriteLine($"**DNF - {d.Driver.Name} ({d.Driver.Username})**");
+                    sw.WriteLine();
+                    sw.WriteLine(d.Driver.Name + " has retired from the race");
+                    sw.WriteLine();
+                }
+                else if (d.StepsDriven >= d.Race.Track.StepsPerLap * d.Race.Track.RaceLaps)
+                {
+                    sw.WriteLine($"**P{i + 1} - {d.Driver.Name} ({d.Driver.Username})**");
+                    sw.WriteLine();
+                    switch (i)
+                    {
+                        case 0:
+                            sw.WriteLine(d.Driver.Name + " finishes first and wins the DailyGrandPrix!");
+                            break;
+                        case 1:
+                            sw.WriteLine(d.Driver.Name + " finishes second in the DailyGrandPrix!");
+                            break;
+                        case 2:
+                            sw.WriteLine(d.Driver.Name + " finishes third and completes the podium of the DailyGrandPrix!");
+                            break;
+                        default:
+                            sw.WriteLine($"{d.Driver.Name} finishes int P{i + 1} in the DailyGrandPrix!");
+                            break;
+                    }
+                }
+
+                sw.WriteLine("---");
+                sw.WriteLine();
+            }
+
+            sw.WriteLine("^(This message and all calculations of this series" +
+                " are made automatically. If you have questions or concerns," +
+                " reply to this message. This will summon my creator. You can" +
+                " find my source code on [GitHub](https://github.com/Rafa-X9/DailyGrandPrix).)");
+
+            sw.Close();
         }
     }
 }
