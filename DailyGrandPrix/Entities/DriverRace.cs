@@ -6,6 +6,7 @@ namespace DailyGrandPrix.Entities
     internal class DriverRace : IComparable
     {
         public Driver Driver { get; set; }
+        public Race Race { get; set; }
         public Tyres TyreCompound { get; set; } = Tyres.None;
         public int TyreWear { get; set; }
         public int TyreChanges { get; set; }
@@ -25,11 +26,11 @@ namespace DailyGrandPrix.Entities
         public int? FinalPosition { get; set; } = null;
         public bool HasRetired { get; set; } = false;
         public DriverClass DriverClass { get; set; }
-        public Race? Race { get; set; } = null;
 
-        public DriverRace(Driver driver)
+        public DriverRace(Driver driver, Race race)
         {
             Driver = driver;
+            Race = race;
         }
 
         public DriverRace(Tyres tyreCompound, int fuelAmount)

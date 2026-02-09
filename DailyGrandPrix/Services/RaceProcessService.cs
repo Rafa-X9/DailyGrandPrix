@@ -277,7 +277,7 @@ namespace DailyGrandPrix.Services
                     choice = int.Parse(Console.ReadLine());
                     if (choice == SaveService.Drivers.Count + 1) continue;
                     Driver d = SaveService.Drivers.Where(dr => dr.Id == choice).First();
-                    Race.AddDriver(d);
+                    Race.AddDriver(d, Race);
                 }
                 catch (FormatException ex)
                 {

@@ -38,7 +38,7 @@ namespace DailyGrandPrix.Entities
             MovesInto = movesInto;
         }
 
-        public void AddDriver(Driver driver)
+        public void AddDriver(Driver driver, Race race)
         {
             if (RaceState != RaceState.AddingDrivers)
             {
@@ -48,7 +48,7 @@ namespace DailyGrandPrix.Entities
             DriverRace? d = Drivers.Where(dri => dri.Driver == driver).FirstOrDefault();
             if (d != null) throw new DriverAlreadyInException("This driver is already in this race!");
 
-            DriverRace dr = new(driver);
+            DriverRace dr = new(driver, race);
             Drivers.Add(dr);
             driver.Races.Add(dr);
         }

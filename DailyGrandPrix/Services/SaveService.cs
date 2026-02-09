@@ -215,7 +215,7 @@ namespace DailyGrandPrix.Services
                     {
                         line = sr.ReadLine().Split(',');
                         int driverId = int.Parse(line[0]);
-                        DriverRace dr = new(Drivers.Where(d => d.Id == driverId).First());
+                        DriverRace dr = new(Drivers.Where(d => d.Id == driverId).First(), r);
                         string finalPos = line[1];
                         if (finalPos != "null") dr.FinalPosition = int.Parse(finalPos);
                         else dr.FinalPosition = null;
@@ -326,7 +326,10 @@ namespace DailyGrandPrix.Services
                     {
                         steps += num.ToString() + " - ";
                     }
-                    worksheet.Cells[row, 8].Value = steps.Substring(0, steps.Length - 3);
+                    if (dr.StepsHistory.Count > 0)
+                    {
+                        worksheet.Cells[row, 8].Value = steps.Substring(0, steps.Length - 3);
+                    }
                     // make steps history wrap if long
                     //worksheet.Cells[row, 7].Style.WrapText = true;
 

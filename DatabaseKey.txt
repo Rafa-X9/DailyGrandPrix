@@ -12,5 +12,3 @@ id,start,end,champ_id,racestate,track_id,movesInto
 
 ===TRACK INDEX===
 id,name,stepsperlap
-
-//170
