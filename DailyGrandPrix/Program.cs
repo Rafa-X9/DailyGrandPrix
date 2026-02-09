@@ -20,7 +20,7 @@ namespace DailyGrandPrix
             while (choice != 100)
             {
                 Console.Clear();
-                
+
                 Console.WriteLine("==MANAGING DRIVERS==");
                 Console.WriteLine("(1) Create driver");
                 Console.WriteLine("(2) See all drivers");
@@ -46,6 +46,7 @@ namespace DailyGrandPrix
                 Console.WriteLine("(16) Create race");
                 Console.WriteLine("(17) See races");
                 Console.WriteLine("(18) Process race");
+                Console.WriteLine("(19) See a championship's standings");
                 Console.WriteLine();
 
                 Console.WriteLine("(100) Close program");
@@ -581,6 +582,76 @@ namespace DailyGrandPrix
                     }
 
                     choice = 18;
+                }
+
+                //see champ standings
+                else if (choice == 19)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Type the Id of the championship:");
+                    foreach (Championship c in saveService.Championships)
+                    {
+                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
+                    }
+                    Console.Write("> ");
+                    try
+                    {
+                        choice = int.Parse(Console.ReadLine());
+                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Console.Clear();
+                        Dictionary<Driver, int> punctuation = new();
+                        List<int> points = new() { 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 };
+
+                        foreach (Race race in champ.Races)
+                        {
+                            for (int i = 0; i < race.Drivers.Count; i++)
+                            {
+                                DriverRace dr = race.Drivers[i];
+                                if (!punctuation.ContainsKey(dr.Driver))
+                                {
+                                    if (i < 10) punctuation.Add(dr.Driver, 0);
+                                }
+                                if (race.RaceState != RaceState.Finished) continue;
+                                if (dr.HasRetired) continue;
+                                if (i < 10) punctuation[dr.Driver] += points[i];
+                            }
+                        }
+
+                        foreach (KeyValuePair<Driver, int> d in punctuation)
+                        {
+                            Console.WriteLine(d.Key.Name + ", " + d.Value + " points");
+                        }
+
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("No track found with that number!");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (NotConfirmedException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+
+                    choice = 19;
                 }
 
                 //close program

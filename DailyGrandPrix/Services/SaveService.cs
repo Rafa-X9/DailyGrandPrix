@@ -444,6 +444,7 @@ namespace DailyGrandPrix.Services
                             sw.WriteLine($"{d.Driver.Name} finishes int P{i + 1} in the DailyGrandPrix!");
                             break;
                     }
+                    sw.WriteLine();
                 }
 
                 sw.WriteLine("---");

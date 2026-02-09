@@ -146,7 +146,7 @@ namespace DailyGrandPrix.Services
                 Championship champ = Saves.Championships.Where(c => c.Id == num).First();
                 string path = SaveService.ChampionshipPath + $@"\{champ.Name}";
                 string[] races = Directory.GetFiles(path);
-                int id = races.Length;
+                int id = (int)Math.Ceiling((double) (races.Length) / 3);
 
                 Console.WriteLine("Choose the track:");
                 foreach (Track t in Saves.Tracks)
