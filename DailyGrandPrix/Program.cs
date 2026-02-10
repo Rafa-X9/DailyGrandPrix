@@ -47,6 +47,7 @@ namespace DailyGrandPrix
                 Console.WriteLine("(17) See races");
                 Console.WriteLine("(18) Process race");
                 Console.WriteLine("(19) See a championship's standings");
+                Console.WriteLine("(20) Placeholder");
                 Console.WriteLine();
 
                 Console.WriteLine("(100) Close program");
@@ -418,9 +419,21 @@ namespace DailyGrandPrix
                 //save championships
                 else if (choice == 14)
                 {
+                    char ans = 'e';
+                    try
+                    {
+                        Console.Write("Make excel log? (y/n) ");
+                        ans = char.Parse(Console.ReadLine());
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Invalid format!");
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                    }
                     saveService.SaveChampionships();
                     saveService.DeleteUntrackedChampionships();
-                    saveService.SaveRaces();
+                    saveService.SaveRaces(ans.ToString().ToLower() == "y");
                 }
 
                 //delete championship
@@ -554,7 +567,7 @@ namespace DailyGrandPrix
                         Console.WriteLine("Type the Id of the race to process:");
                         foreach (Race r in champ.Races)
                         {
-                            Console.WriteLine(r.Id + " - " + r.RaceState);
+                            Console.WriteLine(r.Id + " - " + r.RaceState + " - " + r.Track.Name);
                         }
                         choice = int.Parse(Console.ReadLine());
                         Race race = champ.Races.Where(ra => ra.Id == choice).First();
@@ -653,6 +666,22 @@ namespace DailyGrandPrix
                     }
 
                     choice = 19;
+                }
+
+                //idk
+                else if (choice == 20)
+                {
+                    Console.Clear();
+                    foreach (Driver d in saveService.Drivers)
+                    {
+                        Console.WriteLine($"{d.Number} - {d.Name} - {d.Username} - {d.Team}\n");
+                    }
+                    foreach (Driver d in saveService.Drivers)
+                    {
+                        Console.WriteLine($"{d.Username}\n");
+                    }
+                    Console.WriteLine("Press enter to continue.");
+                    Console.ReadLine();
                 }
 
                 //close program

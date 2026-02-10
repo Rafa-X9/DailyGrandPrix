@@ -41,14 +41,6 @@ namespace DailyGrandPrix.Services
             ImportRaces();
         }
 
-        public void SaveAll()
-        {
-            SaveDrivers();
-            SaveTracks();
-            SaveChampionships();
-            SaveRaces();
-        }
-
         public void ImportDrivers()
         {
             foreach (string file in Directory.GetFiles(DriversPath))
@@ -240,7 +232,7 @@ namespace DailyGrandPrix.Services
             }
         }
 
-        public void SaveRaces()
+        public void SaveRaces(bool makeExcelLog)
         {
             foreach (Championship champ in Championships)
             {
@@ -271,7 +263,7 @@ namespace DailyGrandPrix.Services
 
                     sw.Close();
                     GenerateTxtRaceLog(race);
-                    GenerateExcelRaceLog(race);
+                    if (makeExcelLog) GenerateExcelRaceLog(race);
                 }
             }
         }
@@ -319,7 +311,7 @@ namespace DailyGrandPrix.Services
                     worksheet.Cells[row, 2].Value = dr.Driver.Name;
                     int lapsIn = (int)Math.Floor((double)dr.StepsDriven / dr.Race.Track.StepsPerLap);
                     worksheet.Cells[row, 3].Value = lapsIn;
-                    worksheet.Cells[row, 4].Value = dr.StepsDriven - (lapsIn * dr.Race.Track.StepsPerLap);
+                    worksheet.Cells[row, 4].Value = dr.StepsDriven - (lapsIn * dr.Race.Track.StepsPerLap) + 1;
                     worksheet.Cells[row, 5].Value = dr.FuelAmount + "/100";
                     worksheet.Cells[row, 6].Value = dr.TyreCompound;
                     worksheet.Cells[row, 7].Value = dr.TyreWear + "/100";
@@ -406,7 +398,7 @@ namespace DailyGrandPrix.Services
                     int laps = (int)Math.Floor((double)d.StepsDriven / d.Race.Track.StepsPerLap);
                     sw.WriteLine("Laps driven: " + laps);
                     sw.WriteLine();
-                    sw.WriteLine("Steps into this lap: " + (d.StepsDriven - (laps * d.Race.Track.StepsPerLap)));
+                    sw.WriteLine("Steps into this lap: " + (d.StepsDriven - (laps * d.Race.Track.StepsPerLap) + 1));
                     sw.WriteLine();
                     sw.WriteLine($"Fuel: {d.FuelAmount}/100");
                     sw.WriteLine();

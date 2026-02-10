@@ -76,7 +76,7 @@ namespace DailyGrandPrix.Entities
                     break;
             }
 
-            if (TyreWear - (wear * 2) < 0 && action == Actions.Push)
+            if (action == Actions.Push && (TyreWear - (wear * 2) < 0 || TyreWear == 100))
             {
                 action = Actions.Conserve;
             }
@@ -183,13 +183,25 @@ namespace DailyGrandPrix.Entities
             double CompFactor = (double)1 - (0.1 * ((int)TyreCompound - 1));
             double LifeFactor = (double)TyreWear / 100;
             double FuelFactor = (double)1 - (FuelAmount / 100);
-            double Slipstream = Math.Max(0, ((double)GapAhead / 20));
+            double Slipstream;
+            if (!(GapAhead <= 0 || GapAhead > 20))
+            {
+                List<int> invert = new()
+                {
+                    20, 19, 18, 17, 16,
+                    15, 14, 13, 12, 11,
+                    10, 9, 8, 7 , 6,
+                    5, 4, 3, 2, 1
+                };
+                GapAhead = invert[GapAhead - 1] + 1;
+            }
+            Slipstream = Math.Max(0, (double)GapAhead / 20);
 
             int BaseSteps;
 
             if (!IsPushing) BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5) * (1 + (0.15 * Slipstream)));
             else if (DriverClass != DriverClass.GeorgeRussel) BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
-            else BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.5) * (1 + (0.15 * Slipstream)));
+            else BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.75) * (1 + (0.15 * Slipstream)));
 
             return BaseSteps;
         }

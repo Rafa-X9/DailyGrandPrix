@@ -6,7 +6,7 @@
         public string Name { get; set; } = string.Empty;
         public int StepsPerLap { get; set; }
         public int RaceLaps { get 
-            { return (int)Math.Ceiling((double) 250 / StepsPerLap); } 
+            { return (int)Math.Ceiling((double) 270 / StepsPerLap); } 
         }
 
         public Track() { }
@@ -21,7 +21,8 @@
         public override string ToString()
         {
             return $"{Name.ToUpper()}" +
-                $"\nSteps per lap: {StepsPerLap}\n";
+                $"\nSteps per lap: {StepsPerLap}\n" +
+                $"Race laps: {RaceLaps}\n";
         }
     }
 }

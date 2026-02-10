@@ -12,6 +12,9 @@
         Mercedes = 8,
         RacingBulls = 9,
         RedBull = 10,
-        Williams = 11
+        Williams = 11,
+        Sauber = 12,
+        Renault = 13,
+        AlfaRomeo = 14
     }
 }

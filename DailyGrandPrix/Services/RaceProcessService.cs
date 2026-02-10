@@ -277,7 +277,14 @@ namespace DailyGrandPrix.Services
                 Console.WriteLine("Choose driver to add:");
                 foreach (Driver d in SaveService.Drivers)
                 {
-                    Console.WriteLine(d.Id + " - " + d.Name + " - " + d.Username);
+                    Console.Write(d.Id + " - " + d.Name + " - " + d.Username + " - ");
+                    bool isAdded = false;
+                    foreach (DriverRace dr in Race.Drivers)
+                    {
+                        if (dr.Driver == d) isAdded = true;
+                    }
+                    if (isAdded) Console.WriteLine("Has joined");
+                    else Console.WriteLine("Has not joined");
                 }
                 Console.WriteLine($"{SaveService.Drivers.Count + 1} - quit");
                 Console.Write("> ");
