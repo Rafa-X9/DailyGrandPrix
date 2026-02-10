@@ -280,6 +280,7 @@ namespace DailyGrandPrix.Services
         {
             try
             {
+                race.Drivers.Sort();
                 FileInfo path = new($@"{ChampionshipPath}\{race.Championship.Name}\{race.Track.Name}-Race-log.xlsx");
                 if (path.Exists) path.Delete();
 
@@ -375,6 +376,7 @@ namespace DailyGrandPrix.Services
 
         private void GenerateTxtRaceLog(Race race)
         {
+            race.Drivers.Sort();
             StreamWriter sw = new($@"{ChampionshipPath}\{race.Championship.Name}\{race.Track.Name}-Race-log.txt");
 
             for (int i = 0; i < race.Drivers.Count; i++)

@@ -604,6 +604,7 @@ namespace DailyGrandPrix
 
                         foreach (Race race in champ.Races)
                         {
+                            race.Drivers.Sort();
                             for (int i = 0; i < race.Drivers.Count; i++)
                             {
                                 DriverRace dr = race.Drivers[i];

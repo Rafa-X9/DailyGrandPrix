@@ -246,10 +246,19 @@ namespace DailyGrandPrix.Services
             {
                 Console.WriteLine("This race has finished.");
                 Console.WriteLine();
-                foreach (DriverRace d in Race.Drivers)
+                Race.Drivers.Sort();
+                for (int i = 0; i < Race.Drivers.Count; i++)
                 {
-                    Console.WriteLine($"P{d.FinalPosition} - {d.Driver.Name}" +
-                        $" - Finished in {d.MovesMade} moves");
+                    DriverRace d = Race.Drivers[i];
+                    if (!d.HasRetired)
+                    {
+                        Console.WriteLine($"P{i + 1} - {d.Driver.Name}" +
+                            $" - Finished in {d.MovesMade} moves");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"DNF - {d.Driver.Name}");
+                    }
                 }
                 Console.WriteLine();
 

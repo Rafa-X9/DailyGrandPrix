@@ -6,7 +6,7 @@
         public string Name { get; set; } = string.Empty;
         public int StepsPerLap { get; set; }
         public int RaceLaps { get 
-            { return (int)Math.Ceiling((double) 150 / StepsPerLap); } 
+            { return (int)Math.Ceiling((double) 250 / StepsPerLap); } 
         }
 
         public Track() { }
