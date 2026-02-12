@@ -180,9 +180,9 @@ namespace DailyGrandPrix.Entities
 
         public int CalculateStep(bool IsPushing, int GapAhead)
         {
-            double CompFactor = (double)1 - (0.1 * ((int)TyreCompound - 1));
+            double CompFactor = 1 - (0.1 * ((int)TyreCompound - 1));
             double LifeFactor = (double)TyreWear / 100;
-            double FuelFactor = (double)1 - (FuelAmount / 100);
+            double FuelFactor = 1 - ((double)FuelAmount / 100);
             double Slipstream;
             if (!(GapAhead <= 0 || GapAhead > 20))
             {

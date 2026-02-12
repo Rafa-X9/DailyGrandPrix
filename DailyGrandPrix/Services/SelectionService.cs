@@ -48,6 +48,7 @@ namespace DailyGrandPrix.Services
 
         internal static Driver GetDriver(SaveService saveService)
         {
+            saveService.Drivers.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
             Console.Clear();
             Console.WriteLine("Type the Id of the driver:");
             foreach (Driver d in saveService.Drivers)
