@@ -76,7 +76,7 @@ namespace DailyGrandPrix.Entities
                     break;
             }
 
-            if (action == Actions.Push && (TyreWear - (wear * 2) < 0 || TyreWear == 100))
+            if (action == Actions.Push && (TyreWear - (wear * 2) < 0 || (TyreWear == 100 && MovesMade > 0)))
             {
                 action = Actions.Conserve;
             }

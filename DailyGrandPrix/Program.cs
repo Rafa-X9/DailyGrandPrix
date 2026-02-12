@@ -3,6 +3,7 @@ using DailyGrandPrix.Enums;
 using DailyGrandPrix.Services;
 using DailyGrandPrix.Exceptions;
 using OfficeOpenXml;
+using System.Runtime.Intrinsics.Arm;
 
 namespace DailyGrandPrix
 {
@@ -87,17 +88,9 @@ namespace DailyGrandPrix
                 //edit driver
                 else if (choice == 3)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the driver to edit:");
-                    foreach (Driver d in saveService.Drivers)
-                    {
-                        Console.WriteLine($"{d.Id} - {d.Name} - {d.Username}");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Driver driver = saveService.Drivers.Where(dr => dr.Id == choice).First();
+                        Driver driver = SelectionSerivce.GetDriver(saveService);
                         Console.Clear();
                         Console.WriteLine("(1) Change name: " + driver.Name);
                         Console.WriteLine("(2) Change username: " + driver.Username);
@@ -164,17 +157,10 @@ namespace DailyGrandPrix
                 //delete driver
                 else if (choice == 5)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the driver to delete:");
-                    foreach (Driver d in saveService.Drivers)
-                    {
-                        Console.WriteLine($"{d.Id} - {d.Name} - {d.Username}");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Driver driver = saveService.Drivers.Where(dr => dr.Id == choice).First();
+                        Console.Clear();
+                        Driver driver = SelectionSerivce.GetDriver(saveService);
                         Console.Write("Type 'delete' to confirm: ");
                         string confirm = Console.ReadLine();
                         if (confirm != "delete")
@@ -212,8 +198,6 @@ namespace DailyGrandPrix
                         Console.WriteLine("Press enter to continue");
                         Console.ReadLine();
                     }
-
-                    choice = 5;
                 }
 
                 //create track
@@ -238,17 +222,9 @@ namespace DailyGrandPrix
                 //edit track
                 else if (choice == 8)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Choose a track:");
-                    foreach (Track t in saveService.Tracks)
-                    {
-                        Console.WriteLine($"{t.Id} - {t.Name} - {t.StepsPerLap} steps a lap.");
-                    }
                     try
                     {
-                        Console.Write("> ");
-                        choice = int.Parse(Console.ReadLine());
-                        Track track = saveService.Tracks.Where(t => t.Id == choice).First();
+                        Track track = SelectionSerivce.GetTrack(saveService);
                         Console.Clear();
                         Console.WriteLine("(1) Change name: " + track.Name);
                         Console.WriteLine("(2) Change steps per lap: " + track.StepsPerLap);
@@ -288,8 +264,6 @@ namespace DailyGrandPrix
                         Console.WriteLine("Press enter to continue.");
                         Console.ReadLine();
                     }
-
-                    choice = 8;
                 }
 
                 //save tracks
@@ -302,17 +276,9 @@ namespace DailyGrandPrix
                 //delete track
                 else if (choice == 10)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the track to delete:");
-                    foreach (Track t in saveService.Tracks)
-                    {
-                        Console.WriteLine($"{t.Id} - {t.Name} - {t.StepsPerLap} steps a lap");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Track track = saveService.Tracks.Where(tr => tr.Id == choice).First();
+                        Track track = SelectionSerivce.GetTrack(saveService);
                         Console.Write("Type 'delete' to confirm: ");
                         string confirm = Console.ReadLine();
                         if (confirm != "delete")
@@ -376,17 +342,9 @@ namespace DailyGrandPrix
                 //edit championship
                 else if (choice == 13)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the championship to edit:");
-                    foreach (Championship champ in saveService.Championships)
-                    {
-                        Console.WriteLine($"{champ.Id} - {champ.Name} - {champ.Races.Count} races");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Championship champ = SelectionSerivce.GetChampionship(saveService);
                         Console.Write("New name: ");
                         champ.Name = Console.ReadLine();
                     }
@@ -424,6 +382,9 @@ namespace DailyGrandPrix
                     {
                         Console.Write("Make excel log? (y/n) ");
                         ans = char.Parse(Console.ReadLine());
+                        saveService.SaveChampionships();
+                        saveService.DeleteUntrackedChampionships();
+                        saveService.SaveRaces(ans.ToString().ToLower() == "y");
                     }
                     catch (FormatException)
                     {
@@ -431,25 +392,15 @@ namespace DailyGrandPrix
                         Console.WriteLine("Press enter to continue.");
                         Console.ReadLine();
                     }
-                    saveService.SaveChampionships();
-                    saveService.DeleteUntrackedChampionships();
-                    saveService.SaveRaces(ans.ToString().ToLower() == "y");
                 }
 
                 //delete championship
                 else if (choice == 15)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the championship to delete:");
-                    foreach (Championship c in saveService.Championships)
-                    {
-                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Console.Clear();
+                        Championship champ = SelectionSerivce.GetChampionship(saveService);
                         Console.Write("Type 'delete' to confirm: ");
                         string confirm = Console.ReadLine();
                         if (confirm != "delete")
@@ -501,17 +452,9 @@ namespace DailyGrandPrix
                 //see races
                 else if (choice == 17)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the championship:");
-                    foreach (Championship c in saveService.Championships)
-                    {
-                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Championship champ = SelectionSerivce.GetChampionship(saveService);
                         Console.Clear();
                         foreach (Race r in champ.Races)
                         {
@@ -552,25 +495,9 @@ namespace DailyGrandPrix
                 //process race
                 else if (choice == 18)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the championship:");
-                    foreach (Championship c in saveService.Championships)
-                    {
-                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
-                        Console.Clear();
-                        Console.WriteLine("Type the Id of the race to process:");
-                        foreach (Race r in champ.Races)
-                        {
-                            Console.WriteLine(r.Id + " - " + r.RaceState + " - " + r.Track.Name);
-                        }
-                        choice = int.Parse(Console.ReadLine());
-                        Race race = champ.Races.Where(ra => ra.Id == choice).First();
+                        Race race = SelectionSerivce.GetRace(saveService);
                         RaceProcessService rps = new(saveService, race);
                         rps.ProcessRace();
                     }
@@ -600,17 +527,9 @@ namespace DailyGrandPrix
                 //see champ standings
                 else if (choice == 19)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the championship:");
-                    foreach (Championship c in saveService.Championships)
-                    {
-                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Championship champ = SelectionSerivce.GetChampionship(saveService);
                         Console.Clear();
                         Dictionary<Driver, int> punctuation = new();
                         List<int> points = new() { 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 };
@@ -671,54 +590,42 @@ namespace DailyGrandPrix
                 //generate usernames for pings
                 else if (choice == 20)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Type the Id of the championship:");
-                    foreach (Championship c in saveService.Championships)
-                    {
-                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
-                    }
-                    Console.Write("> ");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
-                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
                         Console.Clear();
-                        Console.WriteLine("Type the Id of the race to process:");
-                        foreach (Race r in champ.Races)
-                        {
-                            Console.WriteLine(r.Id + " - " + r.RaceState + " - " + r.Track.Name);
-                        }
-                        choice = int.Parse(Console.ReadLine());
-                        Race race = champ.Races.Where(ra => ra.Id == choice).First();
+                        Race race = SelectionSerivce.GetRace(saveService);
 
                         foreach (DriverRace d in race.Drivers)
                         {
-                            Console.WriteLine(d.Driver.Username + '\n');
+                            Console.WriteLine(d.Driver.Username /* + " - " + d.Driver.Team */);
+                            Console.WriteLine();
                         }
+
                         Console.WriteLine("Press enter to continue.");
                         Console.ReadLine();
                     }
                     catch (FormatException ex)
                     {
                         Console.WriteLine("Format error! " + ex.Message);
-                        Console.WriteLine("Press enter to continue");
+                        Console.WriteLine("Driver editing aborted.");
+                        Console.WriteLine("Press enter to continue.");
                         Console.ReadLine();
+                        continue;
                     }
                     catch (InvalidOperationException)
                     {
-                        Console.WriteLine("No track found with that number!");
-                        Console.WriteLine("Press enter to continue");
+                        Console.WriteLine("Nothing found under that number!");
+                        Console.WriteLine("Driver editing aborted.");
+                        Console.WriteLine("Press enter to continue.");
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine("UNEXPECTED ERROR");
                         Console.WriteLine(ex.Message);
-                        Console.WriteLine("Press enter to continue");
+                        Console.WriteLine("Press enter to continue.");
                         Console.ReadLine();
                     }
-
-                    choice = 20;
                 }
 
                 //close program
