@@ -47,7 +47,7 @@ namespace DailyGrandPrix
                 Console.WriteLine("(17) See races");
                 Console.WriteLine("(18) Process race");
                 Console.WriteLine("(19) See a championship's standings");
-                Console.WriteLine("(20) Placeholder");
+                Console.WriteLine("(20) Generate usernames for pings");
                 Console.WriteLine();
 
                 Console.WriteLine("(100) Close program");
@@ -668,20 +668,57 @@ namespace DailyGrandPrix
                     choice = 19;
                 }
 
-                //idk
+                //generate usernames for pings
                 else if (choice == 20)
                 {
                     Console.Clear();
-                    foreach (Driver d in saveService.Drivers)
+                    Console.WriteLine("Type the Id of the championship:");
+                    foreach (Championship c in saveService.Championships)
                     {
-                        Console.WriteLine($"{d.Number} - {d.Name} - {d.Username} - {d.Team}\n");
+                        Console.WriteLine($"{c.Id} - {c.Name} - {c.Races.Count} races");
                     }
-                    foreach (Driver d in saveService.Drivers)
+                    Console.Write("> ");
+                    try
                     {
-                        Console.WriteLine($"{d.Username}\n");
+                        choice = int.Parse(Console.ReadLine());
+                        Championship champ = saveService.Championships.Where(ch => ch.Id == choice).First();
+                        Console.Clear();
+                        Console.WriteLine("Type the Id of the race to process:");
+                        foreach (Race r in champ.Races)
+                        {
+                            Console.WriteLine(r.Id + " - " + r.RaceState + " - " + r.Track.Name);
+                        }
+                        choice = int.Parse(Console.ReadLine());
+                        Race race = champ.Races.Where(ra => ra.Id == choice).First();
+
+                        foreach (DriverRace d in race.Drivers)
+                        {
+                            Console.WriteLine(d.Driver.Username + '\n');
+                        }
+                        Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
                     }
-                    Console.WriteLine("Press enter to continue.");
-                    Console.ReadLine();
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("No track found with that number!");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+
+                    choice = 20;
                 }
 
                 //close program

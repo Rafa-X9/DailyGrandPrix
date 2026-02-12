@@ -272,27 +272,29 @@ namespace DailyGrandPrix.Services
             int choice = -1;
             while (choice != SaveService.Drivers.Count + 1)
             {
-                Console.Clear();
-                SaveService.Drivers.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
-                Console.WriteLine("Choose driver to add:");
-                foreach (Driver d in SaveService.Drivers)
-                {
-                    Console.Write(d.Id + " - " + d.Name + " - " + d.Username + " - ");
-                    bool isAdded = false;
-                    foreach (DriverRace dr in Race.Drivers)
-                    {
-                        if (dr.Driver == d) isAdded = true;
-                    }
-                    if (isAdded) Console.WriteLine("Has joined");
-                    else Console.WriteLine("Has not joined");
-                }
-                Console.WriteLine($"{SaveService.Drivers.Count + 1} - quit");
-                Console.Write("> ");
                 try
                 {
+                    Console.Clear();
+                    SaveService.Drivers.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
+                    Console.WriteLine("Choose driver to add:");
+                    for (int i = 0; i < SaveService.Drivers.Count; i++)
+                    {
+                        Driver dri = SaveService.Drivers[i];
+                        Console.Write(i + " - " + dri.Name + " - " + dri.Username + " - ");
+                        bool isAdded = false;
+                        foreach (DriverRace dr in Race.Drivers)
+                        {
+                            if (dr.Driver == dri) isAdded = true;
+                        }
+                        if (isAdded) Console.WriteLine("Has joined");
+                        else Console.WriteLine("Has not joined");
+                    }
+                    Console.WriteLine($"{SaveService.Drivers.Count + 1} - quit");
+                    Console.Write("> ");
+
                     choice = int.Parse(Console.ReadLine());
                     if (choice == SaveService.Drivers.Count + 1) continue;
-                    Driver d = SaveService.Drivers.Where(dr => dr.Id == choice).First();
+                    Driver d = SaveService.Drivers[choice];
                     Race.AddDriver(d, Race);
                 }
                 catch (FormatException ex)
@@ -329,29 +331,30 @@ namespace DailyGrandPrix.Services
             int choice = -1;
             while (choice != Race.Drivers.Count + 1 && choice != Race.Drivers.Count + 2)
             {
-                Console.Clear();
-                foreach (DriverRace dr in Race.Drivers)
-                {
-                    Console.WriteLine($"{dr.Driver.Id} - {dr.Driver.Name}");
-                    if (dr.TyreWear != 100) Console.WriteLine("Has not set up for the race yet.");
-                    else
-                    {
-                        Console.WriteLine("Has set up for the race.");
-                        Console.WriteLine("Tyres: " + dr.TyreCompound);
-                        Console.WriteLine("Fuel amount: " + dr.FuelAmount);
-                        Console.WriteLine("Class: " + dr.DriverClass);
-                    }
-                    Console.WriteLine();
-                }
-                Console.WriteLine((Race.Drivers.Count + 1) + " - Start race");
-                Console.WriteLine();
-                Console.WriteLine((Race.Drivers.Count + 2) + " - Quit");
                 try
                 {
+                    Console.Clear();
+                    for (int i = 0; i < Race.Drivers.Count; i++)
+                    {
+                        DriverRace d = Race.Drivers[i];
+                        Console.WriteLine($"{i} - {d.Driver.Name}");
+                        if (d.TyreWear != 100) Console.WriteLine("Has not set up for the race yet.");
+                        else
+                        {
+                            Console.WriteLine("Has set up for the race.");
+                            Console.WriteLine("Tyres: " + d.TyreCompound);
+                            Console.WriteLine("Fuel amount: " + d.FuelAmount);
+                            Console.WriteLine("Class: " + d.DriverClass);
+                        }
+                        Console.WriteLine();
+                    }
+                    Console.WriteLine((Race.Drivers.Count + 1) + " - Start race");
+                    Console.WriteLine();
+                    Console.WriteLine((Race.Drivers.Count + 2) + " - Quit");
                     Console.Write("> ");
                     choice = int.Parse(Console.ReadLine());
                     if (choice == Race.Drivers.Count + 1 || choice == Race.Drivers.Count + 2) continue;
-                    DriverRace dr = Race.Drivers.Where(d => d.Driver.Id == choice).First();
+                    DriverRace dr = Race.Drivers[choice];
                     Console.Write($"Which tyre will {dr.Driver.Name} use? ");
                     dr.TyreCompound = Enum.Parse<Tyres>(Console.ReadLine());
                     Console.Write($"How much fuel will {dr.Driver.Name} use? ");
