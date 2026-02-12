@@ -270,7 +270,7 @@ namespace DailyGrandPrix.Services
         private void AddDrivers()
         {
             int choice = -1;
-            while (choice != SaveService.Drivers.Count + 1)
+            while (choice != SaveService.Drivers.Count)
             {
                 try
                 {
@@ -289,11 +289,11 @@ namespace DailyGrandPrix.Services
                         if (isAdded) Console.WriteLine("Has joined");
                         else Console.WriteLine("Has not joined");
                     }
-                    Console.WriteLine($"{SaveService.Drivers.Count + 1} - quit");
+                    Console.WriteLine($"{SaveService.Drivers.Count} - quit");
                     Console.Write("> ");
 
                     choice = int.Parse(Console.ReadLine());
-                    if (choice == SaveService.Drivers.Count + 1) continue;
+                    if (choice == SaveService.Drivers.Count) continue;
                     Driver d = SaveService.Drivers[choice];
                     Race.AddDriver(d, Race);
                 }
@@ -310,6 +310,13 @@ namespace DailyGrandPrix.Services
                     Console.ReadLine();
                 }
                 catch (DriverAlreadyInException ex)
+                {
+                    Console.WriteLine("Error!");
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Press enter to continue");
+                    Console.ReadLine();
+                }
+                catch (ArgumentOutOfRangeException ex)
                 {
                     Console.WriteLine("Error!");
                     Console.WriteLine(ex.Message);

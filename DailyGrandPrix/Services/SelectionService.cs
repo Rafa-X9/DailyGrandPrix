@@ -1,5 +1,4 @@
 using DailyGrandPrix.Entities;
-using DailyGrandPrix.Exceptions;
 
 namespace DailyGrandPrix.Services
 {
@@ -8,6 +7,7 @@ namespace DailyGrandPrix.Services
         internal static Championship GetChampionship(SaveService saveService)
         {
             Console.Clear();
+            Console.WriteLine("Choose a championship:");
             foreach (Championship c in saveService.Championships)
             {
                 Console.WriteLine(c.Id + " - " + c.Name + " - " + "Has " + c.Races.Count + " races");
@@ -22,6 +22,7 @@ namespace DailyGrandPrix.Services
         {
             Console.Clear();
             Championship champ = GetChampionship(saveService);
+            Console.WriteLine("Choose a race:");
             foreach (Race r in champ.Races)
             {
                 Console.WriteLine(r.Id + " - " + r.Track.Name + " - " + r.Drivers.Count + " drivers");
@@ -34,10 +35,10 @@ namespace DailyGrandPrix.Services
 
         internal static Track GetTrack(SaveService saveService)
         {
+            Console.Clear();
+            Console.WriteLine("Choose a track:");
             foreach (Track t in saveService.Tracks)
             {
-                Console.Clear();
-                Console.WriteLine("Choose a track:");
                 Console.WriteLine($"{t.Id} - {t.Name} - {t.StepsPerLap} steps a lap.");
             }
             Console.Write("> ");

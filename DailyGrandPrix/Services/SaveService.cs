@@ -282,15 +282,16 @@ namespace DailyGrandPrix.Services
                 // Headers
                 worksheet.Cells[1, 1].Value = "Position";
                 worksheet.Cells[1, 2].Value = "Driver";
-                worksheet.Cells[1, 3].Value = "Laps";
-                worksheet.Cells[1, 4].Value = "Steps into this lap";
-                worksheet.Cells[1, 5].Value = "Fuel amount";
-                worksheet.Cells[1, 6].Value = "Tyres";
-                worksheet.Cells[1, 7].Value = "Tyre wear";
-                worksheet.Cells[1, 8].Value = "Steps driven";
+                worksheet.Cells[1, 3].Value = "Action";
+                worksheet.Cells[1, 4].Value = "Laps";
+                worksheet.Cells[1, 5].Value = "Steps into this lap";
+                worksheet.Cells[1, 6].Value = "Fuel amount";
+                worksheet.Cells[1, 7].Value = "Tyres";
+                worksheet.Cells[1, 8].Value = "Tyre wear";
+                worksheet.Cells[1, 9].Value = "Steps driven";
 
                 // Header styling: blue background, white bold text
-                var headerRange = worksheet.Cells[1, 1, 1, 8];
+                var headerRange = worksheet.Cells[1, 1, 1, 9];
                 headerRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
                 headerRange.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 112, 192)); // Excel-like blue
                 headerRange.Style.Font.Color.SetColor(Color.White);
@@ -309,12 +310,13 @@ namespace DailyGrandPrix.Services
                     }
                     else worksheet.Cells[row, 1].Value = "Finished P" + (i + 1);
                     worksheet.Cells[row, 2].Value = dr.Driver.Name;
+                    worksheet.Cells[row, 3].Value = dr.LastAction;
                     int lapsIn = (int)Math.Floor((double)dr.StepsDriven / dr.Race.Track.StepsPerLap);
-                    worksheet.Cells[row, 3].Value = lapsIn;
-                    worksheet.Cells[row, 4].Value = dr.StepsDriven - (lapsIn * dr.Race.Track.StepsPerLap) + 1;
-                    worksheet.Cells[row, 5].Value = dr.FuelAmount + "/100";
-                    worksheet.Cells[row, 6].Value = dr.TyreCompound;
-                    worksheet.Cells[row, 7].Value = dr.TyreWear + "/100";
+                    worksheet.Cells[row, 4].Value = lapsIn;
+                    worksheet.Cells[row, 5].Value = dr.StepsDriven - (lapsIn * dr.Race.Track.StepsPerLap) + 1;
+                    worksheet.Cells[row, 6].Value = dr.FuelAmount + "/100";
+                    worksheet.Cells[row, 7].Value = dr.TyreCompound;
+                    worksheet.Cells[row, 8].Value = dr.TyreWear + "/100";
 
                     string steps = "";
                     foreach (int num in dr.StepsHistory)
@@ -323,29 +325,60 @@ namespace DailyGrandPrix.Services
                     }
                     if (dr.StepsHistory.Count > 0)
                     {
-                        worksheet.Cells[row, 8].Value = steps.Substring(0, steps.Length - 3);
+                        worksheet.Cells[row, 9].Value = steps.Substring(0, steps.Length - 3);
                     }
                     // make steps history wrap if long
                     //worksheet.Cells[row, 7].Style.WrapText = true;
 
                     worksheet.Cells[row, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[row, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    if (dr.DriverClass == DriverClass.OscarPiastri)
+                    {
+                        worksheet.Cells[row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        worksheet.Cells[row, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 141, 17));
+                    }
+                    else if (dr.DriverClass == DriverClass.SebastianVettel)
+                    {
+                        worksheet.Cells[row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        worksheet.Cells[row, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(49, 49, 245));
+                    }
+                    else if (dr.DriverClass == DriverClass.GeorgeRussel)
+                    {
+                        worksheet.Cells[row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        worksheet.Cells[row, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(100, 100, 100));
+                    }
                     worksheet.Cells[row, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[row, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[row, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[row, 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[row, 7].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[row, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     row++;
                 }
 
                 int lastRow = Math.Max(1, row - 1);
-                var filledRange = worksheet.Cells[1, 1, lastRow, 8];
+                var filledRange = worksheet.Cells[1, 1, lastRow, 9];
                 worksheet.Cells[row, 1].Value = "This log was generated automatically. " +
                     "Reply to this message if you have questions or concerns.";
                 worksheet.Cells[row + 1, 1].Value = "You can find my source code in " +
                     "https://github.com/Rafa-X9/DailyGrandPrix";
                 worksheet.Cells[row, 1, row, 8].Merge = true;
                 worksheet.Cells[row + 1, 1, row + 1, 8].Merge = true;
+
+                worksheet.Cells[row + 2, 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row + 2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row + 2, 1].Value = "Oscar Piastri";
+                worksheet.Cells[row + 2, 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 141, 17));
+                
+                worksheet.Cells[row + 2, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row + 2, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row + 2, 2].Value = "Sebastian Vettel";
+                worksheet.Cells[row + 2, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(49, 49, 245));
+                
+                worksheet.Cells[row + 2, 3].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row + 2, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row + 2, 3].Value = "George Russel";
+                worksheet.Cells[row + 2, 3].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(100, 100, 100));
 
                 // Apply strong (thick) border to all filled cells
                 filledRange.Style.Border.Top.Style = ExcelBorderStyle.Thick;
@@ -354,7 +387,7 @@ namespace DailyGrandPrix.Services
                 filledRange.Style.Border.Right.Style = ExcelBorderStyle.Thick;
 
                 // Autofit columns
-                worksheet.Cells[1, 1, lastRow, 8].AutoFitColumns();
+                worksheet.Cells[1, 1, lastRow + 3, 9].AutoFitColumns();
 
                 package.Save();
             }
