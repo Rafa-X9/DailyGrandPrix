@@ -144,7 +144,7 @@ namespace DailyGrandPrix.Services
                 Console.Write("> ");
                 int num = int.Parse(Console.ReadLine());
                 Championship champ = Saves.Championships.Where(c => c.Id == num).First();
-                string path = SaveService.ChampionshipPath + $@"\{champ.Name}";
+                string path = Saves.ChampionshipPath + $@"\{champ.Name}";
                 string[] races = Directory.GetFiles(path);
                 int id = (int)Math.Ceiling((double) (races.Length) / 3);
 

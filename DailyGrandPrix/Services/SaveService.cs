@@ -8,27 +8,69 @@ namespace DailyGrandPrix.Services
 {
     internal sealed class SaveService
     {
-        public static string DatabasePath = @"C:\Users\Lenovo\Desktop\Rafael\projetosCsharp\DailyGrandPrix\Database";
-        public static string ChampionshipPath = DatabasePath + @"\Championships";
-        //public static string RacePath = ChampionshipPath + @"\Races";
-        public static string DriversPath = DatabasePath + @"\Drivers";
-        public static string TracksPath = DatabasePath + @"\Tracks";
+        public string DatabasePath { get; private set; }
+        public string ChampionshipPath { get; private set; }
+        public string DriversPath { get; private set; }
+        public string TracksPath { get; private set; }
         public List<Championship> Championships { get; set; } = new();
-        //public List<Race> Races { get; set; } = new();
         public List<Driver> Drivers { get; set; } = new();
         public List<Track> Tracks { get; set; } = new();
 
         public SaveService()
         {
+            while (!File.Exists("path.txt"))
+            {
+                try
+                {
+                    Console.Clear();
+                    Console.WriteLine("No path.txt folder found for the database.");
+                    Console.WriteLine("Type a path to a folder to store the database in:");
+                    string path = Console.ReadLine();
+
+                    if (!Directory.Exists(path))
+                    {
+                        throw new DirectoryNotFoundException();
+                    }
+
+                    StreamWriter sw = new("path.txt", false);
+                    sw.WriteLine(path);
+                    sw.Close();
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Press enter to continue.");
+                    Console.ReadLine();
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Console.WriteLine("This directory wasn't found!");
+                    Console.WriteLine("Press enter to continue.");
+                    Console.ReadLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("ERROR");
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Press enter to continue.");
+                    Console.ReadLine();
+                }
+            }
+
+            StreamReader sr = new("path.txt");            
+            DatabasePath = sr.ReadLine();
+            sr.Close();
+            ChampionshipPath = DatabasePath + @"\Championships";
+            DriversPath = DatabasePath + @"\Drivers";
+            TracksPath = DatabasePath + @"\Tracks";
+
             DirectoryInfo database = new DirectoryInfo(DatabasePath);
             DirectoryInfo championship = new DirectoryInfo(ChampionshipPath);
-            //DirectoryInfo race = new DirectoryInfo(RacePath);
             DirectoryInfo drivers = new DirectoryInfo(DriversPath);
             DirectoryInfo tracks = new DirectoryInfo(TracksPath);
 
             if (!database.Exists) database.Create();
             if (!championship.Exists) championship.Create();
-            //if (!race.Exists) race.Create();
             if (!drivers.Exists) drivers.Create();
             if (!tracks.Exists) tracks.Create();
         }
@@ -369,12 +411,12 @@ namespace DailyGrandPrix.Services
                 worksheet.Cells[row + 2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[row + 2, 1].Value = "Oscar Piastri";
                 worksheet.Cells[row + 2, 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 141, 17));
-                
+
                 worksheet.Cells[row + 2, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 worksheet.Cells[row + 2, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[row + 2, 2].Value = "Sebastian Vettel";
                 worksheet.Cells[row + 2, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(49, 49, 245));
-                
+
                 worksheet.Cells[row + 2, 3].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 worksheet.Cells[row + 2, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[row + 2, 3].Value = "George Russel";
@@ -409,7 +451,7 @@ namespace DailyGrandPrix.Services
                 DriverRace d = race.Drivers[i];
                 if (!d.HasRetired && d.StepsDriven < d.Race.Track.StepsPerLap * d.Race.Track.RaceLaps)
                 {
-                    sw.WriteLine($"**P{i + 1} - {d.Driver.Name} ({d.Driver.Username})**");
+                    sw.WriteLine($"**P{i + 1} - {d.Driver.Name} ({d.Driver.Username}) - {d.Driver.Team}**");
                     sw.WriteLine();
                     if (d.LastAction != Actions.None)
                     {
@@ -447,14 +489,14 @@ namespace DailyGrandPrix.Services
                 }
                 else if (d.HasRetired)
                 {
-                    sw.WriteLine($"**DNF - {d.Driver.Name} ({d.Driver.Username})**");
+                    sw.WriteLine($"**DNF - {d.Driver.Name} ({d.Driver.Username}) - {d.Driver.Team}**");
                     sw.WriteLine();
                     sw.WriteLine(d.Driver.Name + " has retired from the race");
                     sw.WriteLine();
                 }
                 else if (d.StepsDriven >= d.Race.Track.StepsPerLap * d.Race.Track.RaceLaps)
                 {
-                    sw.WriteLine($"**P{i + 1} - {d.Driver.Name} ({d.Driver.Username})**");
+                    sw.WriteLine($"**P{i + 1} - {d.Driver.Name} ({d.Driver.Username}) - {d.Driver.Team}**");
                     sw.WriteLine();
                     switch (i)
                     {

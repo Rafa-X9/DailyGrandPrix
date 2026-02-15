@@ -84,7 +84,7 @@ namespace DailyGrandPrix.Services
                     {
                         if (!Race.Drivers[i].HasRetired)
                         {
-                            Console.Write($"P{i + 1} - {Race.Drivers[i].Driver.Name} - ");
+                            Console.Write($"P{i + 1} - {Race.Drivers[i].Driver.Name} - {Race.Drivers[i].Driver.Username} - ");
                             if (Race.Drivers[i].StepsDriven < Race.Track.StepsPerLap * Race.Track.RaceLaps)
                             {
                                 if (Race.Drivers[i].MovesMade > Race.MovesInto)
@@ -104,7 +104,7 @@ namespace DailyGrandPrix.Services
                         }
                         else
                         {
-                            Console.WriteLine($"DNF - {Race.Drivers[i].Driver.Name}");
+                            Console.WriteLine($"DNF - {Race.Drivers[i].Driver.Name} - {Race.Drivers[i].Driver.Username}");
                         }
                     }
                     Console.WriteLine((Race.Drivers.Count + 1) + " - Quit");
