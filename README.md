@@ -43,3 +43,6 @@ There is also a "(100) Close program". It, well, closes the program.
 
 ## Race
 To-do: write ts
+
+## License
+DailyGrandPrix is under the [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
