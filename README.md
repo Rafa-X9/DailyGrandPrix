@@ -11,6 +11,8 @@ This project uses CSV to store data. This is because, when I started making this
 ## Functionality
 This is a console application. In order to run it, open the folder where `DailyGrandPrix.csproj` and `Program.cs` are in your terminal of preference, and type the command `dotnet run`. This will make it start running on your terminal. You can also run it without opening the folder in the terminal with `dotnet run --project path`, replacing `path` with the path for the folder said above.
 
+**WARNING**: run this project in an IDE's or a code editor's built-in terminal at your own risk. This project uses .NET's `Console.Clear()` command to clear the console, which might not be supported in those terminals. From my tests, Visual Studio Code's terminal did not support them.
+
 When opening the program for the first time, it will ask you to include the path for the folder where you wish to store the data. You must write insert the path for the folder. It will then save the path for this folder in `path.txt`, in the `DailyGrandPrix/DailyGrandPrix` folder.
 
 After writing the path, the program will create three folders inside the database folder: Championships, Drivers, and Tracks. The program always checks if these folders exist upon running, and creating them if they don't.
