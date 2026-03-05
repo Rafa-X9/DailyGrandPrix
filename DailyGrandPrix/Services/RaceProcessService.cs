@@ -151,6 +151,8 @@ namespace DailyGrandPrix.Services
                             default:
                                 throw new ArgumentException();
                         }
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
 
                         for (int i = 0; i < Race.Drivers.Count; i++)
                         {
@@ -186,7 +188,7 @@ namespace DailyGrandPrix.Services
                         bool raceFinished = true;
                         foreach (DriverRace d in Race.Drivers)
                         {
-                            if (d.StepsDriven < Race.Track.RaceLaps * Race.Track.StepsPerLap)
+                            if (d.StepsDriven < Race.Track.RaceLaps * Race.Track.StepsPerLap && !d.HasRetired)
                             {
                                 raceFinished = false;
                             }

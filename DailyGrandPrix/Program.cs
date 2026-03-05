@@ -11,7 +11,7 @@ namespace DailyGrandPrix
     {
         public static void Main(string[] args)
         {
-            ExcelPackage.License.SetNonCommercialPersonal("Rafael Floriano");
+            ExcelPackage.License.SetNonCommercialPersonal("RafaX9");
             SaveService saveService = new();
             CreateService createSerivce = new(saveService);
 
@@ -49,6 +49,7 @@ namespace DailyGrandPrix
                 Console.WriteLine("(18) Process race");
                 Console.WriteLine("(19) See a championship's standings");
                 Console.WriteLine("(20) Generate usernames for pings");
+                Console.WriteLine("(21) Simulate race");
                 Console.WriteLine();
 
                 Console.WriteLine("(100) Close program");
@@ -624,6 +625,114 @@ namespace DailyGrandPrix
                         Console.WriteLine("UNEXPECTED ERROR");
                         Console.WriteLine(ex.Message);
                         Console.WriteLine("Press enter to continue.");
+                        Console.ReadLine();
+                    }
+                }
+
+                //simulation
+                else if (choice == 21)
+                {
+                    try
+                    {
+                        Race race = SelectionSerivce.GetRace(saveService);
+                        Console.Write("How many sims? ");
+                        int q = int.Parse(Console.ReadLine());
+                        int fastestMoves = 999;
+                        double fastestneeded = 10000;
+                        string fastest = "";
+
+                        DateTime start = DateTime.Now;
+                        for (int i = 0; i < q; i++)
+                        {
+                            race.Drivers[0] = new(race.Drivers[0].Driver, race);
+                            SimulationService sim = new(race.Drivers.First());
+                            while (sim.DriverRace.StepsDriven < race.Track.StepsPerLap * race.Track.RaceLaps && !(sim.DriverRace.HasRetired))
+                            {
+                                if (sim.DriverRace.FuelAmount < 5)
+                                {
+                                    sim.DriverRace.HasRetired = true;
+                                    continue;
+                                }
+                                if (sim.PitStops.Contains(sim.DriverRace.MovesMade))
+                                {
+                                    sim.DriverRace.ChangeTyres(sim.Tyres[sim.DriverRace.TyreChanges]);
+                                    sim.Actions.Add(Actions.Pit);
+                                }
+                                else
+                                {
+                                    Random random = new Random();
+                                    int move = random.Next(1, 4);
+                                    if (move == 1)
+                                    {
+                                        sim.DriverRace.MakeMove(Actions.Conserve);
+                                        sim.Actions.Add(Actions.Conserve);
+                                    }
+                                    else
+                                    {
+                                        sim.DriverRace.MakeMove(Actions.Push);
+                                        sim.Actions.Add(Actions.Push);
+                                    }
+                                }
+                            }
+                            if (!sim.DriverRace.HasRetired)
+                            {
+                                //Console.WriteLine("Finished the race on " + sim.DriverRace.MovesMade + " moves.");
+                                if (sim.DriverRace.MovesMade < fastestMoves && sim.NeededToFinish() < fastestneeded)
+                                {
+                                    saveService.SaveRaces(true);
+                                    fastestMoves = sim.DriverRace.MovesMade;
+                                    fastestneeded = sim.NeededToFinish();
+                                    fastest = "";
+                                    fastest += $"Started on {sim.Starting}\n";
+                                    fastest += $"Started on {sim.StartingFuel} fuel\n";
+                                    int qchan = 0;
+                                    foreach (var change in sim.PitStops)
+                                    {
+                                        fastest += $"Changed on move {change} to {sim.Tyres[qchan]}\n";
+                                        qchan++;
+                                    }
+                                    foreach (var move in sim.Actions)
+                                    {
+                                        fastest += $"{move} ";
+                                    }
+                                    fastest += "\n";
+                                }
+                            }
+                            else
+                            {
+                                //Console.WriteLine("Retired.");
+                            }
+                            //Console.WriteLine("Press enter to continue");
+                            //Console.ReadLine();
+                            Console.Clear();
+                            Console.WriteLine(i + "  /  " + q);
+                        }
+                        DateTime end = DateTime.Now;
+                        TimeSpan ts = end.Subtract(start);
+
+                        Console.Clear();
+                        Console.WriteLine("DONE!");
+                        Console.WriteLine($"This took {ts.Minutes} minutes and {ts.Seconds} seconds");
+                        Console.WriteLine(fastest);
+                        Console.ReadLine();
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("Format error! " + ex.Message);
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        Console.WriteLine("No track found with that number!");
+                        Console.WriteLine("Press enter to continue");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("UNEXPECTED ERROR");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Press enter to continue");
                         Console.ReadLine();
                     }
                 }

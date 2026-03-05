@@ -149,12 +149,13 @@ namespace DailyGrandPrix.Entities
             if (FuelAmount < 0) HasRetired = true;
 
             MovesMade++;
+            
             Console.WriteLine("Move made.");
             Console.WriteLine("Steps moved: " + steps);
             Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
             Console.WriteLine("Fuel: " + FuelAmount + "/100");
-            Console.WriteLine("Press enter to continue");
-            Console.ReadLine();
+            //Console.WriteLine("Press enter to continue");
+            //Console.ReadLine();
         }
 
         public void ChangeTyres(Tyres newTyres)
@@ -174,8 +175,8 @@ namespace DailyGrandPrix.Entities
             Console.WriteLine("Changed to " + newTyres);
             Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
             Console.WriteLine("Fuel: " + FuelAmount + "/100");
-            Console.WriteLine("Press enter to continue");
-            Console.ReadLine();
+            //Console.WriteLine("Press enter to continue");
+            //Console.ReadLine();
         }
 
         public int CalculateStep(bool IsPushing, int GapAhead)

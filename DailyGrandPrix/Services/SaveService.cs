@@ -228,8 +228,8 @@ namespace DailyGrandPrix.Services
                 foreach (string race in Directory.GetFiles(ChampionshipPath + $@"\{champ.Name}"))
                 {
                     if (race == (ChampionshipPath + $@"\{champ.Name}\about.txt")) continue;
-                    if (race.EndsWith(".xlsx")) continue;
                     if (race.EndsWith("log.txt")) continue;
+                    if (!race.EndsWith(".txt")) continue;
                     string path = race;
                     StreamReader sr = new(path);
                     string[] line = sr.ReadLine().Split(',');
@@ -352,7 +352,14 @@ namespace DailyGrandPrix.Services
                     }
                     else worksheet.Cells[row, 1].Value = "Finished P" + (i + 1);
                     worksheet.Cells[row, 2].Value = dr.Driver.Name;
-                    worksheet.Cells[row, 3].Value = dr.LastAction;
+                    if (dr.LastAction == Actions.Pit)
+                    {
+                        worksheet.Cells[row, 3].Value = "Pitstop";
+                    }
+                    else
+                    {
+                        worksheet.Cells[row, 3].Value = dr.LastAction;
+                    }
                     int lapsIn = (int)Math.Floor((double)dr.StepsDriven / dr.Race.Track.StepsPerLap);
                     worksheet.Cells[row, 4].Value = lapsIn;
                     worksheet.Cells[row, 5].Value = dr.StepsDriven - (lapsIn * dr.Race.Track.StepsPerLap) + 1;
