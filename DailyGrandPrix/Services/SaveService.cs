@@ -3,6 +3,7 @@ using DailyGrandPrix.Enums;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using System.Text.Json;
 
 namespace DailyGrandPrix.Services
 {
@@ -57,7 +58,7 @@ namespace DailyGrandPrix.Services
                 }
             }
 
-            StreamReader sr = new("path.txt");            
+            StreamReader sr = new("path.txt");
             DatabasePath = sr.ReadLine();
             sr.Close();
             ChampionshipPath = DatabasePath + @"\Championships";
@@ -87,15 +88,17 @@ namespace DailyGrandPrix.Services
         {
             foreach (string file in Directory.GetFiles(DriversPath))
             {
-                StreamReader sr = new StreamReader(file);
-                string[] line = sr.ReadLine().Split(',');
-                int id = int.Parse(line[0]);
-                string name = line[1];
-                string username = line[2];
-                int number = int.Parse(line[3]);
-                Teams team = Enum.Parse<Teams>(line[4]);
-                Drivers.Add(new Driver(id, name, username, number, team));
-                sr.Close();
+                using StreamReader sr = new StreamReader(file);
+                string? line = sr.ReadLine();
+                if (line is null)
+                {
+                    continue;
+                }
+                Driver? d = JsonSerializer.Deserialize<Driver>(line);
+                if (d is not null)
+                {
+                    Drivers.Add(d);
+                }
             }
         }
 
@@ -103,9 +106,8 @@ namespace DailyGrandPrix.Services
         {
             foreach (Driver d in Drivers)
             {
-                StreamWriter sw = new(DriversPath + @"\" + d.Name + ".txt", false);
-                sw.WriteLine($"{d.Id},{d.Name},{d.Username},{d.Number},{d.Team}");
-                sw.Close();
+                using StreamWriter sw = new(DriversPath + @"\" + d.Name + ".txt", false);
+                sw.WriteLine(JsonSerializer.Serialize(d));
             }
         }
 
@@ -127,13 +129,17 @@ namespace DailyGrandPrix.Services
         {
             foreach (string file in Directory.GetFiles(TracksPath))
             {
-                StreamReader sr = new(file);
-                string[] line = sr.ReadLine().Split(',');
-                int id = int.Parse(line[0]);
-                string name = line[1];
-                int stepsPerLap = int.Parse(line[2]);
-                Tracks.Add(new Track(id, name, stepsPerLap));
-                sr.Close();
+                using StreamReader sr = new(file);
+                string? line = sr.ReadLine();
+                if (line is null)
+                {
+                    continue;
+                }
+                Track? t = JsonSerializer.Deserialize<Track>(line);
+                if (t is not null)
+                {
+                    Tracks.Add(t);
+                }
             }
         }
 
@@ -141,9 +147,8 @@ namespace DailyGrandPrix.Services
         {
             foreach (Track t in Tracks)
             {
-                StreamWriter sw = new(TracksPath + $@"\{t.Name}.txt", false);
-                sw.WriteLine($"{t.Id},{t.Name},{t.StepsPerLap}");
-                sw.Close();
+                using StreamWriter sw = new(TracksPath + $@"\{t.Name}.txt", false);
+                sw.WriteLine(JsonSerializer.Serialize(t));
             }
         }
 
@@ -182,13 +187,17 @@ namespace DailyGrandPrix.Services
         {
             foreach (string folder in Directory.GetDirectories(ChampionshipPath))
             {
-                StreamReader sr = new(folder + @"\about.txt");
-                string[] line = sr.ReadLine().Split(',');
-                int id = int.Parse(line[0]);
-                int year = int.Parse(line[1]);
-                string name = line[2];
-                Championships.Add(new(id, year, name));
-                sr.Close();
+                using StreamReader sr = new(folder + @"\about.txt");
+                string? line = sr.ReadLine();
+                if (line is null)
+                {
+                    continue;
+                }
+                Championship? champ = JsonSerializer.Deserialize<Championship>(line);
+                if (champ is not null)
+                {
+                    Championships.Add(champ);
+                }
             }
         }
 
@@ -198,9 +207,8 @@ namespace DailyGrandPrix.Services
             {
                 DirectoryInfo di = new(ChampionshipPath + $@"\{c.Name}");
                 if (!di.Exists) di.Create();
-                StreamWriter sw = new(ChampionshipPath + $@"\{c.Name}\about.txt", false);
-                sw.WriteLine($"{c.Id},{c.Year},{c.Name}");
-                sw.Close();
+                using StreamWriter sw = new(ChampionshipPath + $@"\{c.Name}\about.txt", false);
+                sw.WriteLine(JsonSerializer.Serialize(c));
             }
         }
 
@@ -225,51 +233,28 @@ namespace DailyGrandPrix.Services
         {
             foreach (Championship champ in Championships)
             {
-                foreach (string race in Directory.GetFiles(ChampionshipPath + $@"\{champ.Name}"))
+                foreach (string path in Directory.GetFiles(ChampionshipPath + $@"\{champ.Name}"))
                 {
-                    if (race == (ChampionshipPath + $@"\{champ.Name}\about.txt")) continue;
-                    if (race.EndsWith("log.txt")) continue;
-                    if (!race.EndsWith(".txt")) continue;
-                    string path = race;
-                    StreamReader sr = new(path);
-                    string[] line = sr.ReadLine().Split(',');
-                    int id = int.Parse(line[0]);
-                    DateOnly start = DateOnly.FromDateTime(DateTime.ParseExact(line[1], "dd/MM/yyyy", null));
-                    DateOnly? end;
-                    if (line[2] == "null") end = null;
-                    else end = DateOnly.FromDateTime(DateTime.ParseExact(line[2], "dd/MM/yyyy", null));
-                    int champId = int.Parse(line[3]);
-                    RaceState state = Enum.Parse<RaceState>(line[4]);
-                    int trackId = int.Parse(line[5]);
-                    Track track = Tracks.Where(t => t.Id == trackId).First();
-                    int movesInto = int.Parse(line[6]);
-                    Race r = new(id, start, end, champ, state, track, movesInto);
-                    champ.Races.Add(r);
-
-                    while (!sr.EndOfStream)
+                    if (path == (ChampionshipPath + $@"\{champ.Name}\about.txt")) continue;
+                    if (path.EndsWith("log.txt")) continue;
+                    if (!path.EndsWith(".txt")) continue;
+                    using StreamReader sr = new(path);
+                    string? line = sr.ReadLine();
+                    if (line is null)
                     {
-                        line = sr.ReadLine().Split(',');
-                        int driverId = int.Parse(line[0]);
-                        DriverRace dr = new(Drivers.Where(d => d.Id == driverId).First(), r);
-                        string finalPos = line[1];
-                        if (finalPos != "null") dr.FinalPosition = int.Parse(finalPos);
-                        else dr.FinalPosition = null;
-                        dr.HasRetired = bool.Parse(line[2]);
-                        dr.TyreCompound = Enum.Parse<Tyres>(line[3]);
-                        dr.TyreWear = int.Parse(line[4]);
-                        dr.TyreChanges = int.Parse(line[5]);
-                        dr.FuelAmount = int.Parse(line[6]);
-                        dr.MovesMade = int.Parse(line[7]);
-                        dr.LastAction = Enum.Parse<Actions>(line[8]);
-                        dr.DriverClass = Enum.Parse<DriverClass>(line[9]);
-                        for (int i = 10; i < line.Length; i++)
-                        {
-                            dr.StepsHistory.Add(int.Parse(line[i]));
-                        }
-                        r.Drivers.Add(dr);
+                        continue;
                     }
-
-                    sr.Close();
+                    Race? race = JsonSerializer.Deserialize<Race>(line);
+                    if (race is not null)
+                    {
+                        race.Championship = champ;
+                        champ.Races.Add(race);
+                        foreach (DriverRace d in race.Drivers)
+                        {
+                            d.Driver = Drivers.Where(dr => dr.Id == d.DriverId).First();
+                            d.Race = race;
+                        }
+                    }
                 }
             }
         }
@@ -281,29 +266,9 @@ namespace DailyGrandPrix.Services
                 foreach (Race race in champ.Races)
                 {
                     string path = ChampionshipPath + $@"\{champ.Name}\{race.Track.Name}-Race.txt";
-                    StreamWriter sw = new(path, false);
-                    string end;
-                    if (race.End is not null) end = race.End.ToString();
-                    else end = "null";
-                    sw.WriteLine($"{race.Id},{race.Start},{end}," +
-                        $"{race.Championship.Id},{race.RaceState}," +
-                        $"{race.Track.Id},{race.MovesInto}");
+                    using StreamWriter sw = new(path, false);
+                    sw.WriteLine(JsonSerializer.Serialize(race));
 
-                    foreach (DriverRace d in race.Drivers)
-                    {
-                        string finalPos;
-                        if (d.FinalPosition is not null) finalPos = d.FinalPosition.ToString();
-                        else finalPos = "null";
-
-                        sw.Write($"{d.Driver.Id},{finalPos},{d.HasRetired}," +
-                            $"{d.TyreCompound},{d.TyreWear},{d.TyreChanges}," +
-                            $"{d.FuelAmount},{d.MovesMade},{d.LastAction}," +
-                            $"{d.DriverClass}");
-                        foreach (int step in d.StepsHistory) sw.Write($",{step}");
-                        sw.WriteLine();
-                    }
-
-                    sw.Close();
                     GenerateTxtRaceLog(race);
                     if (makeExcelLog) GenerateExcelRaceLog(race);
                 }

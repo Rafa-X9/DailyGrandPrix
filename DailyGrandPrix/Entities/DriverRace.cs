@@ -1,12 +1,21 @@
 ﻿using DailyGrandPrix.Enums;
 using DailyGrandPrix.Exceptions;
+using System.Text.Json.Serialization;
 
 namespace DailyGrandPrix.Entities
 {
     internal class DriverRace : IComparable
     {
-        public Driver Driver { get; set; }
-        public Race Race { get; set; }
+        [JsonIgnore] public Driver Driver { get; set; }
+        public int DriverId { get; set; }
+        [JsonIgnore] public Race Race { get; set; }
+        public int RaceId
+        {
+            get
+            {
+                return Race.Id;
+            }
+        }
         public Tyres TyreCompound { get; set; } = Tyres.None;
         public int TyreWear { get; set; }
         public int TyreChanges { get; set; }
@@ -26,6 +35,8 @@ namespace DailyGrandPrix.Entities
         public int? FinalPosition { get; set; } = null;
         public bool HasRetired { get; set; } = false;
         public DriverClass DriverClass { get; set; }
+
+        public DriverRace() { }
 
         public DriverRace(Driver driver, Race race)
         {
@@ -149,7 +160,7 @@ namespace DailyGrandPrix.Entities
             if (FuelAmount < 0) HasRetired = true;
 
             MovesMade++;
-            
+
             Console.WriteLine("Move made.");
             Console.WriteLine("Steps moved: " + steps);
             Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");

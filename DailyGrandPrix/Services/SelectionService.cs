@@ -15,7 +15,6 @@ namespace DailyGrandPrix.Services
             Console.Write("> ");
             int choice = int.Parse(Console.ReadLine());
             return saveService.Championships.Where(ch => ch.Id == choice).First();
-
         }
 
         internal static Race GetRace(SaveService saveService)
@@ -30,7 +29,6 @@ namespace DailyGrandPrix.Services
             Console.Write("> ");
             int choice = int.Parse(Console.ReadLine());
             return champ.Races.Where(ra => ra.Id == choice).First();
-
         }
 
         internal static Track GetTrack(SaveService saveService)
@@ -44,7 +42,6 @@ namespace DailyGrandPrix.Services
             Console.Write("> ");
             int choice = int.Parse(Console.ReadLine());
             return saveService.Tracks.Where(t => t.Id == choice).First();
-
         }
 
         internal static Driver GetDriver(SaveService saveService)
@@ -59,7 +56,6 @@ namespace DailyGrandPrix.Services
             Console.Write("> ");
             int choice = int.Parse(Console.ReadLine());
             return saveService.Drivers.Where(dr => dr.Id == choice).First();
-
         }
     }
 }

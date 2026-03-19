@@ -11,6 +11,12 @@ namespace DailyGrandPrix
     {
         public static void Main(string[] args)
         {
+            /*
+             * TO-DO:
+             * make races deduct their championships from its championship id
+             */
+
+
             ExcelPackage.License.SetNonCommercialPersonal("RafaX9");
             SaveService saveService = new();
             CreateService createSerivce = new(saveService);
@@ -78,6 +84,7 @@ namespace DailyGrandPrix
                 else if (choice == 2)
                 {
                     Console.Clear();
+                    saveService.Drivers.Sort((d1, d2) => d1.Id.CompareTo(d2.Id));
                     foreach (Driver d in saveService.Drivers)
                     {
                         Console.WriteLine(d);
@@ -567,7 +574,7 @@ namespace DailyGrandPrix
                     }
                     catch (InvalidOperationException)
                     {
-                        Console.WriteLine("No track found with that number!");
+                        Console.WriteLine("Nothing found with that number!");
                         Console.WriteLine("Press enter to continue");
                         Console.ReadLine();
                     }

@@ -1,12 +1,22 @@
-﻿namespace DailyGrandPrix.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace DailyGrandPrix.Entities
 {
     internal class Championship
     {
-        public int Id { get; private set; }
-        public int Year { get; private set; }
+        public int Id { get; set; }
+        public int Year { get; set; }
         public string Name { get; set; } = string.Empty;
-        public List<Race> Races { get; private set; } = new List<Race>();
+        [JsonIgnore] public List<Race> Races { get; set; } = new List<Race>();
+        public List<int> RacesIds
+        {
+            get
+            {
+                return Races.Select(r => r.Id).ToList();
+            }
+        }
 
+        public Championship() { }
         public Championship(int id, int year, string name)
         {
             Id = id;

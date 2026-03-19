@@ -1,19 +1,29 @@
 ﻿using DailyGrandPrix.Enums;
 using DailyGrandPrix.Exceptions;
 using DailyGrandPrix.Services;
+using System.Text.Json.Serialization;
 
 namespace DailyGrandPrix.Entities
 {
     internal class Race
     {
-        public int Id { get; private set; }
-        public DateOnly Start { get; private set; }
-        public DateOnly? End { get; private set; }
-        public List<DriverRace> Drivers { get; private set; } = new();
-        public Championship Championship { get; private set; }
+        public int Id { get; set; }
+        public DateOnly Start { get; set; }
+        public DateOnly? End { get; set; }
+        public List<DriverRace> Drivers { get; set; } = new();
+        [JsonIgnore] public Championship? Championship { get; set; }
+        public int? ChampionshipId
+        {
+            get
+            {
+                return (Championship is null) ? null : Championship.Id;
+            }
+        }
         public RaceState RaceState { get; set; }
-        public Track Track { get; private set; } = new();
+        public Track Track { get; set; } = new();
         public int MovesInto { get; set; } = 0;
+
+        public Race() { }
 
         public Race(int id, Championship championship, Track track)
         {
@@ -55,9 +65,11 @@ namespace DailyGrandPrix.Entities
 
         public override string ToString()
         {
-            return $"Race in {Track.Name} for the {Championship.Name} championship." +
+            return $"Race in {Track.Name} for the {Championship?.Name} championship." +
                 $"\nHas {Drivers.Count} drivers." +
-                $"\nState: {RaceState}.\n";
+                $"\nState: {RaceState}." +
+                $"\nTrack: {Track.Name}" +
+                $"\nId: {Id}";
         }
     }
 }
