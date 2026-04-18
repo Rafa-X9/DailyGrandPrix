@@ -16,8 +16,7 @@ namespace DailyGrandPrix.Services
         {
             try
             {
-                Console.Write("Driver's name: ");
-                string name = Console.ReadLine();
+                string name = InputService.GetStringInput(message: "Driver's name:");
                 foreach (char letter in name)
                 {
                     if (letter == '\\' || letter == '/')
@@ -25,12 +24,10 @@ namespace DailyGrandPrix.Services
                         throw new ArgumentException("Slashes can't be part of the name.");
                     }
                 }
-                Console.Write("Driver's username: ");
-                string username = Console.ReadLine();
-                Console.Write("Driver's number: ");
-                int number = int.Parse(Console.ReadLine());
-                Console.Write("Driver's team: ");
-                Teams team = Enum.Parse<Teams>(Console.ReadLine());
+
+                string username = InputService.GetStringInput(message: "Driver's usernname:");             
+                int number = InputService.GetIntInput("Driver's number:");
+                Teams team = InputService.GetEnumInput<Teams>(message: "Driver's team:");
                 int id = Saves.Drivers.Count() + 1;
                 Saves.Drivers.Add(new Driver(id, name, username, number, team));
             }
@@ -60,8 +57,7 @@ namespace DailyGrandPrix.Services
             try
             {
                 int id = Saves.Tracks.Count() + 1;
-                Console.Write("Name: ");
-                string name = Console.ReadLine();
+                string name = InputService.GetStringInput(message: "Name:");
                 foreach (char letter in name)
                 {
                     if (letter == '\\' || letter == '/')
@@ -70,7 +66,7 @@ namespace DailyGrandPrix.Services
                     }
                 }
                 Console.Write("Steps per lap: ");
-                int stepsPerLap = int.Parse(Console.ReadLine());
+                int stepsPerLap = InputService.GetIntInput(message: "Steps per lap:");
                 Saves.Tracks.Add(new(id, name, stepsPerLap));
             }
             catch (FormatException ex)
@@ -100,8 +96,7 @@ namespace DailyGrandPrix.Services
             {
                 int id = Saves.Championships.Count + 1;
                 int year = DateTime.Today.Year;
-                Console.Write("Championship name: ");
-                string name = Console.ReadLine();
+                string name = InputService.GetStringInput(message: "Championship's name:");
                 foreach (char letter in name)
                 {
                     if (letter == '\\' || letter == '/')
@@ -141,8 +136,7 @@ namespace DailyGrandPrix.Services
                 {
                     Console.WriteLine(c.Id + " - " + c.Name);
                 }
-                Console.Write("> ");
-                int num = int.Parse(Console.ReadLine());
+                int num = InputService.GetIntInput();
                 Championship champ = Saves.Championships.Where(c => c.Id == num).First();
                 string path = Saves.ChampionshipPath + $@"\{champ.Name}";
                 string[] races = Directory.GetFiles(path);
@@ -153,8 +147,7 @@ namespace DailyGrandPrix.Services
                 {
                     Console.WriteLine(t.Id + " - " + t.Name + " - " + t.StepsPerLap + " steps a lap");
                 }
-                Console.Write("> ");
-                num = int.Parse(Console.ReadLine());
+                num = InputService.GetIntInput();
                 Track track = Saves.Tracks.Where(t => t.Id == num).First();
 
                 champ.Races.Add(new(id, champ, track));

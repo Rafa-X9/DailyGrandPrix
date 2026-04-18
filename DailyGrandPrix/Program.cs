@@ -54,18 +54,7 @@ namespace DailyGrandPrix
 
                 Console.WriteLine("(100) Close program");
                 Console.WriteLine();
-                try
-                {
-                    Console.Write("> ");
-                    choice = int.Parse(Console.ReadLine());
-                }
-                catch (FormatException ex)
-                {
-                    Console.WriteLine("Format error! " + ex.Message);
-                    Console.WriteLine("Press enter to continue.");
-                    Console.ReadLine();
-                    continue;
-                }
+                choice = InputService.GetIntInput();
 
                 //create driver
                 if (choice == 1)

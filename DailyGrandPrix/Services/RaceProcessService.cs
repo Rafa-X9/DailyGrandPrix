@@ -34,7 +34,7 @@ namespace DailyGrandPrix.Services
                     Console.WriteLine("(3) Quit");
                     try
                     {
-                        choice = int.Parse(Console.ReadLine());
+                        choice = InputService.GetIntInput();
                         switch (choice)
                         {
                             case 1:
@@ -110,8 +110,7 @@ namespace DailyGrandPrix.Services
                     Console.WriteLine((Race.Drivers.Count + 1) + " - Quit");
                     try
                     {
-                        Console.Write("> ");
-                        choice = int.Parse(Console.ReadLine());
+                        choice = InputService.GetIntInput();
                         if (choice == Race.Drivers.Count + 1) continue;
                         if (Race.Drivers[choice - 1].MovesMade > Race.MovesInto)
                         {
@@ -129,8 +128,7 @@ namespace DailyGrandPrix.Services
                         Console.WriteLine("(3) Pitstop for softs");
                         Console.WriteLine("(4) Pitstop for mediums");
                         Console.WriteLine("(5) Pitstop for hards");
-                        Console.Write("> ");
-                        choice = int.Parse(Console.ReadLine());
+                        choice = InputService.GetIntInput();
                         switch (choice)
                         {
                             case 1:
@@ -292,9 +290,8 @@ namespace DailyGrandPrix.Services
                         else Console.WriteLine("Has not joined");
                     }
                     Console.WriteLine($"{SaveService.Drivers.Count} - quit");
-                    Console.Write("> ");
 
-                    choice = int.Parse(Console.ReadLine());
+                    choice = InputService.GetIntInput();
                     if (choice == SaveService.Drivers.Count) continue;
                     Driver d = SaveService.Drivers[choice];
                     Race.AddDriver(d, Race);
@@ -360,16 +357,12 @@ namespace DailyGrandPrix.Services
                     Console.WriteLine((Race.Drivers.Count + 1) + " - Start race");
                     Console.WriteLine();
                     Console.WriteLine((Race.Drivers.Count + 2) + " - Quit");
-                    Console.Write("> ");
-                    choice = int.Parse(Console.ReadLine());
+                    choice = InputService.GetIntInput();
                     if (choice == Race.Drivers.Count + 1 || choice == Race.Drivers.Count + 2) continue;
                     DriverRace dr = Race.Drivers[choice];
-                    Console.Write($"Which tyre will {dr.Driver.Name} use? ");
-                    dr.TyreCompound = Enum.Parse<Tyres>(Console.ReadLine());
-                    Console.Write($"How much fuel will {dr.Driver.Name} use? ");
-                    dr.FuelAmount = int.Parse(Console.ReadLine());
-                    Console.Write($"What is {dr.Driver.Name}'s class? ");
-                    dr.DriverClass = Enum.Parse<DriverClass>(Console.ReadLine());
+                    dr.TyreCompound = InputService.GetEnumInput<Tyres>($"Which tyre will {dr.Driver.Name} use? ");
+                    dr.FuelAmount = InputService.GetIntInput(message: $"How much fuel will {dr.Driver.Name} use? ");
+                    dr.DriverClass = InputService.GetEnumInput<DriverClass>($"What is {dr.Driver.Name}'s class? ");
                     dr.TyreWear = 100;
                     dr.TyreChanges = 0;
                     dr.MovesMade = 0;

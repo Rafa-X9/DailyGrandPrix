@@ -13,7 +13,7 @@ namespace DailyGrandPrix.Services
                 Console.WriteLine(c.Id + " - " + c.Name + " - " + "Has " + c.Races.Count + " races");
             }
             Console.Write("> ");
-            int choice = int.Parse(Console.ReadLine());
+            int choice = InputService.GetIntInput(message: "Championship's id");
             return saveService.Championships.Where(ch => ch.Id == choice).First();
         }
 
@@ -27,7 +27,7 @@ namespace DailyGrandPrix.Services
                 Console.WriteLine(r.Id + " - " + r.Track.Name + " - " + r.Drivers.Count + " drivers");
             }
             Console.Write("> ");
-            int choice = int.Parse(Console.ReadLine());
+            int choice = InputService.GetIntInput(message: "Race's id");
             return champ.Races.Where(ra => ra.Id == choice).First();
         }
 
@@ -40,7 +40,7 @@ namespace DailyGrandPrix.Services
                 Console.WriteLine($"{t.Id} - {t.Name} - {t.StepsPerLap} steps a lap.");
             }
             Console.Write("> ");
-            int choice = int.Parse(Console.ReadLine());
+            int choice = InputService.GetIntInput(message: "Track's id");
             return saveService.Tracks.Where(t => t.Id == choice).First();
         }
 
@@ -54,7 +54,7 @@ namespace DailyGrandPrix.Services
                 Console.WriteLine($"{d.Id} - {d.Name} - {d.Username}");
             }
             Console.Write("> ");
-            int choice = int.Parse(Console.ReadLine());
+            int choice = InputService.GetIntInput(message: "Driver's id");
             return saveService.Drivers.Where(dr => dr.Id == choice).First();
         }
     }

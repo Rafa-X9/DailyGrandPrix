@@ -25,8 +25,7 @@ namespace DailyGrandPrix.Services
                 {
                     Console.Clear();
                     Console.WriteLine("No path.txt folder found for the database.");
-                    Console.WriteLine("Type a path to a folder to store the database in:");
-                    string path = Console.ReadLine();
+                    string path = InputService.GetStringInput("Type a path to a folder to store the database in:");
 
                     if (!Directory.Exists(path))
                     {
@@ -58,9 +57,15 @@ namespace DailyGrandPrix.Services
                 }
             }
 
-            StreamReader sr = new("path.txt");
-            DatabasePath = sr.ReadLine();
-            sr.Close();
+            using (StreamReader sr = new("path.txt"))
+            {
+                string? line = sr.ReadLine();
+                if (line is null)
+                {
+                    throw new FormatException("path.txt doesn't contain a path.");
+                }
+                DatabasePath = line;
+            }
             ChampionshipPath = DatabasePath + @"\Championships";
             DriversPath = DatabasePath + @"\Drivers";
             TracksPath = DatabasePath + @"\Tracks";
