@@ -165,8 +165,8 @@ namespace DailyGrandPrix.Entities
             Console.WriteLine("Steps moved: " + steps);
             Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
             Console.WriteLine("Fuel: " + FuelAmount + "/100");
-            //Console.WriteLine("Press enter to continue");
-            //Console.ReadLine();
+            Console.WriteLine("Press enter to continue");
+            Console.ReadLine();
         }
 
         public void ChangeTyres(Tyres newTyres)
@@ -186,8 +186,8 @@ namespace DailyGrandPrix.Entities
             Console.WriteLine("Changed to " + newTyres);
             Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
             Console.WriteLine("Fuel: " + FuelAmount + "/100");
-            //Console.WriteLine("Press enter to continue");
-            //Console.ReadLine();
+            Console.WriteLine("Press enter to continue");
+            Console.ReadLine();
         }
 
         public int CalculateStep(bool IsPushing, int GapAhead)
@@ -209,13 +209,32 @@ namespace DailyGrandPrix.Entities
             }
             Slipstream = Math.Max(0, (double)GapAhead / 20);
 
-            int BaseSteps;
+            int baseSteps;
 
-            if (!IsPushing) BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5) * (1 + (0.15 * Slipstream)));
-            else if (DriverClass != DriverClass.GeorgeRussel) BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
-            else BaseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.75) * (1 + (0.15 * Slipstream)));
+            if (!IsPushing) baseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 2.5) * (1 + (0.15 * Slipstream)));
+            else if (DriverClass != DriverClass.GeorgeRussel) baseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
+            else baseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.75) * (1 + (0.15 * Slipstream)));
 
-            return BaseSteps;
+            switch(TyreCompound)
+            {
+                case Tyres.Softs:
+                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 10.0 + 1.0));
+                    break;
+                case Tyres.Mediums:
+                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 20.0 + 1.0));
+                    break;
+                case Tyres.Hards:
+                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 50.0 + 1.0));
+                    break;
+                case Tyres.Intermediates:
+                    double divisor = Math.Floor(0.0104 * ((Race.RainFactor - 25) * (Race.RainFactor - 25)) + 1);
+                    baseSteps = (int)Math.Ceiling(baseSteps / divisor);
+                    break;
+                default:
+                    throw new InvalidOperationException("Driver doesn't have a tyre");
+            }
+
+            return baseSteps;
         }
 
         public void CheckFinish(Race race, int position)
@@ -237,7 +256,7 @@ namespace DailyGrandPrix.Entities
                 throw new ArgumentException("Tried comparing DriverRace to null type");
             }
 
-            DriverRace other = obj as DriverRace;
+            DriverRace other = (DriverRace)obj;
 
             if (HasRetired || other.HasRetired)
             {

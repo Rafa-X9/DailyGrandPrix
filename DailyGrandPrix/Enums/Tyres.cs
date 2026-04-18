@@ -5,6 +5,7 @@
         None = 0,
         Softs = 1,
         Mediums = 2,
-        Hards = 3
+        Hards = 3,
+        Intermediates = 4
     }
 }

@@ -22,6 +22,7 @@ namespace DailyGrandPrix.Entities
         public RaceState RaceState { get; set; }
         public Track Track { get; set; } = new();
         public int MovesInto { get; set; } = 0;
+        public int RainFactor { get; set; } = 0;
 
         public Race() { }
 

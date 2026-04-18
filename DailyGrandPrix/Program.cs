@@ -11,12 +11,6 @@ namespace DailyGrandPrix
     {
         public static void Main(string[] args)
         {
-            /*
-             * TO-DO:
-             * make races deduct their championships from its championship id
-             */
-
-
             ExcelPackage.License.SetNonCommercialPersonal("RafaX9");
             SaveService saveService = new();
             CreateService createSerivce = new(saveService);
