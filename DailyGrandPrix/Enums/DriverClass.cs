@@ -5,6 +5,7 @@
         None = 0,
         OscarPiastri = 1,
         SebastianVettel = 2,
-        GeorgeRussel = 3
+        GeorgeRussel = 3,
+        LanceStroll = 4
     }
 }

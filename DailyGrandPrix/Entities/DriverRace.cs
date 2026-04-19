@@ -215,7 +215,7 @@ namespace DailyGrandPrix.Entities
             else if (DriverClass != DriverClass.GeorgeRussel) baseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.25) * (1 + (0.15 * Slipstream)));
             else baseSteps = (int)Math.Ceiling(((2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor))))) * 3.75) * (1 + (0.15 * Slipstream)));
 
-            switch(TyreCompound)
+            switch (TyreCompound)
             {
                 case Tyres.Softs:
                     baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 10.0 + 1.0));
@@ -227,7 +227,8 @@ namespace DailyGrandPrix.Entities
                     baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 50.0 + 1.0));
                     break;
                 case Tyres.Intermediates:
-                    double divisor = Math.Floor(0.0104 * ((Race.RainFactor - 25) * (Race.RainFactor - 25)) + 1);
+                    double strollFactor = (DriverClass == DriverClass.LanceStroll) ? 1.0 : 1.3;
+                    double divisor = 0.0104 * ((Race.RainFactor - 25) * (Race.RainFactor - 25)) + strollFactor;
                     baseSteps = (int)Math.Ceiling(baseSteps / divisor);
                     break;
                 default:

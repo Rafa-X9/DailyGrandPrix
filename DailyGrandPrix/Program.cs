@@ -51,7 +51,7 @@ namespace DailyGrandPrix
                 Console.WriteLine();
 
                 Console.WriteLine("(22) Close program");
-                Console.WriteLine();
+
                 choice = InputService.GetIntInput();
 
                 //create driver
