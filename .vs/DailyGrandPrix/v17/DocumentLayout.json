@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|solutionrelative:dailygrandprix\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|c:\\users\\lenovo\\desktop\\rafael\\projetoscsharp\\dailygrandprix\\dailygrandprix\\services\\createservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|solutionrelative:dailygrandprix\\services\\createservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|c:\\users\\lenovo\\desktop\\rafael\\projetoscsharp\\dailygrandprix\\dailygrandprix\\services\\saveservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|solutionrelative:dailygrandprix\\services\\saveservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -22,11 +26,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "CreateService.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Services\\CreateService.cs",
+              "RelativeDocumentMoniker": "DailyGrandPrix\\Services\\CreateService.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Services\\CreateService.cs",
+              "RelativeToolTip": "DailyGrandPrix\\Services\\CreateService.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAA3wDYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T19:28:13.406Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "SaveService.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Services\\SaveService.cs",
               "RelativeDocumentMoniker": "DailyGrandPrix\\Services\\SaveService.cs",
@@ -34,12 +51,11 @@
               "RelativeToolTip": "DailyGrandPrix\\Services\\SaveService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoBAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-18T19:04:44.59Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-18T19:04:44.59Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "InputService.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Services\\InputService.cs",
               "RelativeDocumentMoniker": "DailyGrandPrix\\Services\\InputService.cs",
@@ -47,8 +63,7 @@
               "RelativeToolTip": "DailyGrandPrix\\Services\\InputService.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAA8wCIAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-18T18:30:06.153Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-18T18:30:06.153Z"
             },
             {
               "$type": "Document",
@@ -58,7 +73,7 @@
               "RelativeDocumentMoniker": "DailyGrandPrix\\Program.cs",
               "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Program.cs",
               "RelativeToolTip": "DailyGrandPrix\\Program.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBUAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAADQAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T17:03:25.318Z",
               "EditorCaption": ""

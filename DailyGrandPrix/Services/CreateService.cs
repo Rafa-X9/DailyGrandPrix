@@ -65,7 +65,6 @@ namespace DailyGrandPrix.Services
                         throw new ArgumentException("Slashes can't be part of the name.");
                     }
                 }
-                Console.Write("Steps per lap: ");
                 int stepsPerLap = InputService.GetIntInput(message: "Steps per lap:");
                 Saves.Tracks.Add(new(id, name, stepsPerLap));
             }

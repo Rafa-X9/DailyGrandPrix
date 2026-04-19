@@ -23,36 +23,34 @@ namespace DailyGrandPrix
                 Console.Clear();
 
                 Console.WriteLine("==MANAGING DRIVERS==");
-                Console.WriteLine("(1) Create driver");
-                Console.WriteLine("(2) See all drivers");
-                Console.WriteLine("(3) Edit driver");
-                Console.WriteLine("(4) Save drivers in database");
-                Console.WriteLine("(5) Delete driver");
-                Console.WriteLine();
+                Console.WriteLine(" (1) Create driver");
+                Console.WriteLine(" (2) See all drivers");
+                Console.WriteLine(" (3) Edit driver");
+                Console.WriteLine(" (4) Save drivers in database");
+                Console.WriteLine(" (5) Delete driver");
 
                 Console.WriteLine("==MANAGING TRACKS==");
-                Console.WriteLine("(6) Create track");
-                Console.WriteLine("(7) See all tracks");
-                Console.WriteLine("(8) Edit track");
-                Console.WriteLine("(9) Save tracks in database");
-                Console.WriteLine("(10) Delete track");
-                Console.WriteLine();
+                Console.WriteLine(" (6) Create track");
+                Console.WriteLine(" (7) See all tracks");
+                Console.WriteLine(" (8) Edit track");
+                Console.WriteLine(" (9) Save tracks in database");
+                Console.WriteLine(" (10) Delete track");
 
                 Console.WriteLine("==MANAGING CHAMPIONSHIPS==");
-                Console.WriteLine("(11) Create championship");
-                Console.WriteLine("(12) See all championships");
-                Console.WriteLine("(13) Edit championship");
-                Console.WriteLine("(14) Save championships in database");
-                Console.WriteLine("(15) Delete championship");
-                Console.WriteLine("(16) Create race");
-                Console.WriteLine("(17) See races");
-                Console.WriteLine("(18) Process race");
-                Console.WriteLine("(19) See a championship's standings");
-                Console.WriteLine("(20) Generate usernames for pings");
-                Console.WriteLine("(21) Simulate race");
+                Console.WriteLine(" (11) Create championship");
+                Console.WriteLine(" (12) See all championships");
+                Console.WriteLine(" (13) Edit championship");
+                Console.WriteLine(" (14) Save championships in database");
+                Console.WriteLine(" (15) Delete championship");
+                Console.WriteLine(" (16) Create race");
+                Console.WriteLine(" (17) See races");
+                Console.WriteLine(" (18) Process race");
+                Console.WriteLine(" (19) See a championship's standings");
+                Console.WriteLine(" (20) Generate usernames for pings");
+                Console.WriteLine(" (21) Simulate race");
                 Console.WriteLine();
 
-                Console.WriteLine("(100) Close program");
+                Console.WriteLine("(22) Close program");
                 Console.WriteLine();
                 choice = InputService.GetIntInput();
 
@@ -728,7 +726,7 @@ namespace DailyGrandPrix
                 }
 
                 //close program
-                else if (choice == 100)
+                else if (choice == 22)
                 {
                     Environment.Exit(0);
                 }
