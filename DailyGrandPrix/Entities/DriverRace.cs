@@ -225,13 +225,13 @@ namespace DailyGrandPrix.Entities
             switch (TyreCompound)
             {
                 case Tyres.Softs:
-                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 10.0 + 1.0));
+                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 5.0 + 1.0));
                     break;
                 case Tyres.Mediums:
-                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 20.0 + 1.0));
+                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 12.0 + 1.0));
                     break;
                 case Tyres.Hards:
-                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 50.0 + 1.0));
+                    baseSteps = (int)Math.Ceiling(baseSteps / (Race.RainFactor / 20.0 + 1.0));
                     break;
                 case Tyres.Intermediates:
                     double strollFactor = (DriverClass == DriverClass.LanceStroll) ? 1.0 : 1.3;

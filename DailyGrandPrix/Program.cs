@@ -21,7 +21,7 @@ namespace DailyGrandPrix
             while (choice != 100)
             {
                 Console.Clear();
-
+                
                 Console.WriteLine("==MANAGING DRIVERS==");
                 Console.WriteLine(" (1) Create driver");
                 Console.WriteLine(" (2) See all drivers");
@@ -730,6 +730,40 @@ namespace DailyGrandPrix
                 {
                     Environment.Exit(0);
                 }
+
+                #region Tests
+                //else if (choice == 2900)
+                //{
+                //    if (true)
+                //    {
+                //        Track t = new(1, "AHHHHH", 50);
+                //        Championship c = new(1, 69420, "SSSDFG");
+                //        DriverRace d = new(new Driver(1, "AA", "AAA", 12, Teams.McLaren), new Race(1, c, t) { RainHistory = new() { 20 } })
+                //        {
+                //            TyreCompound = Tyres.Intermediates,
+                //            TyreWear = 100,
+                //            FuelAmount = 50,
+                //            DriverClass = DriverClass.None
+                //        };
+                //        Console.WriteLine("Inters " + d.CalculateStep(false, 0));
+                //    }
+                //    if (true)
+                //    {
+                //        Track t = new(1, "AHHHHH", 50);
+                //        Championship c = new(1, 69420, "SSSDFG");
+                //        DriverRace d = new(new Driver(1, "AA", "AAA", 12, Teams.McLaren), new Race(1, c, t) { RainHistory = new() { 20 } })
+                //        {
+                //            TyreCompound = Tyres.Hards,
+                //            TyreWear = 100,
+                //            FuelAmount = 50,
+                //            DriverClass = DriverClass.None
+                //        };
+                //        Console.WriteLine("Hards " + d.CalculateStep(false, 0));
+                //    }
+                //    Console.ReadLine();
+                //}
+
+                #endregion
 
                 //invalid choice
                 else

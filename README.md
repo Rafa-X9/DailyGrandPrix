@@ -82,7 +82,7 @@ $BaseSteps = (2.5 + (12.5 * (CompFactor * LifeFactor * (0.6 + (0.4 * FuelFactor)
 
 Then, the Steps are calculated by reducing BaseSteps depending on rain. $RainFactor$ is a number from 0 (no rain) to 60 (extreme rain). The final $Steps$ is always rounded up.
 
-For slicks (softs, mediums, or hards), the rain reduction is as follows, where $TyreRainDrag$ is equal to 10 if soft tyres, 20 if mediums, or 50 if hards:
+For slicks (softs, mediums, or hards), the rain reduction is as follows, where $TyreRainDrag$ is equal to 5 if soft tyres, 12 if mediums, or 20 if hards:
 
 $Steps = (BaseSteps / (RainFactor / TyreRainDrag + 1))$
 

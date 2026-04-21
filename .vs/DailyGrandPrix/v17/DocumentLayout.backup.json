@@ -3,20 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|c:\\users\\lenovo\\desktop\\rafael\\projetoscsharp\\dailygrandprix\\dailygrandprix\\entities\\driverrace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|solutionrelative:dailygrandprix\\entities\\driverrace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|c:\\users\\lenovo\\desktop\\rafael\\projetoscsharp\\dailygrandprix\\dailygrandprix\\entities\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|solutionrelative:dailygrandprix\\entities\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|c:\\users\\lenovo\\desktop\\rafael\\projetoscsharp\\dailygrandprix\\dailygrandprix\\services\\createservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|solutionrelative:dailygrandprix\\services\\createservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|c:\\users\\lenovo\\desktop\\rafael\\projetoscsharp\\dailygrandprix\\dailygrandprix\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|solutionrelative:dailygrandprix\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|c:\\users\\lenovo\\desktop\\rafael\\projetoscsharp\\dailygrandprix\\dailygrandprix\\entities\\driverrace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE319E14-4F37-4609-84FE-9617D0B1C7B9}|DailyGrandPrix\\DailyGrandPrix.csproj|solutionrelative:dailygrandprix\\entities\\driverrace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,56 +18,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CreateService.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Services\\CreateService.cs",
-              "RelativeDocumentMoniker": "DailyGrandPrix\\Services\\CreateService.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Services\\CreateService.cs",
-              "RelativeToolTip": "DailyGrandPrix\\Services\\CreateService.cs",
-              "ViewState": "AgIAAJIAAAAAAAAAAAAwwJ4AAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T17:53:01.934Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Race.cs",
-              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Entities\\Race.cs",
-              "RelativeDocumentMoniker": "DailyGrandPrix\\Entities\\Race.cs",
-              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Entities\\Race.cs",
-              "RelativeToolTip": "DailyGrandPrix\\Entities\\Race.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAkwCgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T17:51:01.639Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "DriverRace.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Entities\\DriverRace.cs",
               "RelativeDocumentMoniker": "DailyGrandPrix\\Entities\\DriverRace.cs",
               "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Entities\\DriverRace.cs",
               "RelativeToolTip": "DailyGrandPrix\\Entities\\DriverRace.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAA2wLIAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAOAAAAAAAAAAAAAwwO0AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-19T20:34:11.209Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Program.cs",
               "RelativeDocumentMoniker": "DailyGrandPrix\\Program.cs",
               "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Rafael\\projetosCsharp\\DailyGrandPrix\\DailyGrandPrix\\Program.cs",
               "RelativeToolTip": "DailyGrandPrix\\Program.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAQwBYAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAPECAAAAAAAAAAAmwPkCAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-18T17:03:25.318Z",
               "EditorCaption": ""
