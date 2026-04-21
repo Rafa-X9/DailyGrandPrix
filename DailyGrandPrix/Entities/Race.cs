@@ -22,8 +22,23 @@ namespace DailyGrandPrix.Entities
         public RaceState RaceState { get; set; }
         public Track Track { get; set; } = new();
         public int MovesInto { get; set; } = 0;
-        public int RainFactor { get; set; } = 0;
-        
+        public List<int> RainHistory { get; set; } = new();
+        public int RainFactor
+        {
+            get
+            {
+                if (RainHistory.Count == 0 || RainHistory.Count < MovesInto)
+                {
+                    return 0;
+                }
+                if (MovesInto == 0)
+                {
+                    return RainHistory[0];
+                }
+                return RainHistory[MovesInto - 1];
+            }
+        }
+
         public Race() { }
 
         public Race(int id, Championship championship, Track track)

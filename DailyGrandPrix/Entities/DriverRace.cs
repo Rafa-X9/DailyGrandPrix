@@ -85,9 +85,16 @@ namespace DailyGrandPrix.Entities
                 case Tyres.Hards:
                     wear = 7;
                     break;
+                case Tyres.Intermediates:
+                    wear = (Race.RainFactor > 10) ? 15 : 30;
+                    break;
             }
 
             if (action == Actions.Push && (TyreWear - (wear * 2) < 0 || (TyreWear == 100 && MovesMade > 0)))
+            {
+                action = Actions.Conserve;
+            }
+            if (action == Actions.Push && Race.RainFactor <= 10 && TyreCompound == Tyres.Intermediates)
             {
                 action = Actions.Conserve;
             }
@@ -165,8 +172,8 @@ namespace DailyGrandPrix.Entities
             Console.WriteLine("Steps moved: " + steps);
             Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
             Console.WriteLine("Fuel: " + FuelAmount + "/100");
-            Console.WriteLine("Press enter to continue");
-            Console.ReadLine();
+            //Console.WriteLine("Press enter to continue");
+            //Console.ReadLine();
         }
 
         public void ChangeTyres(Tyres newTyres)
@@ -186,8 +193,8 @@ namespace DailyGrandPrix.Entities
             Console.WriteLine("Changed to " + newTyres);
             Console.WriteLine("Tyres: " + TyreCompound + ", " + TyreWear + "/100");
             Console.WriteLine("Fuel: " + FuelAmount + "/100");
-            Console.WriteLine("Press enter to continue");
-            Console.ReadLine();
+            //Console.WriteLine("Press enter to continue");
+            //Console.ReadLine();
         }
 
         public int CalculateStep(bool IsPushing, int GapAhead)
@@ -233,7 +240,7 @@ namespace DailyGrandPrix.Entities
                     break;
                 default:
                     throw new InvalidOperationException("Driver doesn't have a tyre");
-            }
+            }  
 
             return baseSteps;
         }

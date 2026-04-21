@@ -34,7 +34,7 @@ namespace DailyGrandPrix.Services
                     Console.WriteLine("(3) Quit");
                     try
                     {
-                        choice = InputService.GetIntInput();
+                        choice = InputService.GetIntInput(message: "Choose an action:");
                         switch (choice)
                         {
                             case 1:
@@ -128,6 +128,7 @@ namespace DailyGrandPrix.Services
                         Console.WriteLine("(3) Pitstop for softs");
                         Console.WriteLine("(4) Pitstop for mediums");
                         Console.WriteLine("(5) Pitstop for hards");
+                        Console.WriteLine("(6) Pitstop for intermediates");
                         choice = InputService.GetIntInput();
                         switch (choice)
                         {
@@ -145,6 +146,9 @@ namespace DailyGrandPrix.Services
                                 break;
                             case 5:
                                 dr.ChangeTyres(Tyres.Hards);
+                                break;
+                            case 6:
+                                dr.ChangeTyres(Tyres.Intermediates);
                                 break;
                             default:
                                 throw new ArgumentException();
@@ -360,7 +364,7 @@ namespace DailyGrandPrix.Services
                     choice = InputService.GetIntInput();
                     if (choice == Race.Drivers.Count + 1 || choice == Race.Drivers.Count + 2) continue;
                     DriverRace dr = Race.Drivers[choice];
-                    dr.TyreCompound = InputService.GetEnumInput<Tyres>($"Which tyre will {dr.Driver.Name} use? ");
+                    dr.TyreCompound = InputService.GetEnumInput<Tyres>(message: $"Which tyre will {dr.Driver.Name} use? ");
                     dr.FuelAmount = InputService.GetIntInput(message: $"How much fuel will {dr.Driver.Name} use? ");
                     dr.DriverClass = InputService.GetEnumInput<DriverClass>($"What is {dr.Driver.Name}'s class? ");
                     dr.TyreWear = 100;

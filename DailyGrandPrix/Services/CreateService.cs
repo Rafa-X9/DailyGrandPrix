@@ -149,7 +149,16 @@ namespace DailyGrandPrix.Services
                 num = InputService.GetIntInput();
                 Track track = Saves.Tracks.Where(t => t.Id == num).First();
 
-                champ.Races.Add(new(id, champ, track));
+                List<int> rain = [];
+                if (InputService.GetStringInput(message: "Rain? (y/n)").Equals("y", StringComparison.OrdinalIgnoreCase))
+                {
+                    for (int i = 1; i <= 20; i++)
+                    {
+                        rain.Add(InputService.GetIntInput(message: $"Rain in day {i}"));
+                    }
+                }                
+
+                champ.Races.Add(new(id, champ, track) { RainHistory = rain });
             }
             catch (FormatException ex)
             {

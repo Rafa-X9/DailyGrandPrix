@@ -27,7 +27,7 @@
     
         public static T GetEnumInput<T>(string message = "Enter enum value") where T : struct, Enum
         {
-            string input = GetStringInput();
+            string input = GetStringInput(message: message);
             if (!Enum.TryParse(input, out T result))
             {
                 throw new FormatException("Invalid enum input.");
