@@ -15,6 +15,8 @@
         Williams = 11,
         Sauber = 12,
         Renault = 13,
-        AlfaRomeo = 14
+        AlfaRomeo = 14,
+        Lotus = 15,
+        RacingPoint = 16
     }
 }
