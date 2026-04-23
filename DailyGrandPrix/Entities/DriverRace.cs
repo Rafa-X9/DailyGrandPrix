@@ -41,6 +41,7 @@ namespace DailyGrandPrix.Entities
         public DriverRace(Driver driver, Race race)
         {
             Driver = driver;
+            DriverId = driver.Id;
             Race = race;
         }
 

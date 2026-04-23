@@ -17,6 +17,7 @@
         Renault = 13,
         AlfaRomeo = 14,
         Lotus = 15,
-        RacingPoint = 16
+        RacingPoint = 16,
+	BrawnGP = 17
     }
 }

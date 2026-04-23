@@ -17,6 +17,10 @@ namespace DailyGrandPrix
 
             saveService.ImportAll();
 
+            //saveService.ImportDrivers();
+            //saveService.Drivers.ForEach(d => Console.WriteLine(d));
+            //Environment.Exit(0);
+
             int choice = 0;
             while (choice != 100)
             {
