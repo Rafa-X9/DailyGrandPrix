@@ -367,6 +367,11 @@ namespace DailyGrandPrix.Services
                         worksheet.Cells[row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
                         worksheet.Cells[row, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(100, 100, 100));
                     }
+                    else if (dr.DriverClass == DriverClass.LanceStroll)
+                    {
+                        worksheet.Cells[row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        worksheet.Cells[row, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 113, 39));
+                    }
                     worksheet.Cells[row, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[row, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[row, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -399,6 +404,11 @@ namespace DailyGrandPrix.Services
                 worksheet.Cells[row + 2, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[row + 2, 3].Value = "George Russel";
                 worksheet.Cells[row + 2, 3].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(100, 100, 100));
+
+                worksheet.Cells[row + 2, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row + 2, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row + 2, 4].Value = "Lance Stroll";
+                worksheet.Cells[row + 2, 4].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 113, 39));
 
                 // Apply strong (thick) border to all filled cells
                 filledRange.Style.Border.Top.Style = ExcelBorderStyle.Thick;
