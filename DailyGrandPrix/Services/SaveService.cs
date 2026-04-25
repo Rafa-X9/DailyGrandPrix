@@ -99,11 +99,18 @@ namespace DailyGrandPrix.Services
                 {
                     continue;
                 }
-                Driver? d = JsonSerializer.Deserialize<Driver>(line);
-                if (d is not null)
+                var json = JsonSerializer.Deserialize<Dictionary<string, object>>(line);
+                if (json is null)
                 {
-                    Drivers.Add(d);
+                    throw new InvalidOperationException("Json for Driver is null");
                 }
+                Drivers.Add(new(json));
+
+                //Driver? d = JsonSerializer.Deserialize<Driver>(line);
+                //if (d is not null)
+                //{
+                //    Drivers.Add(d);
+                //}
             }
         }
 
