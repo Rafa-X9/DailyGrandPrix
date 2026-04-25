@@ -105,12 +105,6 @@ namespace DailyGrandPrix.Services
                     throw new InvalidOperationException("Json for Driver is null");
                 }
                 Drivers.Add(new(json));
-
-                //Driver? d = JsonSerializer.Deserialize<Driver>(line);
-                //if (d is not null)
-                //{
-                //    Drivers.Add(d);
-                //}
             }
         }
 
@@ -147,11 +141,12 @@ namespace DailyGrandPrix.Services
                 {
                     continue;
                 }
-                Track? t = JsonSerializer.Deserialize<Track>(line);
-                if (t is not null)
+                var json = JsonSerializer.Deserialize<Dictionary<string, object>>(line);
+                if (json is null)
                 {
-                    Tracks.Add(t);
+                    throw new InvalidOperationException("JSON for Track is null");
                 }
+                Tracks.Add(new(json));
             }
         }
 

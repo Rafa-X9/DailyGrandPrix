@@ -21,10 +21,7 @@ namespace DailyGrandPrix.Entities
             }
             if (!int.TryParse(id.ToString(), out int idInt))
             {
-                string msg = "\n";
-                msg += "Error: JSON's Id key wasn't an integer\n";
-                msg += $"Its value was: {id}";
-                throw new ArgumentException(msg);
+                throw new ArgumentException("JSON's Id value for Driver wasn't a proper integer");
             }
             Id = idInt;
             
@@ -37,7 +34,7 @@ namespace DailyGrandPrix.Entities
             string? nameStr = Convert.ToString(name);
             if (string.IsNullOrEmpty(nameStr))
             {
-                throw new ArgumentException("JSON's name key was null, empty, or invalid");
+                throw new ArgumentException("JSON's name key for Driver was null, empty, or invalid");
             }
             Name = nameStr;
 
@@ -50,7 +47,7 @@ namespace DailyGrandPrix.Entities
             string? usernameStr = Convert.ToString(username);
             if (string.IsNullOrEmpty(usernameStr))
             {
-                throw new ArgumentException("JSON's username key was null, empty, or invalid");
+                throw new ArgumentException("JSON's username key for Driver was null, empty, or invalid");
             }
             Username = usernameStr;
 
@@ -62,7 +59,7 @@ namespace DailyGrandPrix.Entities
             }
             if (!int.TryParse(number.ToString(), out int numberInt))
             {
-                throw new ArgumentException("JSON's Number key wasn't a valid integer");
+                throw new ArgumentException("JSON's Number key for Driver wasn't a valid integer");
             }
             Number = numberInt;
 
