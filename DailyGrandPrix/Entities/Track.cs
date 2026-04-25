@@ -13,12 +13,6 @@
             }
         }
 
-        public Track()
-        {
-            Name = "Nameless track";
-            //this is only while I don't implement json initialization for race
-        }
-
         public Track(int id, string name, int stepsPerLap)
         {
             Id = id;

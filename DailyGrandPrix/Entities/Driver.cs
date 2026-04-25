@@ -75,7 +75,7 @@ namespace DailyGrandPrix.Entities
             //Races
             if (json.TryGetValue("Races", out object? races) && races is not null && races is List<DriverRace> racesList)
             {
-                Races = (List<DriverRace>)races;
+                Races = racesList;
             }
         }
 

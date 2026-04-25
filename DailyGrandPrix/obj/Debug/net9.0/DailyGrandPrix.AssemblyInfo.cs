@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DailyGrandPrix")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db098cbccd1756cc44b32680a891ad8feed817ff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+205861e6d81efe475c3741b7df2be1edecfa24b9")]
 [assembly: System.Reflection.AssemblyProductAttribute("DailyGrandPrix")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DailyGrandPrix")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

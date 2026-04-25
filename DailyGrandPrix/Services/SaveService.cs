@@ -252,17 +252,19 @@ namespace DailyGrandPrix.Services
                     {
                         continue;
                     }
-                    Race? race = JsonSerializer.Deserialize<Race>(line);
-                    if (race is not null)
+                    var json = JsonSerializer.Deserialize<Dictionary<string, object>>(line);
+                    if (json is null)
                     {
-                        race.Championship = champ;
-                        champ.Races.Add(race);
-                        foreach (DriverRace d in race.Drivers)
-                        {
-                            d.Driver = Drivers.Where(dr => dr.Id == d.DriverId).First();
-                            d.Race = race;
-                        }
+                        throw new InvalidOperationException("JSON for Race was null");
                     }
+                    Race race = new(json);
+                    race.Championship = champ;
+                    champ.Races.Add(race);
+                    race.Drivers.ForEach(d =>
+                    {
+                        d.Driver = Drivers.Where(dr => dr.Id == d.DriverId).First();
+                        d.Race = race;
+                    });
                 }
             }
         }

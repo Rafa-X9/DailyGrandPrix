@@ -1,13 +1,15 @@
 ﻿using DailyGrandPrix.Enums;
 using DailyGrandPrix.Exceptions;
+using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DailyGrandPrix.Entities
 {
     internal class DriverRace : IComparable
     {
         [JsonIgnore] public Driver Driver { get; set; }
-        public int DriverId { get; set; }
+        public int DriverId { get; }
         [JsonIgnore] public Race Race { get; set; }
         public int RaceId
         {
@@ -36,7 +38,117 @@ namespace DailyGrandPrix.Entities
         public bool HasRetired { get; set; } = false;
         public DriverClass DriverClass { get; set; }
 
-        public DriverRace() { }
+        public DriverRace(Dictionary<string, object> json)
+        {
+            //DriverId
+            if (!json.TryGetValue("DriverId", out object? driverId))
+            {
+                throw new ArgumentException("JSON didn't have a DriverId key for DriverRace");
+            }
+            if (!int.TryParse(driverId.ToString(), out int driverIdInt))
+            {
+                throw new ArgumentException("JSON's DriverId value for DriverRace wasn't a proper integer");
+            }
+            DriverId = driverIdInt;
+
+
+            //TyreCompound
+            if (!json.TryGetValue("TyreCompound", out object? comp) || comp is null || !int.TryParse(comp.ToString(), out int compInt) || !Enum.IsDefined(typeof(Tyres), compInt))
+            {
+                throw new ArgumentException("JSON didn't have a TyreCompound key for DriverRace or it wasn't a member of Tyres enumeration");
+            }
+            TyreCompound = (Tyres)compInt;
+
+
+            //TyreWear
+            if (!json.TryGetValue("TyreWear", out object? wear))
+            {
+                throw new ArgumentException("JSON didn't have a TyreWear key for DriverRace");
+            }
+            if (!int.TryParse(wear.ToString(), out int wearInt))
+            {
+                throw new ArgumentException("JSON's TyreWear key for DriverRace wasn't a valid integer");
+            }
+            TyreWear = wearInt;
+
+
+            //TyreChanges
+            if (!json.TryGetValue("TyreChanges", out object? changes))
+            {
+                throw new ArgumentException("JSON didn't have a TyreChanges key for DriverRace");
+            }
+            if (!int.TryParse(changes.ToString(), out int changesInt))
+            {
+                throw new ArgumentException("JSON's TyreChanges key for DriverRace wasn't a valid integer");
+            }
+            TyreChanges = changesInt;
+
+
+            //FuelAmount
+            if (!json.TryGetValue("FuelAmount", out object? amount))
+            {
+                throw new ArgumentException("JSON didn't have a FuelAmount key for DriverRace");
+            }
+            if (!int.TryParse(amount.ToString(), out int amountInt))
+            {
+                throw new ArgumentException("JSON's FuelAmount key for DriverRace wasn't a valid integer");
+            }
+            FuelAmount = amountInt;
+
+
+            //MovesMade
+            if (!json.TryGetValue("MovesMade", out object? moves))
+            {
+                throw new ArgumentException("JSON didn't have a MovesMade key for DriverRace");
+            }
+            if (!int.TryParse(moves.ToString(), out int movesInt))
+            {
+                throw new ArgumentException("JSON's MovesMade key for DriverRace wasn't a valid integer");
+            }
+            MovesMade = movesInt;
+
+
+            //LastAction
+            if (!json.TryGetValue("LastAction", out object? action) || action is null || !int.TryParse(action.ToString(), out int actionInt) || !Enum.IsDefined(typeof(Actions), actionInt))
+            {
+                throw new ArgumentException("JSON didn't have a LastAction key for DriverRace or it wasn't a member of Tyres enumeration");
+            }
+            LastAction = (Actions)actionInt;
+
+
+            //StepsHistory
+            if (json.TryGetValue("StepsHistory", out object? steps) && steps is not null && steps is List<int> stepsList)
+            {
+                StepsHistory = stepsList;
+            }
+
+
+            //FinalPosition
+            if (json.TryGetValue("FinalPosition", out object? pos) && pos is not null && int.TryParse(pos.ToString(), out int posInt))
+            {
+                FinalPosition = posInt;
+            }
+            else
+            {
+                FinalPosition = null;
+            }
+
+
+            //HasRetired
+            if (!json.TryGetValue("HasRetired", out object? hasRetired) || hasRetired is null || !bool.TryParse(hasRetired.ToString(), out bool hasRetiredBool))
+            {
+                throw new ArgumentException("JSON didn't have a HasRetired key for DriverRace or it wasn't a proper boolean");
+            }
+            HasRetired = hasRetiredBool;
+
+
+            //DriverClass
+            if (!json.TryGetValue("DriverClass", out object? driverClass) || driverClass is null || !int.TryParse(driverClass.ToString(), out int classInt) || !Enum.IsDefined(typeof(DriverClass), classInt))
+            {
+                throw new ArgumentException("JSON didn't have a DriverClass key for DriverRace or it wasn't a member of DriverClass enumeration");
+            }
+            DriverClass = (DriverClass)classInt;
+        }
 
         public DriverRace(Driver driver, Race race)
         {
