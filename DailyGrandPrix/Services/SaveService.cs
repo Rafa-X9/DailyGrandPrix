@@ -200,11 +200,12 @@ namespace DailyGrandPrix.Services
                 {
                     continue;
                 }
-                Championship? champ = JsonSerializer.Deserialize<Championship>(line);
-                if (champ is not null)
+                var json = JsonSerializer.Deserialize<Dictionary<string, object>>(line);
+                if (json is null)
                 {
-                    Championships.Add(champ);
+                    throw new InvalidOperationException("JSON fo championship was null");
                 }
+                Championships.Add(new(json));
             }
         }
 
