@@ -381,34 +381,63 @@ namespace DailyGrandPrix.Services
                     row++;
                 }
 
+                worksheet.Cells[row, 1].Value = "RAIN FACTOR:";
+                worksheet.Cells[row, 1].Style.Font.Bold = true;
+                string rainChange = race.RainFactor.ToString();
+                if (race.RainHistory.Count > 1 && race.MovesInto > 0)
+                {
+                    int previous = race.RainHistory[race.MovesInto - 1];
+                    if (previous > race.RainFactor)
+                    {
+                        rainChange = $"-{previous - race.RainFactor}" + rainChange;
+                        worksheet.Cells[row, 2].Style.Font.Color.SetColor(Color.Red);
+                        worksheet.Cells[row, 2].Value = rainChange;
+                    }
+                    else if (previous < race.RainFactor)
+                    {
+                        rainChange = $"+{previous - race.RainFactor}" + rainChange;
+                        worksheet.Cells[row, 2].Style.Font.Color.SetColor(Color.Green);
+                        worksheet.Cells[row, 2].Value = rainChange;
+                    }
+                    else
+                    {
+                        rainChange = $"=" + rainChange;
+                        worksheet.Cells[row, 2].Value = rainChange;
+                    }
+                }
+                else
+                {
+                    worksheet.Cells[row, 2].Value = rainChange;
+                }
+
                 int lastRow = Math.Max(1, row - 1);
                 var filledRange = worksheet.Cells[1, 1, lastRow, 9];
-                worksheet.Cells[row, 1].Value = "This log was generated automatically. " +
+                worksheet.Cells[row + 1, 1].Value = "This log was generated automatically. " +
                     "Reply to this message if you have questions or concerns.";
-                worksheet.Cells[row + 1, 1].Value = "You can find my source code in " +
+                worksheet.Cells[row + 2, 1].Value = "You can find my source code in " +
                     "https://github.com/Rafa-X9/DailyGrandPrix";
-                worksheet.Cells[row, 1, row, 8].Merge = true;
                 worksheet.Cells[row + 1, 1, row + 1, 8].Merge = true;
+                worksheet.Cells[row + 2, 1, row + 2, 8].Merge = true;
 
-                worksheet.Cells[row + 2, 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                worksheet.Cells[row + 2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[row + 2, 1].Value = "Oscar Piastri";
-                worksheet.Cells[row + 2, 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 141, 17));
+                worksheet.Cells[row + 3, 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row + 3, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row + 3, 1].Value = "Oscar Piastri";
+                worksheet.Cells[row + 3, 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 141, 17));
 
-                worksheet.Cells[row + 2, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                worksheet.Cells[row + 2, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[row + 2, 2].Value = "Sebastian Vettel";
-                worksheet.Cells[row + 2, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(49, 49, 245));
+                worksheet.Cells[row + 3, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row + 3, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row + 3, 2].Value = "Sebastian Vettel";
+                worksheet.Cells[row + 3, 2].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(49, 49, 245));
 
-                worksheet.Cells[row + 2, 3].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                worksheet.Cells[row + 2, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[row + 2, 3].Value = "George Russel";
-                worksheet.Cells[row + 2, 3].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(100, 100, 100));
+                worksheet.Cells[row + 3, 3].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row + 3, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row + 3, 3].Value = "George Russel";
+                worksheet.Cells[row + 3, 3].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(100, 100, 100));
 
-                worksheet.Cells[row + 2, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                worksheet.Cells[row + 2, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[row + 2, 4].Value = "Lance Stroll";
-                worksheet.Cells[row + 2, 4].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 113, 39));
+                worksheet.Cells[row + 3, 4].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row + 3, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[row + 3, 4].Value = "Lance Stroll";
+                worksheet.Cells[row + 3, 4].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(0, 113, 39));
 
                 // Apply strong (thick) border to all filled cells
                 filledRange.Style.Border.Top.Style = ExcelBorderStyle.Thick;
@@ -417,7 +446,7 @@ namespace DailyGrandPrix.Services
                 filledRange.Style.Border.Right.Style = ExcelBorderStyle.Thick;
 
                 // Autofit columns
-                worksheet.Cells[1, 1, lastRow + 3, 9].AutoFitColumns();
+                worksheet.Cells[1, 1, lastRow + 4, 9].AutoFitColumns();
 
                 package.Save();
             }
@@ -433,6 +462,11 @@ namespace DailyGrandPrix.Services
         {
             race.Drivers.Sort();
             StreamWriter sw = new($@"{ChampionshipPath}\{race.Championship.Name}\{race.Track.Name}-Race-log.txt");
+
+            sw.WriteLine("Log for " + race.Track.Name + " DailyGrandPrix");
+            sw.WriteLine();
+            sw.WriteLine("**RAIN FACTOR: " + race.RainFactor + "**");
+            sw.WriteLine();
 
             for (int i = 0; i < race.Drivers.Count; i++)
             {
