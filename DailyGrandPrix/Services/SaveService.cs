@@ -281,7 +281,6 @@ namespace DailyGrandPrix.Services
 
                     GenerateTxtRaceLog(race);
                     if (makeExcelLog) GenerateExcelRaceLog(race);
-                    GenerateWhatHappened(race);
                 }
             }
         }
@@ -553,36 +552,6 @@ namespace DailyGrandPrix.Services
                 " find my source code on [GitHub](https://github.com/Rafa-X9/DailyGrandPrix).)");
 
             sw.Close();
-        }
-
-        private void GenerateWhatHappened(Race race)
-        {
-            if (race.Drivers.Count < 2)
-            {
-                return;
-            }
-            if (race.Drivers.Where(d => d.MovesMade == 0 || d.MovesMade == 1).Any())
-            {
-                return;
-            }
-
-            using StreamWriter sw = new($@"{ChampionshipPath}\{race.Championship.Name}\{race.Track.Name}-WhatHappened-log.txt");
-            List<(string Name, int PositionGain, string LastAction)> list = race.GetWhatHappened();
-            foreach (var info in list)
-            {
-                if (info.PositionGain > 0)
-                {
-                    sw.WriteLine($"{info.Name} gained {info.PositionGain} places after doing {info.LastAction}");
-                }
-                else if (info.PositionGain < 0)
-                {
-                    sw.WriteLine($"{info.Name} gained {info.PositionGain} places after doing {info.LastAction}");
-                }
-                else
-                {
-                    sw.WriteLine($"{info.Name} remained in their position after doing {info.LastAction}");
-                }
-            }
         }
     }
 }

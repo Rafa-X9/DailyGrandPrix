@@ -155,9 +155,17 @@ namespace DailyGrandPrix.Entities
 
 
             //RainHistory
-            if (json.TryGetValue("RainHistory", out object? rain) && rain is not null && rain is List<int> rainList)
+            if (json.TryGetValue("RainHistory", out object? rain) && rain is not null)
             {
-                RainHistory = rainList;
+                string? rainStr = rain.ToString();
+                if (!string.IsNullOrEmpty(rainStr))
+                {
+                    var rainList = JsonSerializer.Deserialize<List<int>>(rainStr);
+                    if (rainList is not null)
+                    {
+                        RainHistory = rainList;
+                    }
+                }
             }
         }
 
@@ -197,43 +205,6 @@ namespace DailyGrandPrix.Entities
             DriverRace dr = new(driver, race);
             Drivers.Add(dr);
             driver.Races.Add(dr);
-        }
-
-        public List<(string Name, int PositionGain, string LastAction)> GetWhatHappened()
-        {
-            if (MovesInto == 0)
-            {
-                throw new InvalidOperationException("All drivers must have made a move.");
-            }
-
-            Drivers.Sort();
-            List<(string Name, int PositionGain, string LastAction)> list = [];
-
-            if (MovesInto == 1)
-            {
-                foreach (DriverRace d in Drivers)
-                {
-                    list.Add((d.Driver.Name, 0, d.LastAction.ToString().ToLower()));
-                }
-                return list;
-            }
-
-            var oneMoveEarlier = Drivers
-                .Select(d => (d.Driver.Id, d.Driver.Name, d.StepsDriven - d.StepsHistory.Last()))
-                .ToList();
-
-            for (int iEarlier = 0; iEarlier < oneMoveEarlier.Count; iEarlier++)
-            {
-                for (int iNow = 0; iNow < Drivers.Count; iNow++)
-                {
-                    if (oneMoveEarlier[iEarlier].Id != Drivers[iNow].Driver.Id)
-                    {
-                        continue;
-                    }
-                    list.Add((Drivers[iNow].Driver.Name, iEarlier - iNow, Drivers[iNow].LastAction.ToString()));
-                }
-            }
-            return list;
         }
 
         public override string ToString()

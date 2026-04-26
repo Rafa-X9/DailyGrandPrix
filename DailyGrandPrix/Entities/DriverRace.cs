@@ -122,7 +122,6 @@ namespace DailyGrandPrix.Entities
                 StepsHistory = stepsList;
             }
 
-
             //FinalPosition
             if (json.TryGetValue("FinalPosition", out object? pos) && pos is not null && int.TryParse(pos.ToString(), out int posInt))
             {
@@ -378,6 +377,11 @@ namespace DailyGrandPrix.Entities
             }
 
             DriverRace other = (DriverRace)obj;
+
+            if (StepsHistory.Count == 0 && other.StepsHistory.Count == 0)
+            {
+                return 0;
+            }
 
             if (HasRetired || other.HasRetired)
             {
