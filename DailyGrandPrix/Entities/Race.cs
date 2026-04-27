@@ -117,7 +117,7 @@ namespace DailyGrandPrix.Entities
 
 
             //RaceState
-            if (!json.TryGetValue("RaceState", out object? state) || state is null || !int.TryParse(state.ToString(), out int stateInt) || !Enum.IsDefined(typeof(Teams), stateInt))
+            if (!json.TryGetValue("RaceState", out object? state) || state is null || !int.TryParse(state.ToString(), out int stateInt) || !Enum.IsDefined(typeof(RaceState), stateInt))
             {
                 throw new ArgumentException("JSON didn't have a RaceState key for Race or it wasn't a member of RaceState enumeration");
             }
