@@ -3,6 +3,7 @@ using DailyGrandPrix.Exceptions;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.Json;
 
 namespace DailyGrandPrix.Entities
 {
@@ -117,10 +118,19 @@ namespace DailyGrandPrix.Entities
 
 
             //StepsHistory
-            if (json.TryGetValue("StepsHistory", out object? steps) && steps is not null && steps is List<int> stepsList)
+            if (TyreCompound == Tyres.Intermediates)
             {
-                StepsHistory = stepsList;
+                int x = 1;
             }
+            if (json.TryGetValue("StepsHistory", out object? steps))
+                if (steps is not null)
+                    if (steps is JsonElement a && a.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var n in a.EnumerateArray())
+                        {
+                            StepsHistory.Add(n.GetInt32());
+                        }
+                    }
 
             //FinalPosition
             if (json.TryGetValue("FinalPosition", out object? pos) && pos is not null && int.TryParse(pos.ToString(), out int posInt))
@@ -352,7 +362,7 @@ namespace DailyGrandPrix.Entities
                     break;
                 default:
                     throw new InvalidOperationException("Driver doesn't have a tyre");
-            }  
+            }
 
             return baseSteps;
         }
